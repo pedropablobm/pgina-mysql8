@@ -1,21 +1,43 @@
-*.suo
-*~
-*.user
-*.aps
-*.ipch
-*.sdf
-*.opensdf
+```
+# Compiled and binary files
+*.exe
+*.dll
+*.so
+*.a
+*.obj
+*.out
 
-# Log files
-*_log.txt
+# Dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+target/
+.gradle/
 
-# Build/output directories
-obj/
-bin/
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# System/Environment files
+.DS_Store
+Thumbs.db
+.env
+.env.local
+*.env.*
+
+# Logs and coverage
+*.log
+coverage/
+htmlcov/
+.coverage
+
+# Build artifacts
+dist/
 build/
-
-# Installer output
-Installer/Output
-
-# Installer pre-processor
-Installer/PreprocessedpGina0.iss
+```
