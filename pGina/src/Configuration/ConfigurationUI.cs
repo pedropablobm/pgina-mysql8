@@ -1527,5 +1527,15 @@ namespace pGina.Configuration
         {
             this.logWindow.Visible = true;
         }
+
+        private void m_generalConfigTab_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ConfigurationUI_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

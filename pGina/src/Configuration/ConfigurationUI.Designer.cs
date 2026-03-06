@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigurationUI));
             this.m_tabs = new System.Windows.Forms.TabControl();
             this.m_generalConfigTab = new System.Windows.Forms.TabPage();
@@ -214,10 +214,11 @@
             this.m_tabs.Controls.Add(this.m_simTab);
             this.m_tabs.Controls.Add(this.ginaOptions);
             this.m_tabs.Controls.Add(this.cpOptions);
-            this.m_tabs.Location = new System.Drawing.Point(12, 12);
+            this.m_tabs.Location = new System.Drawing.Point(16, 15);
+            this.m_tabs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_tabs.Name = "m_tabs";
             this.m_tabs.SelectedIndex = 0;
-            this.m_tabs.Size = new System.Drawing.Size(798, 573);
+            this.m_tabs.Size = new System.Drawing.Size(1064, 705);
             this.m_tabs.TabIndex = 0;
             this.m_tabs.Selected += new System.Windows.Forms.TabControlEventHandler(this.m_tabs_Selected);
             // 
@@ -229,13 +230,15 @@
             this.m_generalConfigTab.Controls.Add(this.servGB);
             this.m_generalConfigTab.Controls.Add(this.motdGB);
             this.m_generalConfigTab.Controls.Add(this.groupBox12);
-            this.m_generalConfigTab.Location = new System.Drawing.Point(4, 22);
+            this.m_generalConfigTab.Location = new System.Drawing.Point(4, 25);
+            this.m_generalConfigTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_generalConfigTab.Name = "m_generalConfigTab";
-            this.m_generalConfigTab.Padding = new System.Windows.Forms.Padding(3);
-            this.m_generalConfigTab.Size = new System.Drawing.Size(790, 547);
+            this.m_generalConfigTab.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.m_generalConfigTab.Size = new System.Drawing.Size(1056, 676);
             this.m_generalConfigTab.TabIndex = 1;
             this.m_generalConfigTab.Text = "General";
             this.m_generalConfigTab.UseVisualStyleBackColor = true;
+            this.m_generalConfigTab.Click += new System.EventHandler(this.m_generalConfigTab_Click);
             // 
             // groupBox17
             // 
@@ -244,9 +247,11 @@
             this.groupBox17.Controls.Add(this.label20);
             this.groupBox17.Controls.Add(this.tbLogonProgressMessage);
             this.groupBox17.Controls.Add(this.label19);
-            this.groupBox17.Location = new System.Drawing.Point(17, 464);
+            this.groupBox17.Location = new System.Drawing.Point(23, 571);
+            this.groupBox17.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(749, 68);
+            this.groupBox17.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox17.Size = new System.Drawing.Size(999, 84);
             this.groupBox17.TabIndex = 6;
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "Logon Progress";
@@ -255,9 +260,10 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(139, 42);
+            this.label20.Location = new System.Drawing.Point(185, 52);
+            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(164, 13);
+            this.label20.Size = new System.Drawing.Size(223, 17);
             this.label20.TabIndex = 2;
             this.label20.Text = "Valid substitution: %u - user name";
             // 
@@ -265,26 +271,30 @@
             // 
             this.tbLogonProgressMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbLogonProgressMessage.Location = new System.Drawing.Point(142, 19);
+            this.tbLogonProgressMessage.Location = new System.Drawing.Point(189, 23);
+            this.tbLogonProgressMessage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbLogonProgressMessage.Name = "tbLogonProgressMessage";
-            this.tbLogonProgressMessage.Size = new System.Drawing.Size(579, 20);
+            this.tbLogonProgressMessage.Size = new System.Drawing.Size(771, 22);
             this.tbLogonProgressMessage.TabIndex = 1;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(6, 22);
+            this.label19.Location = new System.Drawing.Point(8, 27);
+            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(130, 13);
+            this.label19.Size = new System.Drawing.Size(166, 16);
             this.label19.TabIndex = 0;
             this.label19.Text = "Logon Progress Message:";
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.chk_originalUsernameUnlock);
-            this.groupBox4.Location = new System.Drawing.Point(17, 411);
+            this.groupBox4.Location = new System.Drawing.Point(23, 506);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(543, 47);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Size = new System.Drawing.Size(724, 58);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Unlock";
@@ -292,9 +302,10 @@
             // chk_originalUsernameUnlock
             // 
             this.chk_originalUsernameUnlock.AutoSize = true;
-            this.chk_originalUsernameUnlock.Location = new System.Drawing.Point(9, 19);
+            this.chk_originalUsernameUnlock.Location = new System.Drawing.Point(12, 23);
+            this.chk_originalUsernameUnlock.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chk_originalUsernameUnlock.Name = "chk_originalUsernameUnlock";
-            this.chk_originalUsernameUnlock.Size = new System.Drawing.Size(333, 17);
+            this.chk_originalUsernameUnlock.Size = new System.Drawing.Size(413, 20);
             this.chk_originalUsernameUnlock.TabIndex = 4;
             this.chk_originalUsernameUnlock.Text = "Use original username to unlock computer (Windows 7 and later).";
             this.chk_originalUsernameUnlock.UseVisualStyleBackColor = true;
@@ -307,18 +318,21 @@
             this.groupBox14.Controls.Add(this.cpEnabledLabel);
             this.groupBox14.Controls.Add(this.cpRegisteredTB);
             this.groupBox14.Controls.Add(this.label13);
-            this.groupBox14.Location = new System.Drawing.Point(264, 299);
+            this.groupBox14.Location = new System.Drawing.Point(352, 368);
+            this.groupBox14.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(296, 106);
+            this.groupBox14.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox14.Size = new System.Drawing.Size(395, 130);
             this.groupBox14.TabIndex = 3;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Credential Provider/GINA Status";
             // 
             // cpEnableDisableBtn
             // 
-            this.cpEnableDisableBtn.Location = new System.Drawing.Point(210, 58);
+            this.cpEnableDisableBtn.Location = new System.Drawing.Point(280, 71);
+            this.cpEnableDisableBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cpEnableDisableBtn.Name = "cpEnableDisableBtn";
-            this.cpEnableDisableBtn.Size = new System.Drawing.Size(65, 26);
+            this.cpEnableDisableBtn.Size = new System.Drawing.Size(87, 32);
             this.cpEnableDisableBtn.TabIndex = 6;
             this.cpEnableDisableBtn.Text = "Enable";
             this.cpEnableDisableBtn.UseVisualStyleBackColor = true;
@@ -326,9 +340,10 @@
             // 
             // cpRegisterBtn
             // 
-            this.cpRegisterBtn.Location = new System.Drawing.Point(210, 26);
+            this.cpRegisterBtn.Location = new System.Drawing.Point(280, 32);
+            this.cpRegisterBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cpRegisterBtn.Name = "cpRegisterBtn";
-            this.cpRegisterBtn.Size = new System.Drawing.Size(65, 26);
+            this.cpRegisterBtn.Size = new System.Drawing.Size(87, 32);
             this.cpRegisterBtn.TabIndex = 4;
             this.cpRegisterBtn.Text = "Register";
             this.cpRegisterBtn.UseVisualStyleBackColor = true;
@@ -336,35 +351,39 @@
             // 
             // cpEnabledTB
             // 
-            this.cpEnabledTB.Location = new System.Drawing.Point(80, 62);
+            this.cpEnabledTB.Location = new System.Drawing.Point(107, 76);
+            this.cpEnabledTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cpEnabledTB.Name = "cpEnabledTB";
             this.cpEnabledTB.ReadOnly = true;
-            this.cpEnabledTB.Size = new System.Drawing.Size(124, 20);
+            this.cpEnabledTB.Size = new System.Drawing.Size(164, 22);
             this.cpEnabledTB.TabIndex = 3;
             // 
             // cpEnabledLabel
             // 
             this.cpEnabledLabel.AutoSize = true;
-            this.cpEnabledLabel.Location = new System.Drawing.Point(25, 65);
+            this.cpEnabledLabel.Location = new System.Drawing.Point(33, 80);
+            this.cpEnabledLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.cpEnabledLabel.Name = "cpEnabledLabel";
-            this.cpEnabledLabel.Size = new System.Drawing.Size(49, 13);
+            this.cpEnabledLabel.Size = new System.Drawing.Size(61, 16);
             this.cpEnabledLabel.TabIndex = 2;
             this.cpEnabledLabel.Text = "Enabled:";
             // 
             // cpRegisteredTB
             // 
-            this.cpRegisteredTB.Location = new System.Drawing.Point(80, 30);
+            this.cpRegisteredTB.Location = new System.Drawing.Point(107, 37);
+            this.cpRegisteredTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cpRegisteredTB.Name = "cpRegisteredTB";
             this.cpRegisteredTB.ReadOnly = true;
-            this.cpRegisteredTB.Size = new System.Drawing.Size(124, 20);
+            this.cpRegisteredTB.Size = new System.Drawing.Size(164, 22);
             this.cpRegisteredTB.TabIndex = 1;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(13, 33);
+            this.label13.Location = new System.Drawing.Point(17, 41);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(61, 13);
+            this.label13.Size = new System.Drawing.Size(77, 16);
             this.label13.TabIndex = 0;
             this.label13.Text = "Registered:";
             // 
@@ -375,9 +394,11 @@
             this.servGB.Controls.Add(this.serviceStartBtn);
             this.servGB.Controls.Add(this.serviceStatusTB);
             this.servGB.Controls.Add(this.servStatusLabel);
-            this.servGB.Location = new System.Drawing.Point(17, 299);
+            this.servGB.Location = new System.Drawing.Point(23, 368);
+            this.servGB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.servGB.Name = "servGB";
-            this.servGB.Size = new System.Drawing.Size(236, 106);
+            this.servGB.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.servGB.Size = new System.Drawing.Size(315, 130);
             this.servGB.TabIndex = 2;
             this.servGB.TabStop = false;
             this.servGB.Text = "pGina Service";
@@ -385,18 +406,20 @@
             // logonUiShowServiceStatusCB
             // 
             this.logonUiShowServiceStatusCB.AutoSize = true;
-            this.logonUiShowServiceStatusCB.Location = new System.Drawing.Point(12, 19);
+            this.logonUiShowServiceStatusCB.Location = new System.Drawing.Point(16, 23);
+            this.logonUiShowServiceStatusCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.logonUiShowServiceStatusCB.Name = "logonUiShowServiceStatusCB";
-            this.logonUiShowServiceStatusCB.Size = new System.Drawing.Size(175, 17);
+            this.logonUiShowServiceStatusCB.Size = new System.Drawing.Size(213, 20);
             this.logonUiShowServiceStatusCB.TabIndex = 4;
             this.logonUiShowServiceStatusCB.Text = "Show service status in logon UI";
             this.logonUiShowServiceStatusCB.UseVisualStyleBackColor = true;
             // 
             // serviceStopBtn
             // 
-            this.serviceStopBtn.Location = new System.Drawing.Point(139, 69);
+            this.serviceStopBtn.Location = new System.Drawing.Point(185, 85);
+            this.serviceStopBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.serviceStopBtn.Name = "serviceStopBtn";
-            this.serviceStopBtn.Size = new System.Drawing.Size(80, 26);
+            this.serviceStopBtn.Size = new System.Drawing.Size(107, 32);
             this.serviceStopBtn.TabIndex = 3;
             this.serviceStopBtn.Text = "Stop";
             this.serviceStopBtn.UseVisualStyleBackColor = true;
@@ -404,9 +427,10 @@
             // 
             // serviceStartBtn
             // 
-            this.serviceStartBtn.Location = new System.Drawing.Point(53, 69);
+            this.serviceStartBtn.Location = new System.Drawing.Point(71, 85);
+            this.serviceStartBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.serviceStartBtn.Name = "serviceStartBtn";
-            this.serviceStartBtn.Size = new System.Drawing.Size(80, 26);
+            this.serviceStartBtn.Size = new System.Drawing.Size(107, 32);
             this.serviceStartBtn.TabIndex = 2;
             this.serviceStartBtn.Text = "Start";
             this.serviceStartBtn.UseVisualStyleBackColor = true;
@@ -414,18 +438,20 @@
             // 
             // serviceStatusTB
             // 
-            this.serviceStatusTB.Location = new System.Drawing.Point(53, 43);
+            this.serviceStatusTB.Location = new System.Drawing.Point(71, 53);
+            this.serviceStatusTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.serviceStatusTB.Name = "serviceStatusTB";
             this.serviceStatusTB.ReadOnly = true;
-            this.serviceStatusTB.Size = new System.Drawing.Size(166, 20);
+            this.serviceStatusTB.Size = new System.Drawing.Size(220, 22);
             this.serviceStatusTB.TabIndex = 1;
             // 
             // servStatusLabel
             // 
             this.servStatusLabel.AutoSize = true;
-            this.servStatusLabel.Location = new System.Drawing.Point(7, 46);
+            this.servStatusLabel.Location = new System.Drawing.Point(9, 57);
+            this.servStatusLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.servStatusLabel.Name = "servStatusLabel";
-            this.servStatusLabel.Size = new System.Drawing.Size(40, 13);
+            this.servStatusLabel.Size = new System.Drawing.Size(47, 16);
             this.servStatusLabel.TabIndex = 0;
             this.servStatusLabel.Text = "Status:";
             // 
@@ -436,9 +462,11 @@
             this.motdGB.Controls.Add(this.label12);
             this.motdGB.Controls.Add(this.motdTB);
             this.motdGB.Controls.Add(this.motdLabel);
-            this.motdGB.Location = new System.Drawing.Point(17, 182);
+            this.motdGB.Location = new System.Drawing.Point(23, 224);
+            this.motdGB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.motdGB.Name = "motdGB";
-            this.motdGB.Size = new System.Drawing.Size(749, 108);
+            this.motdGB.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.motdGB.Size = new System.Drawing.Size(999, 133);
             this.motdGB.TabIndex = 1;
             this.motdGB.TabStop = false;
             this.motdGB.Text = "MOTD";
@@ -447,9 +475,10 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(53, 59);
+            this.label12.Location = new System.Drawing.Point(71, 73);
+            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(532, 26);
+            this.label12.Size = new System.Drawing.Size(720, 34);
             this.label12.TabIndex = 2;
             this.label12.Text = "Message of the Day (MOTD).   Displayed in the logon UI.  \r\nValid substitutions:  " +
     " %m - Machine name, %d - Today\'s date, %i - IP address, %n - DNS name, %v pGina " +
@@ -459,17 +488,19 @@
             // 
             this.motdTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.motdTB.Location = new System.Drawing.Point(53, 24);
+            this.motdTB.Location = new System.Drawing.Point(71, 30);
+            this.motdTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.motdTB.Name = "motdTB";
-            this.motdTB.Size = new System.Drawing.Size(667, 20);
+            this.motdTB.Size = new System.Drawing.Size(888, 22);
             this.motdTB.TabIndex = 1;
             // 
             // motdLabel
             // 
             this.motdLabel.AutoSize = true;
-            this.motdLabel.Location = new System.Drawing.Point(5, 27);
+            this.motdLabel.Location = new System.Drawing.Point(7, 33);
+            this.motdLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.motdLabel.Name = "motdLabel";
-            this.motdLabel.Size = new System.Drawing.Size(42, 13);
+            this.motdLabel.Size = new System.Drawing.Size(50, 16);
             this.motdLabel.TabIndex = 0;
             this.motdLabel.Text = "MOTD:";
             // 
@@ -482,9 +513,11 @@
             this.groupBox12.Controls.Add(this.m_tileImagePreview);
             this.groupBox12.Controls.Add(this.m_tileImageTxt);
             this.groupBox12.Controls.Add(this.label10);
-            this.groupBox12.Location = new System.Drawing.Point(17, 16);
+            this.groupBox12.Location = new System.Drawing.Point(23, 20);
+            this.groupBox12.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(749, 160);
+            this.groupBox12.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox12.Size = new System.Drawing.Size(999, 197);
             this.groupBox12.TabIndex = 0;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Tile Image";
@@ -492,9 +525,10 @@
             // btnImageBrowse
             // 
             this.btnImageBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnImageBrowse.Location = new System.Drawing.Point(458, 72);
+            this.btnImageBrowse.Location = new System.Drawing.Point(611, 89);
+            this.btnImageBrowse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnImageBrowse.Name = "btnImageBrowse";
-            this.btnImageBrowse.Size = new System.Drawing.Size(33, 23);
+            this.btnImageBrowse.Size = new System.Drawing.Size(44, 28);
             this.btnImageBrowse.TabIndex = 4;
             this.btnImageBrowse.Text = "...";
             this.btnImageBrowse.UseVisualStyleBackColor = true;
@@ -504,9 +538,10 @@
             // 
             this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(537, 74);
+            this.label11.Location = new System.Drawing.Point(716, 91);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(48, 13);
+            this.label11.Size = new System.Drawing.Size(58, 16);
             this.label11.TabIndex = 3;
             this.label11.Text = "Preview:";
             // 
@@ -514,9 +549,10 @@
             // 
             this.m_tileImagePreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.m_tileImagePreview.Image = global::pGina.Configuration.Properties.Resources.pginalogo_monochrome_126x126;
-            this.m_tileImagePreview.Location = new System.Drawing.Point(591, 17);
+            this.m_tileImagePreview.Location = new System.Drawing.Point(788, 21);
+            this.m_tileImagePreview.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_tileImagePreview.Name = "m_tileImagePreview";
-            this.m_tileImagePreview.Size = new System.Drawing.Size(130, 130);
+            this.m_tileImagePreview.Size = new System.Drawing.Size(173, 160);
             this.m_tileImagePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.m_tileImagePreview.TabIndex = 2;
             this.m_tileImagePreview.TabStop = false;
@@ -525,17 +561,19 @@
             // 
             this.m_tileImageTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_tileImageTxt.Location = new System.Drawing.Point(95, 74);
+            this.m_tileImageTxt.Location = new System.Drawing.Point(127, 91);
+            this.m_tileImageTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_tileImageTxt.Name = "m_tileImageTxt";
-            this.m_tileImageTxt.Size = new System.Drawing.Size(357, 20);
+            this.m_tileImageTxt.Size = new System.Drawing.Size(475, 22);
             this.m_tileImageTxt.TabIndex = 1;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(29, 74);
+            this.label10.Location = new System.Drawing.Point(39, 91);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(58, 13);
+            this.label10.Size = new System.Drawing.Size(74, 16);
             this.label10.TabIndex = 0;
             this.label10.Text = "Tile image:";
             // 
@@ -543,10 +581,11 @@
             // 
             this.m_pluginConfigTab.Controls.Add(this.pluginsGroupBox);
             this.m_pluginConfigTab.Controls.Add(this.groupBox1);
-            this.m_pluginConfigTab.Location = new System.Drawing.Point(4, 22);
+            this.m_pluginConfigTab.Location = new System.Drawing.Point(4, 25);
+            this.m_pluginConfigTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_pluginConfigTab.Name = "m_pluginConfigTab";
-            this.m_pluginConfigTab.Padding = new System.Windows.Forms.Padding(3);
-            this.m_pluginConfigTab.Size = new System.Drawing.Size(790, 547);
+            this.m_pluginConfigTab.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.m_pluginConfigTab.Size = new System.Drawing.Size(1056, 676);
             this.m_pluginConfigTab.TabIndex = 0;
             this.m_pluginConfigTab.Text = "Plugin Selection";
             this.m_pluginConfigTab.UseVisualStyleBackColor = true;
@@ -558,9 +597,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pluginsGroupBox.Controls.Add(this.pluginsDG);
             this.pluginsGroupBox.Controls.Add(this.configureButton);
-            this.pluginsGroupBox.Location = new System.Drawing.Point(15, 212);
+            this.pluginsGroupBox.Location = new System.Drawing.Point(20, 261);
+            this.pluginsGroupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pluginsGroupBox.Name = "pluginsGroupBox";
-            this.pluginsGroupBox.Size = new System.Drawing.Size(758, 314);
+            this.pluginsGroupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pluginsGroupBox.Size = new System.Drawing.Size(1011, 386);
             this.pluginsGroupBox.TabIndex = 9;
             this.pluginsGroupBox.TabStop = false;
             this.pluginsGroupBox.Text = "Current Plugins";
@@ -572,43 +613,46 @@
             this.pluginsDG.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.pluginsDG.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.pluginsDG.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.pluginsDG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.pluginsDG.DefaultCellStyle = dataGridViewCellStyle2;
-            this.pluginsDG.Location = new System.Drawing.Point(10, 19);
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.pluginsDG.DefaultCellStyle = dataGridViewCellStyle5;
+            this.pluginsDG.Location = new System.Drawing.Point(13, 23);
+            this.pluginsDG.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pluginsDG.Name = "pluginsDG";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.pluginsDG.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.pluginsDG.Size = new System.Drawing.Size(735, 253);
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.pluginsDG.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.pluginsDG.RowHeadersWidth = 51;
+            this.pluginsDG.Size = new System.Drawing.Size(980, 311);
             this.pluginsDG.TabIndex = 10;
             this.pluginsDG.DoubleClick += new System.EventHandler(this.pluginsDG_DoubleClick);
             // 
             // configureButton
             // 
             this.configureButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.configureButton.Location = new System.Drawing.Point(671, 278);
+            this.configureButton.Location = new System.Drawing.Point(895, 342);
+            this.configureButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.configureButton.Name = "configureButton";
-            this.configureButton.Size = new System.Drawing.Size(74, 25);
+            this.configureButton.Size = new System.Drawing.Size(99, 31);
             this.configureButton.TabIndex = 9;
             this.configureButton.Text = "Configure...";
             this.configureButton.UseVisualStyleBackColor = true;
@@ -621,9 +665,11 @@
             this.groupBox1.Controls.Add(this.btnRemove);
             this.groupBox1.Controls.Add(this.btnAdd);
             this.groupBox1.Controls.Add(this.lstPluginDirs);
-            this.groupBox1.Location = new System.Drawing.Point(15, 20);
+            this.groupBox1.Location = new System.Drawing.Point(20, 25);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(758, 186);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(1011, 229);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Directories";
@@ -631,9 +677,10 @@
             // btnRemove
             // 
             this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemove.Location = new System.Drawing.Point(670, 151);
+            this.btnRemove.Location = new System.Drawing.Point(893, 186);
+            this.btnRemove.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(75, 23);
+            this.btnRemove.Size = new System.Drawing.Size(100, 28);
             this.btnRemove.TabIndex = 7;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
@@ -642,9 +689,10 @@
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(589, 151);
+            this.btnAdd.Location = new System.Drawing.Point(785, 186);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.Size = new System.Drawing.Size(100, 28);
             this.btnAdd.TabIndex = 6;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -654,10 +702,12 @@
             // 
             this.lstPluginDirs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lstPluginDirs.Location = new System.Drawing.Point(10, 19);
+            this.lstPluginDirs.HideSelection = false;
+            this.lstPluginDirs.Location = new System.Drawing.Point(13, 23);
+            this.lstPluginDirs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.lstPluginDirs.MultiSelect = false;
             this.lstPluginDirs.Name = "lstPluginDirs";
-            this.lstPluginDirs.Size = new System.Drawing.Size(735, 123);
+            this.lstPluginDirs.Size = new System.Drawing.Size(979, 150);
             this.lstPluginDirs.TabIndex = 5;
             this.lstPluginDirs.UseCompatibleStateImageBehavior = false;
             this.lstPluginDirs.View = System.Windows.Forms.View.Details;
@@ -665,9 +715,10 @@
             // m_pluginOrderTab
             // 
             this.m_pluginOrderTab.Controls.Add(this.tableLayoutPanel1);
-            this.m_pluginOrderTab.Location = new System.Drawing.Point(4, 22);
+            this.m_pluginOrderTab.Location = new System.Drawing.Point(4, 25);
+            this.m_pluginOrderTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_pluginOrderTab.Name = "m_pluginOrderTab";
-            this.m_pluginOrderTab.Size = new System.Drawing.Size(790, 547);
+            this.m_pluginOrderTab.Size = new System.Drawing.Size(1056, 676);
             this.m_pluginOrderTab.TabIndex = 3;
             this.m_pluginOrderTab.Text = "Plugin Order";
             this.m_pluginOrderTab.UseVisualStyleBackColor = true;
@@ -686,12 +737,13 @@
             this.tableLayoutPanel1.Controls.Add(this.groupBox2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.groupBox8, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.groupBox19, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 541);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1045, 666);
             this.tableLayoutPanel1.TabIndex = 22;
             // 
             // groupBox7
@@ -702,9 +754,11 @@
             this.groupBox7.Controls.Add(this.authenticateBtnDown);
             this.groupBox7.Controls.Add(this.authenticateBtnUp);
             this.groupBox7.Controls.Add(this.authenticateDGV);
-            this.groupBox7.Location = new System.Drawing.Point(3, 3);
+            this.groupBox7.Location = new System.Drawing.Point(4, 4);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(255, 264);
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox7.Size = new System.Drawing.Size(340, 325);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Authentication";
@@ -713,9 +767,10 @@
             // 
             this.authenticateBtnDown.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.authenticateBtnDown.Image = global::pGina.Configuration.Properties.Resources.DownArrowSolid;
-            this.authenticateBtnDown.Location = new System.Drawing.Point(218, 136);
+            this.authenticateBtnDown.Location = new System.Drawing.Point(291, 167);
+            this.authenticateBtnDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.authenticateBtnDown.Name = "authenticateBtnDown";
-            this.authenticateBtnDown.Size = new System.Drawing.Size(26, 27);
+            this.authenticateBtnDown.Size = new System.Drawing.Size(35, 33);
             this.authenticateBtnDown.TabIndex = 16;
             this.authenticateBtnDown.UseVisualStyleBackColor = true;
             this.authenticateBtnDown.Click += new System.EventHandler(this.authenticateBtnDown_Click);
@@ -724,9 +779,10 @@
             // 
             this.authenticateBtnUp.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.authenticateBtnUp.Image = global::pGina.Configuration.Properties.Resources.UpArrowSolid;
-            this.authenticateBtnUp.Location = new System.Drawing.Point(218, 103);
+            this.authenticateBtnUp.Location = new System.Drawing.Point(291, 127);
+            this.authenticateBtnUp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.authenticateBtnUp.Name = "authenticateBtnUp";
-            this.authenticateBtnUp.Size = new System.Drawing.Size(26, 27);
+            this.authenticateBtnUp.Size = new System.Drawing.Size(35, 33);
             this.authenticateBtnUp.TabIndex = 15;
             this.authenticateBtnUp.UseVisualStyleBackColor = true;
             this.authenticateBtnUp.Click += new System.EventHandler(this.authenticateBtnUp_Click);
@@ -737,9 +793,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.authenticateDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.authenticateDGV.Location = new System.Drawing.Point(15, 20);
+            this.authenticateDGV.Location = new System.Drawing.Point(20, 25);
+            this.authenticateDGV.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.authenticateDGV.Name = "authenticateDGV";
-            this.authenticateDGV.Size = new System.Drawing.Size(197, 238);
+            this.authenticateDGV.RowHeadersWidth = 51;
+            this.authenticateDGV.Size = new System.Drawing.Size(263, 293);
             this.authenticateDGV.TabIndex = 0;
             // 
             // groupBox11
@@ -750,9 +808,11 @@
             this.groupBox11.Controls.Add(this.eventBtnDown);
             this.groupBox11.Controls.Add(this.eventBtnUp);
             this.groupBox11.Controls.Add(this.eventDGV);
-            this.groupBox11.Location = new System.Drawing.Point(264, 273);
+            this.groupBox11.Location = new System.Drawing.Point(352, 337);
+            this.groupBox11.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(255, 265);
+            this.groupBox11.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox11.Size = new System.Drawing.Size(340, 325);
             this.groupBox11.TabIndex = 21;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Event Notification";
@@ -761,9 +821,10 @@
             // 
             this.eventBtnDown.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.eventBtnDown.Image = global::pGina.Configuration.Properties.Resources.DownArrowSolid;
-            this.eventBtnDown.Location = new System.Drawing.Point(218, 137);
+            this.eventBtnDown.Location = new System.Drawing.Point(291, 169);
+            this.eventBtnDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.eventBtnDown.Name = "eventBtnDown";
-            this.eventBtnDown.Size = new System.Drawing.Size(26, 27);
+            this.eventBtnDown.Size = new System.Drawing.Size(35, 33);
             this.eventBtnDown.TabIndex = 16;
             this.eventBtnDown.UseVisualStyleBackColor = true;
             this.eventBtnDown.Click += new System.EventHandler(this.eventBtnDown_Click);
@@ -772,9 +833,10 @@
             // 
             this.eventBtnUp.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.eventBtnUp.Image = global::pGina.Configuration.Properties.Resources.UpArrowSolid;
-            this.eventBtnUp.Location = new System.Drawing.Point(218, 104);
+            this.eventBtnUp.Location = new System.Drawing.Point(291, 128);
+            this.eventBtnUp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.eventBtnUp.Name = "eventBtnUp";
-            this.eventBtnUp.Size = new System.Drawing.Size(26, 27);
+            this.eventBtnUp.Size = new System.Drawing.Size(35, 33);
             this.eventBtnUp.TabIndex = 15;
             this.eventBtnUp.UseVisualStyleBackColor = true;
             this.eventBtnUp.Click += new System.EventHandler(this.eventBtnUp_Click);
@@ -785,9 +847,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.eventDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.eventDGV.Location = new System.Drawing.Point(15, 20);
+            this.eventDGV.Location = new System.Drawing.Point(20, 25);
+            this.eventDGV.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.eventDGV.Name = "eventDGV";
-            this.eventDGV.Size = new System.Drawing.Size(197, 239);
+            this.eventDGV.RowHeadersWidth = 51;
+            this.eventDGV.Size = new System.Drawing.Size(263, 293);
             this.eventDGV.TabIndex = 0;
             // 
             // groupBox2
@@ -798,9 +862,11 @@
             this.groupBox2.Controls.Add(this.authorizeBtnDown);
             this.groupBox2.Controls.Add(this.authorizeBtnUp);
             this.groupBox2.Controls.Add(this.authorizeDGV);
-            this.groupBox2.Location = new System.Drawing.Point(264, 3);
+            this.groupBox2.Location = new System.Drawing.Point(352, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(255, 264);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Size = new System.Drawing.Size(340, 325);
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Authorization";
@@ -809,9 +875,10 @@
             // 
             this.authorizeBtnDown.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.authorizeBtnDown.Image = global::pGina.Configuration.Properties.Resources.DownArrowSolid;
-            this.authorizeBtnDown.Location = new System.Drawing.Point(218, 136);
+            this.authorizeBtnDown.Location = new System.Drawing.Point(291, 167);
+            this.authorizeBtnDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.authorizeBtnDown.Name = "authorizeBtnDown";
-            this.authorizeBtnDown.Size = new System.Drawing.Size(26, 27);
+            this.authorizeBtnDown.Size = new System.Drawing.Size(35, 33);
             this.authorizeBtnDown.TabIndex = 16;
             this.authorizeBtnDown.UseVisualStyleBackColor = true;
             this.authorizeBtnDown.Click += new System.EventHandler(this.authorizeBtnDown_Click);
@@ -820,9 +887,10 @@
             // 
             this.authorizeBtnUp.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.authorizeBtnUp.Image = global::pGina.Configuration.Properties.Resources.UpArrowSolid;
-            this.authorizeBtnUp.Location = new System.Drawing.Point(218, 103);
+            this.authorizeBtnUp.Location = new System.Drawing.Point(291, 127);
+            this.authorizeBtnUp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.authorizeBtnUp.Name = "authorizeBtnUp";
-            this.authorizeBtnUp.Size = new System.Drawing.Size(26, 27);
+            this.authorizeBtnUp.Size = new System.Drawing.Size(35, 33);
             this.authorizeBtnUp.TabIndex = 15;
             this.authorizeBtnUp.UseVisualStyleBackColor = true;
             this.authorizeBtnUp.Click += new System.EventHandler(this.authorizeBtnUp_Click);
@@ -833,9 +901,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.authorizeDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.authorizeDGV.Location = new System.Drawing.Point(15, 20);
+            this.authorizeDGV.Location = new System.Drawing.Point(20, 25);
+            this.authorizeDGV.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.authorizeDGV.Name = "authorizeDGV";
-            this.authorizeDGV.Size = new System.Drawing.Size(197, 238);
+            this.authorizeDGV.RowHeadersWidth = 51;
+            this.authorizeDGV.Size = new System.Drawing.Size(263, 293);
             this.authorizeDGV.TabIndex = 0;
             // 
             // groupBox8
@@ -846,9 +916,11 @@
             this.groupBox8.Controls.Add(this.gatewayBtnDown);
             this.groupBox8.Controls.Add(this.gatewayBtnUp);
             this.groupBox8.Controls.Add(this.gatewayDGV);
-            this.groupBox8.Location = new System.Drawing.Point(525, 3);
+            this.groupBox8.Location = new System.Drawing.Point(700, 4);
+            this.groupBox8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(256, 264);
+            this.groupBox8.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox8.Size = new System.Drawing.Size(341, 325);
             this.groupBox8.TabIndex = 18;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Gateway";
@@ -857,9 +929,10 @@
             // 
             this.gatewayBtnDown.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.gatewayBtnDown.Image = global::pGina.Configuration.Properties.Resources.DownArrowSolid;
-            this.gatewayBtnDown.Location = new System.Drawing.Point(219, 136);
+            this.gatewayBtnDown.Location = new System.Drawing.Point(292, 167);
+            this.gatewayBtnDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gatewayBtnDown.Name = "gatewayBtnDown";
-            this.gatewayBtnDown.Size = new System.Drawing.Size(26, 27);
+            this.gatewayBtnDown.Size = new System.Drawing.Size(35, 33);
             this.gatewayBtnDown.TabIndex = 16;
             this.gatewayBtnDown.UseVisualStyleBackColor = true;
             this.gatewayBtnDown.Click += new System.EventHandler(this.gatewayBtnDown_Click);
@@ -868,9 +941,10 @@
             // 
             this.gatewayBtnUp.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.gatewayBtnUp.Image = global::pGina.Configuration.Properties.Resources.UpArrowSolid;
-            this.gatewayBtnUp.Location = new System.Drawing.Point(219, 103);
+            this.gatewayBtnUp.Location = new System.Drawing.Point(292, 127);
+            this.gatewayBtnUp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gatewayBtnUp.Name = "gatewayBtnUp";
-            this.gatewayBtnUp.Size = new System.Drawing.Size(26, 27);
+            this.gatewayBtnUp.Size = new System.Drawing.Size(35, 33);
             this.gatewayBtnUp.TabIndex = 15;
             this.gatewayBtnUp.UseVisualStyleBackColor = true;
             this.gatewayBtnUp.Click += new System.EventHandler(this.gatewayBtnUp_Click);
@@ -881,9 +955,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gatewayDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gatewayDGV.Location = new System.Drawing.Point(15, 20);
+            this.gatewayDGV.Location = new System.Drawing.Point(20, 25);
+            this.gatewayDGV.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gatewayDGV.Name = "gatewayDGV";
-            this.gatewayDGV.Size = new System.Drawing.Size(198, 238);
+            this.gatewayDGV.RowHeadersWidth = 51;
+            this.gatewayDGV.Size = new System.Drawing.Size(264, 293);
             this.gatewayDGV.TabIndex = 0;
             // 
             // groupBox19
@@ -894,9 +970,11 @@
             this.groupBox19.Controls.Add(this.changePasswordOrderBtnDown);
             this.groupBox19.Controls.Add(this.changePasswordOrderBtnUp);
             this.groupBox19.Controls.Add(this.changePasswordOrderDGV);
-            this.groupBox19.Location = new System.Drawing.Point(3, 273);
+            this.groupBox19.Location = new System.Drawing.Point(4, 337);
+            this.groupBox19.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox19.Name = "groupBox19";
-            this.groupBox19.Size = new System.Drawing.Size(255, 265);
+            this.groupBox19.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox19.Size = new System.Drawing.Size(340, 325);
             this.groupBox19.TabIndex = 22;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Change Password";
@@ -905,9 +983,10 @@
             // 
             this.changePasswordOrderBtnDown.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.changePasswordOrderBtnDown.Image = global::pGina.Configuration.Properties.Resources.DownArrowSolid;
-            this.changePasswordOrderBtnDown.Location = new System.Drawing.Point(220, 137);
+            this.changePasswordOrderBtnDown.Location = new System.Drawing.Point(293, 169);
+            this.changePasswordOrderBtnDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.changePasswordOrderBtnDown.Name = "changePasswordOrderBtnDown";
-            this.changePasswordOrderBtnDown.Size = new System.Drawing.Size(26, 27);
+            this.changePasswordOrderBtnDown.Size = new System.Drawing.Size(35, 33);
             this.changePasswordOrderBtnDown.TabIndex = 2;
             this.changePasswordOrderBtnDown.Text = "button2";
             this.changePasswordOrderBtnDown.UseVisualStyleBackColor = true;
@@ -917,9 +996,10 @@
             // 
             this.changePasswordOrderBtnUp.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.changePasswordOrderBtnUp.Image = global::pGina.Configuration.Properties.Resources.UpArrowSolid;
-            this.changePasswordOrderBtnUp.Location = new System.Drawing.Point(221, 104);
+            this.changePasswordOrderBtnUp.Location = new System.Drawing.Point(295, 128);
+            this.changePasswordOrderBtnUp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.changePasswordOrderBtnUp.Name = "changePasswordOrderBtnUp";
-            this.changePasswordOrderBtnUp.Size = new System.Drawing.Size(26, 27);
+            this.changePasswordOrderBtnUp.Size = new System.Drawing.Size(35, 33);
             this.changePasswordOrderBtnUp.TabIndex = 1;
             this.changePasswordOrderBtnUp.UseVisualStyleBackColor = true;
             this.changePasswordOrderBtnUp.Click += new System.EventHandler(this.changePasswordOrderBtnUp_Click);
@@ -930,9 +1010,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.changePasswordOrderDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.changePasswordOrderDGV.Location = new System.Drawing.Point(15, 19);
+            this.changePasswordOrderDGV.Location = new System.Drawing.Point(20, 23);
+            this.changePasswordOrderDGV.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.changePasswordOrderDGV.Name = "changePasswordOrderDGV";
-            this.changePasswordOrderDGV.Size = new System.Drawing.Size(197, 239);
+            this.changePasswordOrderDGV.RowHeadersWidth = 51;
+            this.changePasswordOrderDGV.Size = new System.Drawing.Size(263, 293);
             this.changePasswordOrderDGV.TabIndex = 0;
             // 
             // m_simTab
@@ -943,10 +1025,11 @@
             this.m_simTab.Controls.Add(this.groupBox6);
             this.m_simTab.Controls.Add(this.groupBox5);
             this.m_simTab.Controls.Add(this.groupBox3);
-            this.m_simTab.Location = new System.Drawing.Point(4, 22);
+            this.m_simTab.Location = new System.Drawing.Point(4, 25);
+            this.m_simTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_simTab.Name = "m_simTab";
-            this.m_simTab.Padding = new System.Windows.Forms.Padding(3);
-            this.m_simTab.Size = new System.Drawing.Size(790, 547);
+            this.m_simTab.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.m_simTab.Size = new System.Drawing.Size(1056, 676);
             this.m_simTab.TabIndex = 2;
             this.m_simTab.Text = "Simulation";
             this.m_simTab.UseVisualStyleBackColor = true;
@@ -954,9 +1037,10 @@
             // viewLogBtn
             // 
             this.viewLogBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.viewLogBtn.Location = new System.Drawing.Point(6, 511);
+            this.viewLogBtn.Location = new System.Drawing.Point(8, 629);
+            this.viewLogBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.viewLogBtn.Name = "viewLogBtn";
-            this.viewLogBtn.Size = new System.Drawing.Size(96, 30);
+            this.viewLogBtn.Size = new System.Drawing.Size(128, 37);
             this.viewLogBtn.TabIndex = 6;
             this.viewLogBtn.Text = "Show Log";
             this.viewLogBtn.UseVisualStyleBackColor = true;
@@ -974,9 +1058,11 @@
             this.groupBox13.Controls.Add(this.simFinalResultMessageTB);
             this.groupBox13.Controls.Add(this.simPluginResultsListView);
             this.groupBox13.Controls.Add(this.label9);
-            this.groupBox13.Location = new System.Drawing.Point(8, 237);
+            this.groupBox13.Location = new System.Drawing.Point(11, 292);
+            this.groupBox13.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(776, 268);
+            this.groupBox13.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox13.Size = new System.Drawing.Size(1035, 330);
             this.groupBox13.TabIndex = 5;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Results";
@@ -985,28 +1071,31 @@
             // 
             this.simResultLocalGroupsTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.simResultLocalGroupsTB.Location = new System.Drawing.Point(142, 242);
+            this.simResultLocalGroupsTB.Location = new System.Drawing.Point(189, 298);
+            this.simResultLocalGroupsTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.simResultLocalGroupsTB.Name = "simResultLocalGroupsTB";
             this.simResultLocalGroupsTB.ReadOnly = true;
-            this.simResultLocalGroupsTB.Size = new System.Drawing.Size(613, 20);
+            this.simResultLocalGroupsTB.Size = new System.Drawing.Size(816, 22);
             this.simResultLocalGroupsTB.TabIndex = 10;
             // 
             // label16
             // 
             this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(63, 246);
+            this.label16.Location = new System.Drawing.Point(84, 303);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(73, 13);
+            this.label16.Size = new System.Drawing.Size(90, 16);
             this.label16.TabIndex = 9;
             this.label16.Text = "Local Groups:";
             // 
             // simFinalResultPB
             // 
             this.simFinalResultPB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.simFinalResultPB.Location = new System.Drawing.Point(57, 211);
+            this.simFinalResultPB.Location = new System.Drawing.Point(76, 260);
+            this.simFinalResultPB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.simFinalResultPB.Name = "simFinalResultPB";
-            this.simFinalResultPB.Size = new System.Drawing.Size(20, 20);
+            this.simFinalResultPB.Size = new System.Drawing.Size(27, 25);
             this.simFinalResultPB.TabIndex = 8;
             this.simFinalResultPB.TabStop = false;
             // 
@@ -1014,9 +1103,10 @@
             // 
             this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(13, 214);
+            this.label15.Location = new System.Drawing.Point(17, 263);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(40, 13);
+            this.label15.Size = new System.Drawing.Size(48, 16);
             this.label15.TabIndex = 7;
             this.label15.Text = "Result:";
             // 
@@ -1024,10 +1114,11 @@
             // 
             this.simFinalResultMessageTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.simFinalResultMessageTB.Location = new System.Drawing.Point(142, 211);
+            this.simFinalResultMessageTB.Location = new System.Drawing.Point(189, 260);
+            this.simFinalResultMessageTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.simFinalResultMessageTB.Name = "simFinalResultMessageTB";
             this.simFinalResultMessageTB.ReadOnly = true;
-            this.simFinalResultMessageTB.Size = new System.Drawing.Size(613, 20);
+            this.simFinalResultMessageTB.Size = new System.Drawing.Size(816, 22);
             this.simFinalResultMessageTB.TabIndex = 6;
             // 
             // simPluginResultsListView
@@ -1036,9 +1127,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.simPluginResultsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.simPluginResultsListView.Location = new System.Drawing.Point(10, 20);
+            this.simPluginResultsListView.HideSelection = false;
+            this.simPluginResultsListView.Location = new System.Drawing.Point(13, 25);
+            this.simPluginResultsListView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.simPluginResultsListView.Name = "simPluginResultsListView";
-            this.simPluginResultsListView.Size = new System.Drawing.Size(739, 180);
+            this.simPluginResultsListView.Size = new System.Drawing.Size(984, 221);
             this.simPluginResultsListView.TabIndex = 5;
             this.simPluginResultsListView.UseCompatibleStateImageBehavior = false;
             // 
@@ -1046,9 +1139,10 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(83, 214);
+            this.label9.Location = new System.Drawing.Point(111, 263);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(53, 13);
+            this.label9.Size = new System.Drawing.Size(67, 16);
             this.label9.TabIndex = 4;
             this.label9.Text = "Message:";
             // 
@@ -1060,9 +1154,11 @@
             this.groupBox10.Controls.Add(this.label6);
             this.groupBox10.Controls.Add(this.label7);
             this.groupBox10.Controls.Add(this.label8);
-            this.groupBox10.Location = new System.Drawing.Point(592, 6);
+            this.groupBox10.Location = new System.Drawing.Point(789, 7);
+            this.groupBox10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(133, 112);
+            this.groupBox10.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox10.Size = new System.Drawing.Size(177, 138);
             this.groupBox10.TabIndex = 3;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "pGina Stages";
@@ -1070,54 +1166,60 @@
             // simGatewayResultPB
             // 
             this.simGatewayResultPB.Image = global::pGina.Configuration.Properties.Resources.grayBar;
-            this.simGatewayResultPB.Location = new System.Drawing.Point(84, 74);
+            this.simGatewayResultPB.Location = new System.Drawing.Point(112, 91);
+            this.simGatewayResultPB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.simGatewayResultPB.Name = "simGatewayResultPB";
-            this.simGatewayResultPB.Size = new System.Drawing.Size(20, 20);
+            this.simGatewayResultPB.Size = new System.Drawing.Size(27, 25);
             this.simGatewayResultPB.TabIndex = 5;
             this.simGatewayResultPB.TabStop = false;
             // 
             // simAuthzResultPB
             // 
             this.simAuthzResultPB.Image = global::pGina.Configuration.Properties.Resources.grayBar;
-            this.simAuthzResultPB.Location = new System.Drawing.Point(84, 49);
+            this.simAuthzResultPB.Location = new System.Drawing.Point(112, 60);
+            this.simAuthzResultPB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.simAuthzResultPB.Name = "simAuthzResultPB";
-            this.simAuthzResultPB.Size = new System.Drawing.Size(20, 20);
+            this.simAuthzResultPB.Size = new System.Drawing.Size(27, 25);
             this.simAuthzResultPB.TabIndex = 4;
             this.simAuthzResultPB.TabStop = false;
             // 
             // simAuthResultPB
             // 
             this.simAuthResultPB.Image = global::pGina.Configuration.Properties.Resources.grayBar;
-            this.simAuthResultPB.Location = new System.Drawing.Point(84, 23);
+            this.simAuthResultPB.Location = new System.Drawing.Point(112, 28);
+            this.simAuthResultPB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.simAuthResultPB.Name = "simAuthResultPB";
-            this.simAuthResultPB.Size = new System.Drawing.Size(20, 20);
+            this.simAuthResultPB.Size = new System.Drawing.Size(27, 25);
             this.simAuthResultPB.TabIndex = 3;
             this.simAuthResultPB.TabStop = false;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 26);
+            this.label6.Location = new System.Drawing.Point(8, 32);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(78, 13);
+            this.label6.Size = new System.Drawing.Size(93, 16);
             this.label6.TabIndex = 0;
             this.label6.Text = "Authentication:";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(13, 51);
+            this.label7.Location = new System.Drawing.Point(17, 63);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(71, 13);
+            this.label7.Size = new System.Drawing.Size(86, 16);
             this.label7.TabIndex = 1;
             this.label7.Text = "Authorization:";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(32, 77);
+            this.label8.Location = new System.Drawing.Point(43, 95);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(52, 13);
+            this.label8.Size = new System.Drawing.Size(63, 16);
             this.label8.TabIndex = 2;
             this.label8.Text = "Gateway:";
             // 
@@ -1130,9 +1232,11 @@
             this.groupBox6.Controls.Add(this.label3);
             this.groupBox6.Controls.Add(this.label2);
             this.groupBox6.Controls.Add(this.label1);
-            this.groupBox6.Location = new System.Drawing.Point(367, 125);
+            this.groupBox6.Location = new System.Drawing.Point(489, 154);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(417, 108);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox6.Size = new System.Drawing.Size(556, 133);
             this.groupBox6.TabIndex = 2;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Final User Data";
@@ -1140,9 +1244,10 @@
             // showTextResultPasswordCB
             // 
             this.showTextResultPasswordCB.AutoSize = true;
-            this.showTextResultPasswordCB.Location = new System.Drawing.Point(304, 73);
+            this.showTextResultPasswordCB.Location = new System.Drawing.Point(405, 90);
+            this.showTextResultPasswordCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.showTextResultPasswordCB.Name = "showTextResultPasswordCB";
-            this.showTextResultPasswordCB.Size = new System.Drawing.Size(77, 17);
+            this.showTextResultPasswordCB.Size = new System.Drawing.Size(91, 20);
             this.showTextResultPasswordCB.TabIndex = 14;
             this.showTextResultPasswordCB.Text = "Show Text";
             this.showTextResultPasswordCB.UseVisualStyleBackColor = true;
@@ -1150,53 +1255,59 @@
             // 
             // m_passwordResult
             // 
-            this.m_passwordResult.Location = new System.Drawing.Point(75, 71);
+            this.m_passwordResult.Location = new System.Drawing.Point(100, 87);
+            this.m_passwordResult.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_passwordResult.Name = "m_passwordResult";
             this.m_passwordResult.ReadOnly = true;
-            this.m_passwordResult.Size = new System.Drawing.Size(220, 20);
+            this.m_passwordResult.Size = new System.Drawing.Size(292, 22);
             this.m_passwordResult.TabIndex = 13;
             this.m_passwordResult.UseSystemPasswordChar = true;
             // 
             // m_domainResult
             // 
-            this.m_domainResult.Location = new System.Drawing.Point(75, 45);
+            this.m_domainResult.Location = new System.Drawing.Point(100, 55);
+            this.m_domainResult.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_domainResult.Name = "m_domainResult";
             this.m_domainResult.ReadOnly = true;
-            this.m_domainResult.Size = new System.Drawing.Size(220, 20);
+            this.m_domainResult.Size = new System.Drawing.Size(292, 22);
             this.m_domainResult.TabIndex = 12;
             // 
             // m_usernameResult
             // 
-            this.m_usernameResult.Location = new System.Drawing.Point(75, 19);
+            this.m_usernameResult.Location = new System.Drawing.Point(100, 23);
+            this.m_usernameResult.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_usernameResult.Name = "m_usernameResult";
             this.m_usernameResult.ReadOnly = true;
-            this.m_usernameResult.Size = new System.Drawing.Size(220, 20);
+            this.m_usernameResult.Size = new System.Drawing.Size(292, 22);
             this.m_usernameResult.TabIndex = 11;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 48);
+            this.label3.Location = new System.Drawing.Point(31, 59);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.Size = new System.Drawing.Size(57, 16);
             this.label3.TabIndex = 10;
             this.label3.Text = "Domain:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 74);
+            this.label2.Location = new System.Drawing.Point(17, 91);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.Size = new System.Drawing.Size(70, 16);
             this.label2.TabIndex = 9;
             this.label2.Text = "Password:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 22);
+            this.label1.Location = new System.Drawing.Point(15, 27);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 13);
+            this.label1.Size = new System.Drawing.Size(73, 16);
             this.label1.TabIndex = 8;
             this.label1.Text = "Username:";
             // 
@@ -1208,9 +1319,11 @@
             this.groupBox5.Controls.Add(this.label5);
             this.groupBox5.Controls.Add(this.label4);
             this.groupBox5.Controls.Add(this.m_tileImage);
-            this.groupBox5.Location = new System.Drawing.Point(6, 6);
+            this.groupBox5.Location = new System.Drawing.Point(8, 7);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(355, 227);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox5.Size = new System.Drawing.Size(473, 279);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Simulated LogonUI";
@@ -1218,52 +1331,58 @@
             // btnSimGo
             // 
             this.btnSimGo.Image = global::pGina.Configuration.Properties.Resources.arrow_right_3;
-            this.btnSimGo.Location = new System.Drawing.Point(307, 184);
+            this.btnSimGo.Location = new System.Drawing.Point(409, 226);
+            this.btnSimGo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSimGo.Name = "btnSimGo";
-            this.btnSimGo.Size = new System.Drawing.Size(30, 27);
+            this.btnSimGo.Size = new System.Drawing.Size(40, 33);
             this.btnSimGo.TabIndex = 5;
             this.btnSimGo.UseVisualStyleBackColor = true;
             this.btnSimGo.Click += new System.EventHandler(this.btnSimGo_Click);
             // 
             // m_password
             // 
-            this.m_password.Location = new System.Drawing.Point(79, 188);
+            this.m_password.Location = new System.Drawing.Point(105, 231);
+            this.m_password.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_password.Name = "m_password";
-            this.m_password.Size = new System.Drawing.Size(222, 20);
+            this.m_password.Size = new System.Drawing.Size(295, 22);
             this.m_password.TabIndex = 4;
             this.m_password.UseSystemPasswordChar = true;
             // 
             // m_username
             // 
-            this.m_username.Location = new System.Drawing.Point(79, 162);
+            this.m_username.Location = new System.Drawing.Point(105, 199);
+            this.m_username.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_username.Name = "m_username";
-            this.m_username.Size = new System.Drawing.Size(222, 20);
+            this.m_username.Size = new System.Drawing.Size(295, 22);
             this.m_username.TabIndex = 3;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 191);
+            this.label5.Location = new System.Drawing.Point(20, 235);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.Size = new System.Drawing.Size(70, 16);
             this.label5.TabIndex = 2;
             this.label5.Text = "Password:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 165);
+            this.label4.Location = new System.Drawing.Point(20, 203);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 13);
+            this.label4.Size = new System.Drawing.Size(73, 16);
             this.label4.TabIndex = 1;
             this.label4.Text = "Username:";
             // 
             // m_tileImage
             // 
             this.m_tileImage.Image = global::pGina.Configuration.Properties.Resources.pginalogo_monochrome_126x126;
-            this.m_tileImage.Location = new System.Drawing.Point(121, 21);
+            this.m_tileImage.Location = new System.Drawing.Point(161, 26);
+            this.m_tileImage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_tileImage.Name = "m_tileImage";
-            this.m_tileImage.Size = new System.Drawing.Size(130, 130);
+            this.m_tileImage.Size = new System.Drawing.Size(173, 160);
             this.m_tileImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.m_tileImage.TabIndex = 0;
             this.m_tileImage.TabStop = false;
@@ -1274,9 +1393,11 @@
             this.groupBox3.Controls.Add(this.m_radioCredUI);
             this.groupBox3.Controls.Add(this.m_radioEmulate);
             this.groupBox3.Controls.Add(this.m_radioUseService);
-            this.groupBox3.Location = new System.Drawing.Point(367, 6);
+            this.groupBox3.Location = new System.Drawing.Point(489, 7);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(219, 113);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Size = new System.Drawing.Size(292, 139);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Simulation Method";
@@ -1285,9 +1406,10 @@
             // 
             this.btnLaunchCredUI.Enabled = false;
             this.btnLaunchCredUI.Image = global::pGina.Configuration.Properties.Resources.arrow_right_3;
-            this.btnLaunchCredUI.Location = new System.Drawing.Point(169, 69);
+            this.btnLaunchCredUI.Location = new System.Drawing.Point(225, 85);
+            this.btnLaunchCredUI.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLaunchCredUI.Name = "btnLaunchCredUI";
-            this.btnLaunchCredUI.Size = new System.Drawing.Size(30, 27);
+            this.btnLaunchCredUI.Size = new System.Drawing.Size(40, 33);
             this.btnLaunchCredUI.TabIndex = 6;
             this.btnLaunchCredUI.UseVisualStyleBackColor = true;
             this.btnLaunchCredUI.Click += new System.EventHandler(this.btnLaunchCredUI_Click);
@@ -1295,9 +1417,10 @@
             // m_radioCredUI
             // 
             this.m_radioCredUI.AutoSize = true;
-            this.m_radioCredUI.Location = new System.Drawing.Point(21, 74);
+            this.m_radioCredUI.Location = new System.Drawing.Point(28, 91);
+            this.m_radioCredUI.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_radioCredUI.Name = "m_radioCredUI";
-            this.m_radioCredUI.Size = new System.Drawing.Size(142, 17);
+            this.m_radioCredUI.Size = new System.Drawing.Size(173, 20);
             this.m_radioCredUI.TabIndex = 2;
             this.m_radioCredUI.Text = "Launch a CredUI Prompt";
             this.m_radioCredUI.UseVisualStyleBackColor = true;
@@ -1307,9 +1430,10 @@
             // 
             this.m_radioEmulate.AutoSize = true;
             this.m_radioEmulate.Checked = true;
-            this.m_radioEmulate.Location = new System.Drawing.Point(21, 28);
+            this.m_radioEmulate.Location = new System.Drawing.Point(28, 34);
+            this.m_radioEmulate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_radioEmulate.Name = "m_radioEmulate";
-            this.m_radioEmulate.Size = new System.Drawing.Size(133, 17);
+            this.m_radioEmulate.Size = new System.Drawing.Size(165, 20);
             this.m_radioEmulate.TabIndex = 1;
             this.m_radioEmulate.TabStop = true;
             this.m_radioEmulate.Text = "Emulate pGina Service";
@@ -1319,9 +1443,10 @@
             // m_radioUseService
             // 
             this.m_radioUseService.AutoSize = true;
-            this.m_radioUseService.Location = new System.Drawing.Point(21, 51);
+            this.m_radioUseService.Location = new System.Drawing.Point(28, 63);
+            this.m_radioUseService.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_radioUseService.Name = "m_radioUseService";
-            this.m_radioUseService.Size = new System.Drawing.Size(114, 17);
+            this.m_radioUseService.Size = new System.Drawing.Size(141, 20);
             this.m_radioUseService.TabIndex = 0;
             this.m_radioUseService.Text = "Use pGina Service";
             this.m_radioUseService.UseVisualStyleBackColor = true;
@@ -1331,10 +1456,11 @@
             // 
             this.ginaOptions.Controls.Add(this.groupBox16);
             this.ginaOptions.Controls.Add(this.groupBox15);
-            this.ginaOptions.Location = new System.Drawing.Point(4, 22);
+            this.ginaOptions.Location = new System.Drawing.Point(4, 25);
+            this.ginaOptions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ginaOptions.Name = "ginaOptions";
-            this.ginaOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.ginaOptions.Size = new System.Drawing.Size(790, 547);
+            this.ginaOptions.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ginaOptions.Size = new System.Drawing.Size(1056, 676);
             this.ginaOptions.TabIndex = 4;
             this.ginaOptions.Text = "GINA Options";
             this.ginaOptions.UseVisualStyleBackColor = true;
@@ -1344,18 +1470,21 @@
             this.groupBox16.Controls.Add(this.btnGinaBrowse);
             this.groupBox16.Controls.Add(this.m_txtGinaChain);
             this.groupBox16.Controls.Add(this.label14);
-            this.groupBox16.Location = new System.Drawing.Point(17, 17);
+            this.groupBox16.Location = new System.Drawing.Point(23, 21);
+            this.groupBox16.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(755, 70);
+            this.groupBox16.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox16.Size = new System.Drawing.Size(1007, 86);
             this.groupBox16.TabIndex = 1;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "General";
             // 
             // btnGinaBrowse
             // 
-            this.btnGinaBrowse.Location = new System.Drawing.Point(544, 21);
+            this.btnGinaBrowse.Location = new System.Drawing.Point(725, 26);
+            this.btnGinaBrowse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnGinaBrowse.Name = "btnGinaBrowse";
-            this.btnGinaBrowse.Size = new System.Drawing.Size(75, 23);
+            this.btnGinaBrowse.Size = new System.Drawing.Size(100, 28);
             this.btnGinaBrowse.TabIndex = 2;
             this.btnGinaBrowse.Text = "Browse...";
             this.btnGinaBrowse.UseVisualStyleBackColor = true;
@@ -1363,17 +1492,19 @@
             // 
             // m_txtGinaChain
             // 
-            this.m_txtGinaChain.Location = new System.Drawing.Point(104, 23);
+            this.m_txtGinaChain.Location = new System.Drawing.Point(139, 28);
+            this.m_txtGinaChain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_txtGinaChain.Name = "m_txtGinaChain";
-            this.m_txtGinaChain.Size = new System.Drawing.Size(434, 20);
+            this.m_txtGinaChain.Size = new System.Drawing.Size(577, 22);
             this.m_txtGinaChain.TabIndex = 1;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(19, 26);
+            this.label14.Location = new System.Drawing.Point(25, 32);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(78, 13);
+            this.label14.Size = new System.Drawing.Size(95, 16);
             this.label14.TabIndex = 0;
             this.label14.Text = "Chained GINA:";
             // 
@@ -1384,9 +1515,11 @@
             this.groupBox15.Controls.Add(this.radioRestart);
             this.groupBox15.Controls.Add(this.radioShutdown);
             this.groupBox15.Controls.Add(this.chkSpecialButton);
-            this.groupBox15.Location = new System.Drawing.Point(17, 93);
+            this.groupBox15.Location = new System.Drawing.Point(23, 114);
+            this.groupBox15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Size = new System.Drawing.Size(755, 134);
+            this.groupBox15.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox15.Size = new System.Drawing.Size(1007, 165);
             this.groupBox15.TabIndex = 0;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Login UI";
@@ -1394,9 +1527,10 @@
             // radioHibernate
             // 
             this.radioHibernate.AutoSize = true;
-            this.radioHibernate.Location = new System.Drawing.Point(179, 77);
+            this.radioHibernate.Location = new System.Drawing.Point(239, 95);
+            this.radioHibernate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioHibernate.Name = "radioHibernate";
-            this.radioHibernate.Size = new System.Drawing.Size(132, 17);
+            this.radioHibernate.Size = new System.Drawing.Size(162, 20);
             this.radioHibernate.TabIndex = 4;
             this.radioHibernate.TabStop = true;
             this.radioHibernate.Text = "Hibernate the machine";
@@ -1405,9 +1539,10 @@
             // radioSleep
             // 
             this.radioSleep.AutoSize = true;
-            this.radioSleep.Location = new System.Drawing.Point(179, 54);
+            this.radioSleep.Location = new System.Drawing.Point(239, 66);
+            this.radioSleep.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioSleep.Name = "radioSleep";
-            this.radioSleep.Size = new System.Drawing.Size(142, 17);
+            this.radioSleep.Size = new System.Drawing.Size(173, 20);
             this.radioSleep.TabIndex = 3;
             this.radioSleep.TabStop = true;
             this.radioSleep.Text = "Put the machine to sleep";
@@ -1416,9 +1551,10 @@
             // radioRestart
             // 
             this.radioRestart.AutoSize = true;
-            this.radioRestart.Location = new System.Drawing.Point(39, 77);
+            this.radioRestart.Location = new System.Drawing.Point(52, 95);
+            this.radioRestart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioRestart.Name = "radioRestart";
-            this.radioRestart.Size = new System.Drawing.Size(120, 17);
+            this.radioRestart.Size = new System.Drawing.Size(146, 20);
             this.radioRestart.TabIndex = 2;
             this.radioRestart.TabStop = true;
             this.radioRestart.Text = "Restart the machine";
@@ -1427,9 +1563,10 @@
             // radioShutdown
             // 
             this.radioShutdown.AutoSize = true;
-            this.radioShutdown.Location = new System.Drawing.Point(39, 54);
+            this.radioShutdown.Location = new System.Drawing.Point(52, 66);
+            this.radioShutdown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioShutdown.Name = "radioShutdown";
-            this.radioShutdown.Size = new System.Drawing.Size(134, 17);
+            this.radioShutdown.Size = new System.Drawing.Size(161, 20);
             this.radioShutdown.TabIndex = 1;
             this.radioShutdown.TabStop = true;
             this.radioShutdown.Text = "Shutdown the machine";
@@ -1438,9 +1575,10 @@
             // chkSpecialButton
             // 
             this.chkSpecialButton.AutoSize = true;
-            this.chkSpecialButton.Location = new System.Drawing.Point(18, 30);
+            this.chkSpecialButton.Location = new System.Drawing.Point(24, 37);
+            this.chkSpecialButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkSpecialButton.Name = "chkSpecialButton";
-            this.chkSpecialButton.Size = new System.Drawing.Size(186, 17);
+            this.chkSpecialButton.Size = new System.Drawing.Size(228, 20);
             this.chkSpecialButton.TabIndex = 0;
             this.chkSpecialButton.Text = "Enable \'Special Action\' Button for:";
             this.chkSpecialButton.UseVisualStyleBackColor = true;
@@ -1451,10 +1589,11 @@
             this.cpOptions.Controls.Add(this.groupBox20);
             this.cpOptions.Controls.Add(this.groupBox18);
             this.cpOptions.Controls.Add(this.groupBox9);
-            this.cpOptions.Location = new System.Drawing.Point(4, 22);
+            this.cpOptions.Location = new System.Drawing.Point(4, 25);
+            this.cpOptions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cpOptions.Name = "cpOptions";
-            this.cpOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.cpOptions.Size = new System.Drawing.Size(790, 547);
+            this.cpOptions.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cpOptions.Size = new System.Drawing.Size(1056, 676);
             this.cpOptions.TabIndex = 5;
             this.cpOptions.Text = "Credential Provider Options";
             this.cpOptions.UseVisualStyleBackColor = true;
@@ -1464,9 +1603,11 @@
             this.groupBox20.Controls.Add(this.label21);
             this.groupBox20.Controls.Add(this.m_hidePasswordFieldCb);
             this.groupBox20.Controls.Add(this.m_hideUsernameFieldCb);
-            this.groupBox20.Location = new System.Drawing.Point(17, 59);
+            this.groupBox20.Location = new System.Drawing.Point(23, 73);
+            this.groupBox20.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox20.Name = "groupBox20";
-            this.groupBox20.Size = new System.Drawing.Size(752, 66);
+            this.groupBox20.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox20.Size = new System.Drawing.Size(1003, 81);
             this.groupBox20.TabIndex = 2;
             this.groupBox20.TabStop = false;
             this.groupBox20.Text = "Alternate credentials";
@@ -1474,9 +1615,10 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(222, 20);
+            this.label21.Location = new System.Drawing.Point(296, 25);
+            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(366, 26);
+            this.label21.Size = new System.Drawing.Size(461, 32);
             this.label21.TabIndex = 2;
             this.label21.Text = "If either of these options are selected, plugins are responsible for determining\r" +
     "\nthe username and/or password via alternate means.";
@@ -1484,9 +1626,10 @@
             // m_hidePasswordFieldCb
             // 
             this.m_hidePasswordFieldCb.AutoSize = true;
-            this.m_hidePasswordFieldCb.Location = new System.Drawing.Point(13, 43);
+            this.m_hidePasswordFieldCb.Location = new System.Drawing.Point(17, 53);
+            this.m_hidePasswordFieldCb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_hidePasswordFieldCb.Name = "m_hidePasswordFieldCb";
-            this.m_hidePasswordFieldCb.Size = new System.Drawing.Size(121, 17);
+            this.m_hidePasswordFieldCb.Size = new System.Drawing.Size(151, 20);
             this.m_hidePasswordFieldCb.TabIndex = 1;
             this.m_hidePasswordFieldCb.Text = "Hide password field.";
             this.m_hidePasswordFieldCb.UseVisualStyleBackColor = true;
@@ -1494,9 +1637,10 @@
             // m_hideUsernameFieldCb
             // 
             this.m_hideUsernameFieldCb.AutoSize = true;
-            this.m_hideUsernameFieldCb.Location = new System.Drawing.Point(13, 19);
+            this.m_hideUsernameFieldCb.Location = new System.Drawing.Point(17, 23);
+            this.m_hideUsernameFieldCb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.m_hideUsernameFieldCb.Name = "m_hideUsernameFieldCb";
-            this.m_hideUsernameFieldCb.Size = new System.Drawing.Size(122, 17);
+            this.m_hideUsernameFieldCb.Size = new System.Drawing.Size(152, 20);
             this.m_hideUsernameFieldCb.TabIndex = 0;
             this.m_hideUsernameFieldCb.Text = "Hide username field.";
             this.m_hideUsernameFieldCb.UseVisualStyleBackColor = true;
@@ -1506,9 +1650,11 @@
             this.groupBox18.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox18.Controls.Add(this.defaultCPTileCB);
-            this.groupBox18.Location = new System.Drawing.Point(17, 6);
+            this.groupBox18.Location = new System.Drawing.Point(23, 7);
+            this.groupBox18.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Size = new System.Drawing.Size(752, 46);
+            this.groupBox18.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox18.Size = new System.Drawing.Size(1003, 57);
             this.groupBox18.TabIndex = 1;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Default Tile";
@@ -1516,9 +1662,10 @@
             // defaultCPTileCB
             // 
             this.defaultCPTileCB.AutoSize = true;
-            this.defaultCPTileCB.Location = new System.Drawing.Point(13, 19);
+            this.defaultCPTileCB.Location = new System.Drawing.Point(17, 23);
+            this.defaultCPTileCB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.defaultCPTileCB.Name = "defaultCPTileCB";
-            this.defaultCPTileCB.Size = new System.Drawing.Size(196, 17);
+            this.defaultCPTileCB.Size = new System.Drawing.Size(239, 20);
             this.defaultCPTileCB.TabIndex = 0;
             this.defaultCPTileCB.Text = "Request pGina tile to be the default.";
             this.defaultCPTileCB.UseVisualStyleBackColor = true;
@@ -1532,9 +1679,11 @@
             this.groupBox9.Controls.Add(this.dgvCredProvFilter);
             this.groupBox9.Controls.Add(this.label17);
             this.groupBox9.Controls.Add(this.textBox1);
-            this.groupBox9.Location = new System.Drawing.Point(17, 131);
+            this.groupBox9.Location = new System.Drawing.Point(23, 161);
+            this.groupBox9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(752, 400);
+            this.groupBox9.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox9.Size = new System.Drawing.Size(1003, 492);
             this.groupBox9.TabIndex = 0;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Disable Credential Providers";
@@ -1543,9 +1692,10 @@
             // 
             this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(10, 333);
+            this.label18.Location = new System.Drawing.Point(13, 410);
+            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(411, 13);
+            this.label18.Size = new System.Drawing.Size(517, 16);
             this.label18.TabIndex = 6;
             this.label18.Text = "To disable the built-in Microsoft credential provider, select \"PasswordProvider\" " +
     "above.";
@@ -1556,17 +1706,20 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvCredProvFilter.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCredProvFilter.Location = new System.Drawing.Point(13, 38);
+            this.dgvCredProvFilter.Location = new System.Drawing.Point(17, 47);
+            this.dgvCredProvFilter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvCredProvFilter.Name = "dgvCredProvFilter";
-            this.dgvCredProvFilter.Size = new System.Drawing.Size(721, 292);
+            this.dgvCredProvFilter.RowHeadersWidth = 51;
+            this.dgvCredProvFilter.Size = new System.Drawing.Size(961, 359);
             this.dgvCredProvFilter.TabIndex = 5;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(10, 22);
+            this.label17.Location = new System.Drawing.Point(13, 27);
+            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(240, 13);
+            this.label17.Size = new System.Drawing.Size(300, 16);
             this.label17.TabIndex = 2;
             this.label17.Text = "Mark a checkbox to disable a credential provider:";
             // 
@@ -1576,20 +1729,22 @@
             this.textBox1.BackColor = System.Drawing.Color.Yellow;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(13, 349);
+            this.textBox1.Location = new System.Drawing.Point(17, 430);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(703, 45);
+            this.textBox1.Size = new System.Drawing.Size(937, 55);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
             // btnApply
             // 
             this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnApply.Location = new System.Drawing.Point(650, 602);
+            this.btnApply.Location = new System.Drawing.Point(867, 741);
+            this.btnApply.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 23);
+            this.btnApply.Size = new System.Drawing.Size(100, 28);
             this.btnApply.TabIndex = 4;
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
@@ -1598,9 +1753,10 @@
             // btnOkay
             // 
             this.btnOkay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOkay.Location = new System.Drawing.Point(731, 602);
+            this.btnOkay.Location = new System.Drawing.Point(975, 741);
+            this.btnOkay.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnOkay.Name = "btnOkay";
-            this.btnOkay.Size = new System.Drawing.Size(75, 23);
+            this.btnOkay.Size = new System.Drawing.Size(100, 28);
             this.btnOkay.TabIndex = 3;
             this.btnOkay.Text = "Close";
             this.btnOkay.UseVisualStyleBackColor = true;
@@ -1610,18 +1766,20 @@
             // 
             this.m_pginaVersionLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.m_pginaVersionLbl.AutoSize = true;
-            this.m_pginaVersionLbl.Location = new System.Drawing.Point(12, 615);
+            this.m_pginaVersionLbl.Location = new System.Drawing.Point(16, 757);
+            this.m_pginaVersionLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.m_pginaVersionLbl.Name = "m_pginaVersionLbl";
-            this.m_pginaVersionLbl.Size = new System.Drawing.Size(72, 13);
+            this.m_pginaVersionLbl.Size = new System.Drawing.Size(90, 16);
             this.m_pginaVersionLbl.TabIndex = 5;
             this.m_pginaVersionLbl.Text = "pGina version";
             // 
             // btnSaveAndClose
             // 
             this.btnSaveAndClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveAndClose.Location = new System.Drawing.Point(549, 602);
+            this.btnSaveAndClose.Location = new System.Drawing.Point(732, 741);
+            this.btnSaveAndClose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSaveAndClose.Name = "btnSaveAndClose";
-            this.btnSaveAndClose.Size = new System.Drawing.Size(91, 23);
+            this.btnSaveAndClose.Size = new System.Drawing.Size(121, 28);
             this.btnSaveAndClose.TabIndex = 6;
             this.btnSaveAndClose.Text = "Save & Close";
             this.btnSaveAndClose.UseMnemonic = false;
@@ -1630,17 +1788,19 @@
             // 
             // ConfigurationUI
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(822, 637);
+            this.ClientSize = new System.Drawing.Size(1096, 784);
             this.Controls.Add(this.btnSaveAndClose);
             this.Controls.Add(this.m_pginaVersionLbl);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnOkay);
             this.Controls.Add(this.m_tabs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ConfigurationUI";
             this.Text = "pGina Configuration";
+            this.Load += new System.EventHandler(this.ConfigurationUI_Load);
             this.m_tabs.ResumeLayout(false);
             this.m_generalConfigTab.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);

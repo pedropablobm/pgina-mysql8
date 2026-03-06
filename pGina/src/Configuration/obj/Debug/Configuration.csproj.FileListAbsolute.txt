@@ -1,4 +1,5 @@
 C:\Github\pgina-mysql8\pGina\src\bin\log4net.config
+C:\Github\pgina-mysql8\pGina\src\bin\pginaicon_redcircle.ico
 C:\Github\pgina-mysql8\pGina\src\bin\pGina.Configuration.exe.config
 C:\Github\pgina-mysql8\pGina\src\bin\pGina.Configuration.exe
 C:\Github\pgina-mysql8\pGina\src\bin\pGina.Configuration.pdb

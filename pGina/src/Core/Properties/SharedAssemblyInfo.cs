@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyCompany("pGina Team")]
+[assembly: AssemblyCompany("Fork pGina Team")]
 [assembly: AssemblyProduct("pGina")]
-[assembly: AssemblyCopyright("Copyright © pGina Team 2014")]
+[assembly: AssemblyCopyright("Copyright © pGina Team 2026")]
 [assembly: AssemblyTrademark("")]
 
 // Version information for an assembly consists of the following four values:
@@ -17,5 +17,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("3.2.4.1")]
-[assembly: AssemblyFileVersion("3.2.4.1")]
+[assembly: AssemblyVersion("4.0.0.0")]
+[assembly: AssemblyFileVersion("4.0.0.0")]

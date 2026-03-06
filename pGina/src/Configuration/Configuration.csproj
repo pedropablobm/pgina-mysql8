@@ -188,7 +188,9 @@
     <None Include="Resources\DownArrowSolid.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="pginaicon_redcircle.ico" />
+    <Content Include="pginaicon_redcircle.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\arrow-right-3.png" />
     <None Include="Resources\redx.png" />
     <None Include="Resources\grayBar.png" />
