@@ -1,121 +1,192 @@
-# pGina
+# pGina - MySQL 8 / MariaDB Edition
 
-[http://pgina.org](http://pgina.org)
+[![GitHub release](https://img.shields.io/github/release/pedropablobm/pgina-mysql8.svg)](https://github.com/pedropablobm/pgina-mysql8/releases)
+[![License](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-lightgrey.svg)](https://github.com/pedropablobm/pgina-mysql8)
 
-**pGina** is a pluggable open-source Credential Provider (and GINA) replacement.  
-Plugins are written in managed code and allow for user authentication, session management, and login-time actions.
+## Overview
 
-## Fork 2026: MySQL/MariaDB Support
+pGina is a pluggable Open Source Credential Provider (and GINA) replacement for Windows. Plugins are written in managed code and allow for user authentication, session management and login time actions.
 
-This fork includes updated support for **MySQL** and **MariaDB** authentication, tested and working on modern Windows versions.
+This is a fork of the original [pGina](https://github.com/pgina/pgina) project, updated to support modern MySQL 8.x and MariaDB 10.x/11.x databases, and compatible with Windows 10 and Windows 11.
 
-## Compatibility
+## Features
 
-| Operating System       | Status        |
-|------------------------|---------------|
-| Windows 10 (64-bit)    | ✅ Compatible |
-| Windows 11 (64-bit)    | ✅ Compatible |
-| Windows 10 (32-bit)    | ❌ Not supported |
-| Windows 11 (32-bit)    | ❌ Not supported |
-
-| Database       | Status        |
-|----------------|---------------|
-| MySQL 8.x      | ✅ Compatible |
-| MariaDB 10.x   | ✅ Compatible |
-| MariaDB 11.x   | ✅ Compatible |
-
-## Changes in This Fork
-
-### MySQL Connector Migration
-- Migrated from **MySql.Data** to **MySqlConnector** for better compatibility and performance.
-- Updated **MySQLAuth** plugin to use the new connector.
-- Updated **MySQLLogger** plugin with correct namespace.
-
-### Installer Improvements
-- Updated `installer.iss` to clean previous configurations on install.
-- Fixed deprecated Inno Setup constants (`{pf}` → `{commonpf}`, `x64` → `x64compatible`).
-- Added automatic cleanup of registry and configuration files on uninstall.
-
-### Added Dependencies
-- MySqlConnector 2.0.0  
-- Microsoft.Extensions.Logging.Abstractions 8.0.0  
-- System.Diagnostics.DiagnosticSource  
-- System.Buffers  
-- System.Numerics.Vectors  
-- System.Runtime.CompilerServices.Unsafe  
-
-### Compilation Fixes
-- Fixed missing icon file in Configuration project.  
-- Added `BouncyCastle.Crypto` package for LDAP plugin.  
-- Fixed `ILoggerMode` interface implementation in MySQLLogger.  
-- Fixed namespace inconsistencies between `MySql.Data.MySqlClient` and `MySqlConnector`.
+- **MySQL 8.x and MariaDB 10.x/11.x Support** - Full compatibility with modern MySQL and MariaDB servers
+- **Windows 10/11 Compatible** - Tested on Windows 10 21H2+ and Windows 11 22H2+
+- **Multiple Authentication Plugins** - MySQL, LDAP, LocalMachine, RADIUS
+- **Session Management** - Drive mapping, session limits, logging
+- **Group-based Authorization** - Flexible authorization rules based on database groups
+- **Password Hash Support** - MD5, SHA-256, SHA-512 (configurable)
 
 ## Requirements
 
-- Windows 10/11 (64-bit)  
-- .NET Framework 4.0 or higher  
-- Visual C++ 2012 Redistributable  
-- MySQL 8.x or MariaDB 10.x/11.x  
+### Operating System
+- Windows 10 version 21H2 or later
+- Windows 11 version 22H2 or later
 
-## Building
-### Build Requirements
-- Visual Studio 2019 or higher
-- Inno Setup 6.x
+### Runtime Dependencies
+- .NET Framework 4.8 or later
+- Visual C++ 2013 Redistributable (x86 and x64)
 
-## Build Steps
-- Open pgina-mysql8.sln in Visual Studio.
-- Restore NuGet packages: Tools > NuGet Package Manager > Restore NuGet Packages.
-- Rebuild the solution: Build > Rebuild Solution.
-- Generate installer with Inno Setup: open Installer/installer.iss and compile.
+### Database Server
+- MySQL 8.0 or later
+- MariaDB 10.x or 11.x
 
 ## Installation
-- Uninstall any previous versions of pGina.
-- Run pGinaSetup-4.0.0.0.exe as Administrator.
-- Configure the MySQL plugin in the configuration application.
-- Test with the “Simulate” button before applying changes.
 
-## MySQL Plugin Configuration
-- Open pGina.Configuration.exe as Administrator.
-- Go to Plugin Selection tab.
-- Enable MySQL/MariaDB Auth in Authentication.
-- Configure connection parameters:
--- Host: MySQL/MariaDB server
--- Port: Port number (default: 3306)
--- Database: Database name
--- User: Database user
--- Password: Database password
--- Table: Table containing users
-- Save configuration.
-- Use Simulate to test.
+1. Download the latest release from [Releases](https://github.com/pedropablobm/pgina-mysql8/releases)
+2. Run `pGinaSetup-4.0.0-MySQL8.exe` as Administrator
+3. Follow the installation wizard
+4. Configure pGina using the Configuration application
 
-## Included Plugins
-| Plugin	            |   Description    |
-|---------------------|------------------|
-| MySQL/MariaDB Auth	| Authentication against MySQL/MariaDB database |
-| MySQL Logger	      | Event and session logging to MySQL/MariaDB |
-| Local Machine	      | Windows local authentication |
-| LDAP	              | LDAP/Active Directory authentication |
+## Database Configuration
+
+### MySQL 8.x / MariaDB Connection Settings
+
+```text
+Host: your-mysql-server (e.g., 192.168.1.100)
+Port: 3306
+Database: your_database_name
+User: your_db_user
+Password: your_db_password
+Table: estudiantes (or your custom table name)
+```
+
+### Required Table Structure
+
+```sql
+CREATE TABLE `estudiantes` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(20) NOT NULL COMMENT 'Username for login',
+  `nombre` varchar(100) NOT NULL COMMENT 'First name',
+  `apellido` varchar(100) NOT NULL COMMENT 'Last name',
+  `identificacion` varchar(15) NOT NULL COMMENT 'ID number',
+  `direccion` varchar(200) NOT NULL COMMENT 'Email address',
+  `estado` int(11) NOT NULL DEFAULT 1 COMMENT 'Status: 1=active, 0=inactive',
+  `id_carrera` int(11) NOT NULL,
+  `id_nivel` int(11) NOT NULL,
+  `metodo_hash` text NOT NULL COMMENT 'Hash method: MD5, SHA256, SHA512',
+  `clave` text DEFAULT NULL COMMENT 'Password hash',
+  PRIMARY KEY (`id`)
+);
+```
+
+### Password Hashing
+
+The plugin supports multiple hash algorithms:
+
+| Algorithm | `metodo_hash` value | Example Hash |
+|-----------|---------------------|--------------|
+| MD5 | `MD5` | `e10adc3949ba59abbe56e057f20f883e` |
+| SHA-256 | `SHA256` | `e3b0c44298fc1c149afbf4c8996fb924... |
+| SHA-512 | `SHA512` | `cf83e1357eefb8bdf1542850d66d8007... |
+
+## Plugin Configuration
+
+### MySQL Authentication Plugin
+
+In pGina Configuration:
+
+1. Go to **Plugins** → **Authentication**
+2. Enable **MySQL Auth** plugin
+3. Configure connection settings:
+   - **Host**: MySQL server address
+   - **Port**: 3306 (default)
+   - **Database**: Database name
+   - **User**: Database username
+   - **Password**: Database password
+   - **Table**: User table name (default: `estudiantes`)
+   - **Username Column**: `codigo`
+   - **Password Column**: `clave`
+   - **Hash Method Column**: `metodo_hash`
+   - **Password Hash**: Select MD5 (or your preferred method)
+
+4. Go to **Authorization** and configure rules
+5. Save configuration
+
+## Building from Source
+
+### Prerequisites
+
+- Visual Studio 2019 or 2022
+- .NET Framework 4.8 SDK
+- Inno Setup 6.x (for installer)
+
+### Build Steps
+
+```powershell
+# Clone the repository
+git clone https://github.com/pedropablobm/pgina-mysql8.git
+cd pgina-mysql8
+
+# Build with Visual Studio
+# Open pGina-3.x.sln and build in Release mode for both x64 and Win32
+
+# Or use MSBuild
+msbuild pGina-3.x.sln /p:Configuration=Release /p:Platform=x64
+msbuild pGina-3.x.sln /p:Configuration=Release /p:Platform=Win32
+
+# Create installer
+# Open Installer/installer.iss with Inno Setup and compile
+```
 
 ## Troubleshooting
-Error: "Cannot load Microsoft.Extensions.Logging.Abstractions"
-- Verify the DLL file exists in C:\Program Files\pGina\Plugins\Core\
-- Reinstall the software
 
-## Warning: "32-bit CredentialProvider is not registered"
-- This warning is normal on 64-bit systems.
-- The 64-bit CredentialProvider works correctly.
-- This message can be safely ignored.
+### Common Issues
 
-## Authentication fails
-- Verify database connection.
-- Verify user exists in configured table.
-- Check password hash format (MD5, SHA256, etc.).
-- Check logs in Show Log tab.
+1. **Login screen doesn't appear**
+   - Ensure Visual C++ 2013 Redistributable (x86 and x64) is installed
+   - Run `pGina.InstallUtil.exe post-install` as Administrator
+   - Check Windows Event Viewer for errors
 
-## Credits
-- Original project: pGina Team
+2. **Cannot connect to MySQL 8.x**
+   - Verify the user has proper permissions
+   - Check that MySQL is configured to accept connections from your IP
+   - Ensure the authentication plugin is `mysql_native_password` or `caching_sha2_password`
 
-## Fork with updated MySQL/MariaDB support
+3. **Authentication fails**
+   - Verify the password hash matches the stored hash
+   - Check the `metodo_hash` column value matches your configuration
+   - Verify the user's `estado` field is set to 1 (active)
+
+### Logs Location
+
+- Windows Event Viewer → Application → pGina
+- Log files: `C:\ProgramData\pGina\`
+
+## Changes from Original pGina
+
+| Feature | Original pGina | This Fork |
+|---------|---------------|-----------|
+| MySQL Connector | MySql.Data 6.5.4 | MySqlConnector 2.x |
+| MySQL 8.x Support | ❌ | ✅ |
+| MariaDB Support | Limited | Full |
+| Windows 10 | Partial | Full |
+| Windows 11 | ❌ | ✅ |
+| .NET Framework | 4.0 | 4.8 |
+| VC++ Runtime | 2012 | 2013 |
 
 ## License
-- See LICENSE file for details.
+
+BSD 3-Clause License. See [LICENSE](LICENSE) for details.
+
+## Credits
+
+- Original pGina Team - https://github.com/pgina/pgina
+- MySqlConnector contributors - https://github.com/mysqlconnector/net
+
+## Contributing
+
+Contributions are welcome! Please read the contributing guidelines before submitting pull requests.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/pedropablobm/pgina-mysql8/issues)
+- **Original Project**: https://pgina.org
