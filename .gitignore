@@ -1,11 +1,5 @@
 ```
 # Compiled and binary files
-*.exe
-*.dll
-*.so
-*.a
-*.obj
-*.out
 
 # Dependencies
 node_modules/
