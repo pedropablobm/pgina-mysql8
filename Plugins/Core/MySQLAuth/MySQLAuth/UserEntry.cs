@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Copyright (c) 2011, pGina Team
 	All rights reserved.
 
@@ -34,11 +34,30 @@ using log4net;
 
 namespace pGina.Plugin.MySQLAuth
 {
-    enum PasswordHashAlgorithm
+    /// <summary>
+    /// Supported password hash algorithms.
+    /// BCRYPT is the recommended algorithm for new implementations (Phase 1).
+    /// </summary>
+    public enum PasswordHashAlgorithm
     {
-        NONE, MD5, SHA1, SHA256, SHA384, SHA512, SMD5, SSHA1, SSHA256, SSHA384, SSHA512
+        NONE,       // Plain text (not recommended)
+        MD5,        // Legacy - not recommended for new passwords
+        SHA1,       // Legacy - not recommended for new passwords
+        SHA256,     // Acceptable but BCRYPT preferred
+        SHA384,     // Acceptable but BCRYPT preferred
+        SHA512,     // Acceptable but BCRYPT preferred
+        SMD5,       // Salted MD5 - legacy
+        SSHA1,      // Salted SHA1 - legacy
+        SSHA256,    // Salted SHA256
+        SSHA384,    // Salted SHA384
+        SSHA512,    // Salted SHA512
+        BCRYPT      // Recommended - modern secure hashing (Phase 1)
     }
 
+    /// <summary>
+    /// Represents a user entry from the MySQL database with password hash information.
+    /// Handles password verification for multiple hash algorithms including BCrypt.
+    /// </summary>
     class UserEntry
     {
         private ILog m_logger = LogManager.GetLogger("MySQLAuth.UserEntry");
@@ -57,55 +76,103 @@ namespace pGina.Plugin.MySQLAuth
             m_name = uname;
             m_hashAlg = alg;
             m_hashedPass = hashedPass;
-            if (m_hashAlg != PasswordHashAlgorithm.NONE)
+
+            // For BCrypt and NONE, we keep the hash as string (not converted to bytes)
+            // For other algorithms, we decode to bytes for comparison
+            if (m_hashAlg != PasswordHashAlgorithm.NONE && m_hashAlg != PasswordHashAlgorithm.BCRYPT)
+            {
                 m_passBytes = this.Decode(m_hashedPass);
+            }
             else
+            {
                 m_passBytes = null;
+            }
         }
 
-        private byte[] Decode( string hash )
+        private byte[] Decode(string hash)
         {
             int encInt = Settings.Store.HashEncoding;
             Settings.HashEncoding encoding = (Settings.HashEncoding)encInt;
+            
             if (encoding == Settings.HashEncoding.HEX)
                 return FromHexString(hash);
             else if (encoding == Settings.HashEncoding.BASE_64)
                 return Convert.FromBase64String(hash);
             else
             {
-                m_logger.ErrorFormat("Unrecognized hash encoding!  This shouldn't happen.");
+                m_logger.ErrorFormat("Unrecognized hash encoding!");
                 throw new Exception("Unrecognized hash encoding.");
             }
         }
 
-        public bool VerifyPassword( string plainText )
+        /// <summary>
+        /// Verifies a plain text password against the stored hash.
+        /// Supports BCrypt and legacy hash algorithms.
+        /// </summary>
+        public bool VerifyPassword(string plainText)
         {
-            if (plainText != null)
-            {
-                // If hash algorithm is NONE, just compare the strings
-                if (HashAlg == PasswordHashAlgorithm.NONE)
-                    return plainText.Equals(HashedPassword);
+            if (plainText == null)
+                return false;
 
-                // Is it a salted hash?
-                if (HashAlg == PasswordHashAlgorithm.SMD5 ||
-                    HashAlg == PasswordHashAlgorithm.SSHA1 ||
-                    HashAlg == PasswordHashAlgorithm.SSHA256 ||
-                    HashAlg == PasswordHashAlgorithm.SSHA384 ||
-                    HashAlg == PasswordHashAlgorithm.SSHA512)
+            // Handle BCrypt separately (Phase 1)
+            if (HashAlg == PasswordHashAlgorithm.BCRYPT)
+            {
+                return VerifyBCryptPassword(plainText);
+            }
+
+            // If hash algorithm is NONE, just compare the strings
+            if (HashAlg == PasswordHashAlgorithm.NONE)
+                return plainText.Equals(HashedPassword);
+
+            // Is it a salted hash?
+            if (HashAlg == PasswordHashAlgorithm.SMD5 ||
+                HashAlg == PasswordHashAlgorithm.SSHA1 ||
+                HashAlg == PasswordHashAlgorithm.SSHA256 ||
+                HashAlg == PasswordHashAlgorithm.SSHA384 ||
+                HashAlg == PasswordHashAlgorithm.SSHA512)
+            {
+                return VerifySaltedPassword(plainText);
+            }
+
+            // Unsalted hash - hash and compare bytes
+            byte[] hashedPlainText = HashPlainText(plainText);
+            if (hashedPlainText != null)
+                return hashedPlainText.SequenceEqual(m_passBytes);
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Verifies a password using BCrypt algorithm.
+        /// Uses BCrypt.Net library directly.
+        /// </summary>
+        private bool VerifyBCryptPassword(string plainText)
+        {
+            try
+            {
+                // BCrypt.Net.BCrypt.Verify extracts salt from hash
+                // and uses it to hash the input password for comparison
+                bool result = BCrypt.Net.BCrypt.Verify(plainText, m_hashedPass);
+
+                if (result)
                 {
-                    return VerifySaltedPassword(plainText);
+                    m_logger.InfoFormat("BCrypt authentication successful for user: {0}", m_name);
+                }
+                else
+                {
+                    m_logger.DebugFormat("BCrypt authentication failed for user: {0}", m_name);
                 }
 
-                // If we're here, we have an unsalted hash to compare with, hash and compare
-                // the hashed bytes.
-                byte[] hashedPlainText = HashPlainText(plainText);
-                if (hashedPlainText != null)
-                    return hashedPlainText.SequenceEqual(m_passBytes);
-                else
-                    return false;
+                return result;
             }
-            else
+            catch (BCrypt.Net.SaltParseException ex)
             {
+                m_logger.ErrorFormat("Invalid BCrypt hash format for user {0}: {1}", m_name, ex.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                m_logger.ErrorFormat("BCrypt verification error for user {0}: {1}", m_name, ex.Message);
                 return false;
             }
         }
@@ -117,36 +184,36 @@ namespace pGina.Plugin.MySQLAuth
                 if (hasher != null)
                 {
                     if (hasher.HashSize % 8 != 0)
-                        m_logger.ErrorFormat("WARNING: hash size is not a multiple of 8.  Hashes may not be evaluated correctly!");
+                        m_logger.WarnFormat("Hash size is not a multiple of 8. Verification may be incorrect.");
 
                     int hashSizeBytes = hasher.HashSize / 8;
 
-                    if( m_passBytes.Length > hashSizeBytes )
+                    if (m_passBytes.Length > hashSizeBytes)
                     {
-                        // Get the salt
+                        // Get the salt (bytes after the hash)
                         byte[] salt = new byte[m_passBytes.Length - hashSizeBytes];
                         Array.Copy(m_passBytes, hashSizeBytes, salt, 0, salt.Length);
-                        m_logger.DebugFormat("Found {1} byte salt: [{0}]", string.Join(",", salt), salt.Length);
-                        
-                        // Get the hash
-                        byte[] hashedPassAndSalt = new byte[hashSizeBytes];
-                        Array.Copy(m_passBytes, 0, hashedPassAndSalt, 0, hashSizeBytes);
+                        m_logger.DebugFormat("Found {1} byte salt for user {0}", m_name, salt.Length);
 
-                        // Build an array with the plain text and the salt
+                        // Get the stored hash
+                        byte[] storedHash = new byte[hashSizeBytes];
+                        Array.Copy(m_passBytes, 0, storedHash, 0, hashSizeBytes);
+
+                        // Build array with plain text and salt
                         byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-                        byte[] plainTextAndSalt = new byte[salt.Length + plainTextBytes.Length];
+                        byte[] plainTextAndSalt = new byte[plainTextBytes.Length + salt.Length];
                         plainTextBytes.CopyTo(plainTextAndSalt, 0);
                         salt.CopyTo(plainTextAndSalt, plainTextBytes.Length);
 
-                        // Compare the byte arrays
-                        byte[] hashedPlainTextAndSalt = hasher.ComputeHash(plainTextAndSalt);
-                        return hashedPlainTextAndSalt.SequenceEqual(hashedPassAndSalt);
+                        // Compute hash and compare
+                        byte[] computedHash = hasher.ComputeHash(plainTextAndSalt);
+                        return computedHash.SequenceEqual(storedHash);
                     }
                     else
                     {
-                        m_logger.ErrorFormat("Found hash of length {0}, expected at least {1} bytes.",
+                        m_logger.ErrorFormat("Hash too short for salted algorithm. Length: {0}, Expected > {1}",
                             m_passBytes.Length, hashSizeBytes);
-                        throw new Exception("Hash length is too short, no salt found.");
+                        return false;
                     }
                 }
             }
@@ -154,16 +221,17 @@ namespace pGina.Plugin.MySQLAuth
             return false;
         }
 
-        private byte[] HashPlainText( string plainText )
+        private byte[] HashPlainText(string plainText)
         {
             if (HashAlg == PasswordHashAlgorithm.NONE)
                 throw new Exception("Tried to hash a password when algorithm is NONE.");
 
             byte[] bytes = Encoding.UTF8.GetBytes(plainText);
             byte[] result = null;
+
             using (HashAlgorithm hasher = GetHasher())
             {
-                if( hasher != null )
+                if (hasher != null)
                     result = hasher.ComputeHash(bytes);
             }
 
@@ -175,6 +243,7 @@ namespace pGina.Plugin.MySQLAuth
             switch (HashAlg)
             {
                 case PasswordHashAlgorithm.NONE:
+                case PasswordHashAlgorithm.BCRYPT:
                     return null;
                 case PasswordHashAlgorithm.MD5:
                 case PasswordHashAlgorithm.SMD5:
@@ -197,35 +266,30 @@ namespace pGina.Plugin.MySQLAuth
             }
         }
 
-        private string ToHexString(byte[] bytes)
-        {
-            StringBuilder builder = new StringBuilder();
-            foreach( byte b in bytes )
-            {
-                builder.Append(b.ToString("x2"));
-            }
-            return builder.ToString();
-        }
-
         private byte[] FromHexString(string hex)
         {
-            byte[] bytes = null;
             if (hex.Length % 2 != 0)
-            {
-                hex = hex + "0";
-                bytes = new byte[hex.Length + 1 / 2];
-            }
-            else
-            {
-                bytes = new byte[hex.Length / 2];
-            }
+                hex = "0" + hex;
 
-            for (int i = 0; i < hex.Length / 2; i++ )
+            byte[] bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < bytes.Length; i++)
             {
-                bytes[i] = Convert.ToByte(hex.Substring(i*2, 2), 16);
+                bytes[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
             }
-
             return bytes;
+        }
+
+        /// <summary>
+        /// Checks if a string appears to be a BCrypt hash.
+        /// BCrypt hashes are 60 characters and start with $2a$, $2b$, or $2y$.
+        /// </summary>
+        public static bool IsBCryptHash(string hash)
+        {
+            if (string.IsNullOrEmpty(hash))
+                return false;
+
+            return hash.Length == 60 &&
+                   (hash.StartsWith("$2a$") || hash.StartsWith("$2b$") || hash.StartsWith("$2y$"));
         }
     }
 }

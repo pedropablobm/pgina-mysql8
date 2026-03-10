@@ -1,0 +1,6 @@
+C:\Github\pgina-mysql8\Plugins\Core\MySQLAuth\MySQLAuth\obj\x64\Release\MySQLAuth.csproj.AssemblyReference.cache
+C:\Github\pgina-mysql8\Plugins\Core\MySQLAuth\MySQLAuth\obj\x64\Release\pGina.Plugin.MySQLAuth.Configuration.resources
+C:\Github\pgina-mysql8\Plugins\Core\MySQLAuth\MySQLAuth\obj\x64\Release\pGina.Plugin.MySQLAuth.Properties.Resources.resources
+C:\Github\pgina-mysql8\Plugins\Core\MySQLAuth\MySQLAuth\obj\x64\Release\pGina.Plugin.MySQLAuth.TextBoxInfoDialog.resources
+C:\Github\pgina-mysql8\Plugins\Core\MySQLAuth\MySQLAuth\obj\x64\Release\MySQLAuth.csproj.GenerateResource.cache
+C:\Github\pgina-mysql8\Plugins\Core\MySQLAuth\MySQLAuth\obj\x64\Release\MySQLAuth.csproj.CoreCompileInputs.cache

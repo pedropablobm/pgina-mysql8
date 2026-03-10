@@ -31,11 +31,22 @@ using System.Text;
 
 namespace pGina.Plugin.MySQLAuth
 {
-    class Settings
+    /// <summary>
+    /// Settings management class for MySQL Authentication plugin.
+    /// Contains all configuration options including security settings.
+    /// </summary>
+    public class Settings
     {
+        /// <summary>
+        /// Encoding format for password hashes in the database.
+        /// </summary>
         public enum HashEncoding { HEX = 0, BASE_64 = 1 };
 
         private static dynamic m_settings = new pGina.Shared.Settings.pGinaDynamicSettings(PluginImpl.PluginUuid);
+        
+        /// <summary>
+        /// Dynamic settings store for accessing configuration values.
+        /// </summary>
         public static dynamic Store
         {
             get { return m_settings; }
@@ -43,7 +54,9 @@ namespace pGina.Plugin.MySQLAuth
 
         static Settings()
         {
-            // Database connection settings
+            // =============================================
+            // Database Connection Settings
+            // =============================================
             m_settings.SetDefault("Host", "localhost");
             m_settings.SetDefault("Port", 3306);
             m_settings.SetDefault("UseSsl", false);
@@ -51,11 +64,13 @@ namespace pGina.Plugin.MySQLAuth
             m_settings.SetDefaultEncryptedSetting("Password", "secret");
             m_settings.SetDefault("Database", "account_db");
 
-            // Connection timeout settings (new for MySQL 8/MariaDB)
+            // Connection timeout settings (for MySQL 8/MariaDB)
             m_settings.SetDefault("ConnectionTimeout", 30);
             m_settings.SetDefault("CommandTimeout", 30);
 
-            // User table
+            // =============================================
+            // User Table Configuration
+            // =============================================
             m_settings.SetDefault("Table", "users");
             m_settings.SetDefault("HashEncoding", (int)HashEncoding.HEX);
             m_settings.SetDefault("UsernameColumn", "user_name");
@@ -63,23 +78,104 @@ namespace pGina.Plugin.MySQLAuth
             m_settings.SetDefault("PasswordColumn", "password");
             m_settings.SetDefault("UserTablePrimaryKeyColumn", "user_id");
 
-            // Group table
+            // =============================================
+            // Group Table Configuration
+            // =============================================
             m_settings.SetDefault("GroupTableName", "groups");
             m_settings.SetDefault("GroupNameColumn", "group_name");
             m_settings.SetDefault("GroupTablePrimaryKeyColumn", "group_id");
 
-            // User-Group table
+            // User-Group relationship table
             m_settings.SetDefault("UserGroupTableName", "usergroup");
             m_settings.SetDefault("UserForeignKeyColumn", "user_id");
             m_settings.SetDefault("GroupForeignKeyColumn", "group_id");
 
-            // Authz Settings
+            // =============================================
+            // Authorization Settings
+            // =============================================
             m_settings.SetDefault("GroupAuthzRules", new string[] { (new GroupAuthzRule(true)).ToRegString() });
             m_settings.SetDefault("AuthzRequireMySqlAuth", false);
 
             // Gateway settings
             m_settings.SetDefault("GroupGatewayRules", new string[] { });
             m_settings.SetDefault("PreventLogonOnServerError", false);
+
+            // =============================================
+            // BCrypt Security Settings (Phase 1)
+            // =============================================
+            
+            /// <summary>
+            /// Work factor (cost) for BCrypt hashing.
+            /// Range: 4-12. Higher values are more secure but slower.
+            /// Recommended: 10-12 for production environments.
+            /// Work factor 10 = ~100ms, 11 = ~200ms, 12 = ~400ms
+            /// </summary>
+            m_settings.SetDefault("BCryptWorkFactor", 10);
+            
+            /// <summary>
+            /// Enable automatic migration of legacy hashes (MD5, SHA) to BCrypt.
+            /// When enabled, after successful authentication with a legacy hash,
+            /// the password will be rehashed using BCrypt and stored in the database.
+            /// Requires the PasswordColumn to be writable.
+            /// </summary>
+            m_settings.SetDefault("MigrateToBCrypt", false);
+
+            // =============================================
+            // Account Lockout Settings (Phase 2 - Placeholder)
+            // =============================================
+            
+            /// <summary>
+            /// Enable account lockout after failed login attempts.
+            /// </summary>
+            m_settings.SetDefault("EnableAccountLockout", false);
+            
+            /// <summary>
+            /// Number of failed attempts before account lockout.
+            /// </summary>
+            m_settings.SetDefault("MaxFailedAttempts", 5);
+            
+            /// <summary>
+            /// Duration of account lockout in minutes.
+            /// </summary>
+            m_settings.SetDefault("LockoutDurationMinutes", 30);
+
+            // =============================================
+            // Audit Logging Settings (Phase 3 - Placeholder)
+            // =============================================
+            
+            /// <summary>
+            /// Enable authentication event logging to database.
+            /// </summary>
+            m_settings.SetDefault("EnableAuthLogging", false);
+            
+            /// <summary>
+            /// Table name for authentication logs.
+            /// </summary>
+            m_settings.SetDefault("AuthLogTable", "auth_logs");
+        }
+
+        /// <summary>
+        /// Gets the configured BCrypt work factor, ensuring it's within valid range (4-12).
+        /// </summary>
+        public static int GetBCryptWorkFactor()
+        {
+            int workFactor = m_settings.BCryptWorkFactor;
+            
+            // Ensure work factor is within valid range
+            if (workFactor < 4 || workFactor > 12)
+            {
+                return 10; // Default safe value
+            }
+            
+            return workFactor;
+        }
+
+        /// <summary>
+        /// Checks if BCrypt hash migration is enabled.
+        /// </summary>
+        public static bool IsMigrationEnabled()
+        {
+            return m_settings.MigrateToBCrypt;
         }
     }
 }
