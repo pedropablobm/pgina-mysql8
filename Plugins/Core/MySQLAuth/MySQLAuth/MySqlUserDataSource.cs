@@ -56,6 +56,7 @@ namespace pGina.Plugin.MySQLAuth
                 var builder = new MySqlConnectionStringBuilder();
                 builder.Server = Settings.Store.Host;
                 
+                // Correct conversion for dynamic settings
                 int port = Settings.Store.Port;
                 builder.Port = Convert.ToUInt32(port > 0 ? port : 3306);
                 
@@ -72,9 +73,11 @@ namespace pGina.Plugin.MySQLAuth
                 builder.AllowZeroDateTime = true;
                 builder.ConvertZeroDateTime = true;
                 
-                // Timeout settings
-                builder.ConnectionTimeout = (uint)Settings.Store.ConnectionTimeout;
-                builder.DefaultCommandTimeout = (uint)Settings.Store.CommandTimeout;
+                // Timeout settings - proper conversion from dynamic settings
+                int connectionTimeout = Settings.Store.ConnectionTimeout;
+                int commandTimeout = Settings.Store.CommandTimeout;
+                builder.ConnectionTimeout = Convert.ToUInt32(connectionTimeout > 0 ? connectionTimeout : 30);
+                builder.DefaultCommandTimeout = Convert.ToUInt32(commandTimeout > 0 ? commandTimeout : 30);
                 
                 // Character set and pooling
                 builder.CharacterSet = "utf8mb4";
