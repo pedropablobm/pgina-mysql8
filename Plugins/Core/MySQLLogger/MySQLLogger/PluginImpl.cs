@@ -80,14 +80,14 @@ namespace pGina.Plugin.MySqlLogger
             m_logger.DebugFormat("SessionChange({0}) - ID: {1}", changeDescription.Reason.ToString(), changeDescription.SessionId);
             
             //If SessionMode is enabled, send event to it.
-            if ((bool)Settings.Store.SessionMode)
+            if (Settings.GetSessionMode())
             {
                 ILoggerMode mode = LoggerModeFactory.getLoggerMode(LoggerMode.SESSION);
                 mode.Log(changeDescription, properties);
             }
 
             //If EventMode is enabled, send event to it.
-            if ((bool)Settings.Store.EventMode)
+            if (Settings.GetEventMode())
             {
                 ILoggerMode mode = LoggerModeFactory.getLoggerMode(LoggerMode.EVENT);
                 mode.Log(changeDescription, properties);

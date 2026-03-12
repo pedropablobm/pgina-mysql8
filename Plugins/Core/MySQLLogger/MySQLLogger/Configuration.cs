@@ -47,8 +47,8 @@ namespace pGina.Plugin.MySqlLogger
 
         private void InitUI()
         {
-            this.sessionModeCB.Checked = Settings.Store.SessionMode;
-            this.eventModeCB.Checked = Settings.Store.EventMode;
+            this.sessionModeCB.Checked = Settings.GetSessionMode();
+            this.eventModeCB.Checked = Settings.GetEventMode();
 
             string host = Settings.Store.Host;
             this.hostTB.Text = host;
@@ -66,7 +66,7 @@ namespace pGina.Plugin.MySqlLogger
             string pass = Settings.Store.GetEncryptedSetting("Password");
             this.passwdTB.Text = pass;
 
-            bool setting = Settings.Store.EvtLogon;
+            bool setting = Settings.GetEvtLogon();
             this.logonEvtCB.Checked = setting;
             setting = Settings.Store.EvtLogoff;
             this.logoffEvtCB.Checked = setting;
@@ -85,7 +85,7 @@ namespace pGina.Plugin.MySqlLogger
             setting = Settings.Store.EvtRemoteDisconnect;
             this.remoteDisconnectEvtCB.Checked = setting;
 
-            this.useModNameCB.Checked = Settings.Store.UseModifiedName;
+            this.useModNameCB.Checked = Settings.GetUseModifiedName();
 
             updateUIOnModeChange();
         }
@@ -159,13 +159,13 @@ namespace pGina.Plugin.MySqlLogger
                 string sessionModeMsg = null;
                 string eventModeMsg = null;
                 
-                if ((bool)Settings.Store.SessionMode)
+                if (Settings.GetSessionMode())
                 {
                     ILoggerMode mode = LoggerModeFactory.getLoggerMode(LoggerMode.SESSION);
                     sessionModeMsg = mode.TestTable();
                 }
 
-                if ((bool)Settings.Store.EventMode)
+                if (Settings.GetEventMode())
                 {
                     ILoggerMode mode = LoggerModeFactory.getLoggerMode(LoggerMode.EVENT);
                     eventModeMsg = mode.TestTable();
@@ -199,13 +199,13 @@ namespace pGina.Plugin.MySqlLogger
                 string sessionModeMsg = null;
                 string eventModeMsg = null;
                 
-                if ((bool)Settings.Store.SessionMode)
+                if (Settings.GetSessionMode())
                 {
                     ILoggerMode mode = LoggerModeFactory.getLoggerMode(LoggerMode.SESSION);
                     sessionModeMsg = mode.CreateTable();
                 }
 
-                if ((bool)Settings.Store.EventMode)
+                if (Settings.GetEventMode())
                 {
                     ILoggerMode mode = LoggerModeFactory.getLoggerMode(LoggerMode.EVENT);
                     eventModeMsg = mode.CreateTable();

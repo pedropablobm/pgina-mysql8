@@ -53,7 +53,7 @@ namespace pGina.Plugin.MySqlLogger
             if (properties != null)
             {
                 UserInformation ui = properties.GetTrackedSingle<UserInformation>();
-                username = (bool)Settings.Store.UseModifiedName ? ui.Username : ui.OriginalUsername;
+                username = Settings.GetUseModifiedName() ? ui.Username : ui.OriginalUsername;
             }
 
             if (changeDescription.Reason == SessionChangeReason.SessionLogon)

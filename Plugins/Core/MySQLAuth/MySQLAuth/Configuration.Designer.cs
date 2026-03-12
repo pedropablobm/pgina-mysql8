@@ -127,7 +127,7 @@
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(481, 317);
+            this.cancelButton.Location = new System.Drawing.Point(481, 346);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(81, 25);
             this.cancelButton.TabIndex = 0;
@@ -137,7 +137,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(375, 317);
+            this.saveButton.Location = new System.Drawing.Point(375, 346);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(98, 25);
             this.saveButton.TabIndex = 1;
@@ -290,7 +290,7 @@
             this.tabControlDBSchema.Location = new System.Drawing.Point(6, 6);
             this.tabControlDBSchema.Name = "tabControlDBSchema";
             this.tabControlDBSchema.SelectedIndex = 0;
-            this.tabControlDBSchema.Size = new System.Drawing.Size(530, 261);
+            this.tabControlDBSchema.Size = new System.Drawing.Size(530, 291);
             this.tabControlDBSchema.TabIndex = 16;
             // 
             // tabPage1
@@ -304,7 +304,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(522, 235);
+            this.tabPage1.Size = new System.Drawing.Size(522, 265);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "User Table";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -312,7 +312,7 @@
             // encBase64RB
             // 
             this.encBase64RB.AutoSize = true;
-            this.encBase64RB.Location = new System.Drawing.Point(206, 202);
+            this.encBase64RB.Location = new System.Drawing.Point(206, 234);
             this.encBase64RB.Name = "encBase64RB";
             this.encBase64RB.Size = new System.Drawing.Size(64, 17);
             this.encBase64RB.TabIndex = 6;
@@ -323,7 +323,7 @@
             // encHexRB
             // 
             this.encHexRB.AutoSize = true;
-            this.encHexRB.Location = new System.Drawing.Point(114, 202);
+            this.encHexRB.Location = new System.Drawing.Point(114, 234);
             this.encHexRB.Name = "encHexRB";
             this.encHexRB.Size = new System.Drawing.Size(86, 17);
             this.encHexRB.TabIndex = 5;
@@ -464,7 +464,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(5, 204);
+            this.label6.Location = new System.Drawing.Point(5, 236);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(103, 13);
             this.label6.TabIndex = 4;
@@ -635,7 +635,7 @@
             // 
             // createTableBtn
             // 
-            this.createTableBtn.Location = new System.Drawing.Point(90, 314);
+            this.createTableBtn.Location = new System.Drawing.Point(90, 346);
             this.createTableBtn.Name = "createTableBtn";
             this.createTableBtn.Size = new System.Drawing.Size(100, 24);
             this.createTableBtn.TabIndex = 14;
@@ -645,7 +645,7 @@
             // 
             // testBtn
             // 
-            this.testBtn.Location = new System.Drawing.Point(8, 314);
+            this.testBtn.Location = new System.Drawing.Point(8, 346);
             this.testBtn.Name = "testBtn";
             this.testBtn.Size = new System.Drawing.Size(76, 24);
             this.testBtn.TabIndex = 15;
@@ -662,7 +662,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(550, 299);
+            this.tabControl1.Size = new System.Drawing.Size(550, 331);
             this.tabControl1.TabIndex = 16;
             // 
             // tabPage4
@@ -671,7 +671,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(542, 273);
+            this.tabPage4.Size = new System.Drawing.Size(542, 305);
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "Database Schema";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -694,7 +694,7 @@
             this.tabAuthz.Location = new System.Drawing.Point(4, 22);
             this.tabAuthz.Name = "tabAuthz";
             this.tabAuthz.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAuthz.Size = new System.Drawing.Size(542, 273);
+            this.tabAuthz.Size = new System.Drawing.Size(542, 305);
             this.tabAuthz.TabIndex = 2;
             this.tabAuthz.Text = "Authorization";
             this.tabAuthz.UseVisualStyleBackColor = true;
@@ -842,7 +842,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(542, 273);
+            this.tabPage5.Size = new System.Drawing.Size(542, 305);
             this.tabPage5.TabIndex = 1;
             this.tabPage5.Text = "Gateway";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -926,7 +926,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(542, 273);
+            this.tabPage6.Size = new System.Drawing.Size(542, 305);
             this.tabPage6.TabIndex = 3;
             this.tabPage6.Text = "Server";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -945,7 +945,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(574, 352);
+            this.ClientSize = new System.Drawing.Size(574, 384);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.testBtn);
             this.Controls.Add(this.createTableBtn);

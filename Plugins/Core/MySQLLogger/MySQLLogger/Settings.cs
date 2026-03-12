@@ -75,5 +75,25 @@ namespace pGina.Plugin.MySqlLogger
             return Convert.ToUInt32(m_settings.Port);
         }
 
+        public static bool GetEventMode()
+        {
+            return Convert.ToBoolean(m_settings.EventMode);
+        }
+
+        public static bool GetSessionMode()
+        {
+            return Convert.ToBoolean(m_settings.SessionMode);
+        }
+
+        public static bool GetUseModifiedName()
+        {
+            return Convert.ToBoolean(m_settings.UseModifiedName);
+        }
+
+        public static bool GetEvtLogon()
+        {
+            return Convert.ToBoolean(m_settings.EvtLogon);
+        }
+
     }
 }

@@ -185,12 +185,12 @@ namespace pGina.Plugin.MySqlLogger
         {
             if (properties == null) return UNKNOWN_USERNAME;
             UserInformation userInfo = properties.GetTrackedSingle<UserInformation>();
-            return (bool)Settings.Store.UseModifiedName ? userInfo.Username : userInfo.OriginalUsername;
+            return Settings.GetUseModifiedName() ? userInfo.Username : userInfo.OriginalUsername;
         }
 
         private string LogonEvent(int sessionId, SessionProperties properties)
         {
-            return Settings.Store.EvtLogon ? string.Format("[{0}] Logon user: {1}", sessionId, getUsername(properties) ?? UNKNOWN_USERNAME) : "";
+            return Settings.GetEvtLogon() ? string.Format("[{0}] Logon user: {1}", sessionId, getUsername(properties) ?? UNKNOWN_USERNAME) : "";
         }
 
         private string LogoffEvent(int sessionId, SessionProperties properties)
