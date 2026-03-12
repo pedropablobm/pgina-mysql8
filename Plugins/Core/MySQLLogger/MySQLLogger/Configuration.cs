@@ -86,6 +86,10 @@ namespace pGina.Plugin.MySqlLogger
             this.remoteDisconnectEvtCB.Checked = setting;
 
             this.useModNameCB.Checked = Settings.GetUseModifiedName();
+            this.offlineQueueEnabledCB.Checked = Settings.IsOfflineQueueEnabled();
+            this.healthCheckTB.Text = Convert.ToString(Settings.GetHealthCheckSeconds());
+            this.flushBatchTB.Text = Convert.ToString(Settings.GetFlushBatchSize());
+            this.offlineQueuePathTB.Text = Settings.GetOfflineQueuePath();
 
             updateUIOnModeChange();
         }
@@ -107,6 +111,8 @@ namespace pGina.Plugin.MySqlLogger
 
         private bool Save()
         {
+            int healthCheckSeconds = 0;
+            int flushBatchSize = 0;
             try
             {
                 int port = Convert.ToInt32((String)this.portTB.Text.Trim());
@@ -115,6 +121,29 @@ namespace pGina.Plugin.MySqlLogger
             catch (FormatException)
             {
                 MessageBox.Show("Invalid port number.");
+                return false;
+            }
+
+            try
+            {
+                healthCheckSeconds = Convert.ToInt32(this.healthCheckTB.Text.Trim());
+                flushBatchSize = Convert.ToInt32(this.flushBatchTB.Text.Trim());
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Health check and flush batch must be positive integers.");
+                return false;
+            }
+
+            if (healthCheckSeconds < 5)
+            {
+                MessageBox.Show("Health check must be at least 5 seconds.");
+                return false;
+            }
+
+            if (flushBatchSize < 1)
+            {
+                MessageBox.Show("Flush batch must be at least 1.");
                 return false;
             }
 
@@ -146,6 +175,10 @@ namespace pGina.Plugin.MySqlLogger
             Settings.Store.EvtRemoteDisconnect = this.remoteDisconnectEvtCB.Checked;
 
             Settings.Store.UseModifiedName = this.useModNameCB.Checked;
+            Settings.Store.OfflineQueueEnabled = this.offlineQueueEnabledCB.Checked;
+            Settings.Store.HealthCheckSeconds = healthCheckSeconds;
+            Settings.Store.FlushBatchSize = flushBatchSize;
+            Settings.Store.OfflineQueuePath = this.offlineQueuePathTB.Text.Trim();
 
             return true;
         }

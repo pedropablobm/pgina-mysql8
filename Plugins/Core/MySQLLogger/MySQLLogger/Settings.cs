@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 using pGina.Shared.Settings;
 
@@ -68,6 +69,10 @@ namespace pGina.Plugin.MySqlLogger
             m_settings.SetDefault("EvtRemoteDisconnect", false);
 
             m_settings.SetDefault("UseModifiedName", false);
+            m_settings.SetDefault("OfflineQueueEnabled", true);
+            m_settings.SetDefault("HealthCheckSeconds", 30);
+            m_settings.SetDefault("FlushBatchSize", 100);
+            m_settings.SetDefault("OfflineQueuePath", string.Empty);
         }
 
         public static uint GetPort()
@@ -93,6 +98,74 @@ namespace pGina.Plugin.MySqlLogger
         public static bool GetEvtLogon()
         {
             return Convert.ToBoolean(m_settings.EvtLogon);
+        }
+
+        public static bool GetEvtLogoff()
+        {
+            return Convert.ToBoolean(m_settings.EvtLogoff);
+        }
+
+        public static bool GetEvtLock()
+        {
+            return Convert.ToBoolean(m_settings.EvtLock);
+        }
+
+        public static bool GetEvtUnlock()
+        {
+            return Convert.ToBoolean(m_settings.EvtUnlock);
+        }
+
+        public static bool GetEvtConsoleConnect()
+        {
+            return Convert.ToBoolean(m_settings.EvtConsoleConnect);
+        }
+
+        public static bool GetEvtConsoleDisconnect()
+        {
+            return Convert.ToBoolean(m_settings.EvtConsoleDisconnect);
+        }
+
+        public static bool GetEvtRemoteControl()
+        {
+            return Convert.ToBoolean(m_settings.EvtRemoteControl);
+        }
+
+        public static bool GetEvtRemoteConnect()
+        {
+            return Convert.ToBoolean(m_settings.EvtRemoteConnect);
+        }
+
+        public static bool GetEvtRemoteDisconnect()
+        {
+            return Convert.ToBoolean(m_settings.EvtRemoteDisconnect);
+        }
+
+        public static bool IsOfflineQueueEnabled()
+        {
+            return Convert.ToBoolean(m_settings.OfflineQueueEnabled);
+        }
+
+        public static int GetHealthCheckSeconds()
+        {
+            return Math.Max(5, Convert.ToInt32(m_settings.HealthCheckSeconds));
+        }
+
+        public static int GetFlushBatchSize()
+        {
+            return Math.Max(1, Convert.ToInt32(m_settings.FlushBatchSize));
+        }
+
+        public static string GetOfflineQueuePath()
+        {
+            string configuredPath = Convert.ToString(m_settings.OfflineQueuePath);
+            if (!string.IsNullOrWhiteSpace(configuredPath))
+                return configuredPath;
+
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+                "pGina",
+                "MySQLLogger",
+                "mysqllogger-queue.sqlite");
         }
 
     }

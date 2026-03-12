@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace pGina.Plugin.MySQLAuth
 {
@@ -110,6 +111,14 @@ namespace pGina.Plugin.MySQLAuth
             // =============================================
             m_settings.SetDefault("BCryptWorkFactor", 10);
             m_settings.SetDefault("MigrateToBCrypt", false);
+
+            // Offline resilience
+            m_settings.SetDefault("LocalCacheEnabled", true);
+            m_settings.SetDefault("OfflineFallbackEnabled", true);
+            m_settings.SetDefault("AllowOfflineBypassForAuthorization", true);
+            m_settings.SetDefault("SyncIntervalMinutes", 5);
+            m_settings.SetDefault("HealthCheckSeconds", 30);
+            m_settings.SetDefault("LocalCachePath", string.Empty);
         }
 
         // =============================================
@@ -234,6 +243,44 @@ namespace pGina.Plugin.MySQLAuth
         public static string GetUserActiveValue()
         {
             return Convert.ToString(m_settings.UserActiveValue) ?? string.Empty;
+        }
+
+        public static bool IsLocalCacheEnabled()
+        {
+            return Convert.ToBoolean(m_settings.LocalCacheEnabled);
+        }
+
+        public static bool IsOfflineFallbackEnabled()
+        {
+            return Convert.ToBoolean(m_settings.OfflineFallbackEnabled);
+        }
+
+        public static bool AllowOfflineBypassForAuthorization()
+        {
+            return Convert.ToBoolean(m_settings.AllowOfflineBypassForAuthorization);
+        }
+
+        public static int GetSyncIntervalMinutes()
+        {
+            return Math.Max(1, Convert.ToInt32(m_settings.SyncIntervalMinutes));
+        }
+
+        public static int GetHealthCheckSeconds()
+        {
+            return Math.Max(5, Convert.ToInt32(m_settings.HealthCheckSeconds));
+        }
+
+        public static string GetLocalCachePath()
+        {
+            string configuredPath = Convert.ToString(m_settings.LocalCachePath);
+            if (!string.IsNullOrWhiteSpace(configuredPath))
+                return configuredPath;
+
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+                "pGina",
+                "MySQLAuth",
+                "mysqlauth-cache.sqlite");
         }
     }
 }

@@ -57,6 +57,12 @@ namespace pGina.Plugin.MySQLAuth
             this.passwordTB.Text = Settings.Store.GetEncryptedSetting("Password");
             this.dbTB.Text = Settings.Store.Database;
             this.sslModeCB.SelectedItem = Settings.GetSslMode().ToString();
+            this.localCacheEnabledCB.Checked = Settings.IsLocalCacheEnabled();
+            this.offlineFallbackEnabledCB.Checked = Settings.IsOfflineFallbackEnabled();
+            this.offlineBypassCB.Checked = Settings.AllowOfflineBypassForAuthorization();
+            this.syncIntervalTB.Text = Convert.ToString(Settings.GetSyncIntervalMinutes());
+            this.healthCheckTB.Text = Convert.ToString(Settings.GetHealthCheckSeconds());
+            this.cachePathTB.Text = Settings.GetLocalCachePath();
             this.enforceStatusCB.Checked = Settings.IsUserStatusValidationEnabled();
 
             // User table schema settings
@@ -140,6 +146,8 @@ namespace pGina.Plugin.MySQLAuth
         private bool Save()
         {
             int port = 0;
+            int syncIntervalMinutes = 0;
+            int healthCheckSeconds = 0;
             try
             {
                 port = Convert.ToInt32(this.portTB.Text);
@@ -150,11 +158,40 @@ namespace pGina.Plugin.MySQLAuth
                 return false;
             }
 
+            try
+            {
+                syncIntervalMinutes = Convert.ToInt32(this.syncIntervalTB.Text);
+                healthCheckSeconds = Convert.ToInt32(this.healthCheckTB.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Sync interval and health check must be positive integers.");
+                return false;
+            }
+
+            if (syncIntervalMinutes < 1)
+            {
+                MessageBox.Show("Sync interval must be at least 1 minute.");
+                return false;
+            }
+
+            if (healthCheckSeconds < 5)
+            {
+                MessageBox.Show("Health check must be at least 5 seconds.");
+                return false;
+            }
+
             Settings.Store.Host = this.hostTB.Text.Trim();
             Settings.Store.Port = port;
             Settings.Store.User = this.userTB.Text.Trim();
             Settings.Store.SetEncryptedSetting("Password", this.passwordTB.Text);
             Settings.Store.Database = this.dbTB.Text.Trim();
+            Settings.Store.LocalCacheEnabled = this.localCacheEnabledCB.Checked;
+            Settings.Store.OfflineFallbackEnabled = this.offlineFallbackEnabledCB.Checked;
+            Settings.Store.AllowOfflineBypassForAuthorization = this.offlineBypassCB.Checked;
+            Settings.Store.SyncIntervalMinutes = syncIntervalMinutes;
+            Settings.Store.HealthCheckSeconds = healthCheckSeconds;
+            Settings.Store.LocalCachePath = this.cachePathTB.Text.Trim();
             MySqlSslMode sslMode;
             if (!Enum.TryParse(this.sslModeCB.Text, true, out sslMode))
             {
