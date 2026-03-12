@@ -34,6 +34,7 @@ namespace pGina.Plugin.MySQLAuth
     /// <summary>
     /// Settings management class for MySQL Authentication plugin.
     /// Contains all configuration options including security settings.
+    /// Version: 4.1.0 - Fixed RuntimeBinderException issues
     /// </summary>
     public class Settings
     {
@@ -60,9 +61,10 @@ namespace pGina.Plugin.MySQLAuth
             m_settings.SetDefault("Host", "localhost");
             m_settings.SetDefault("Port", 3306);
             m_settings.SetDefault("UseSsl", false);
+            m_settings.SetDefault("SslMode", MySqlConnector.MySqlSslMode.None.ToString());
             m_settings.SetDefault("User", "pgina_user");
             m_settings.SetDefaultEncryptedSetting("Password", "secret");
-            m_settings.SetDefault("Database", "account_db");
+            m_settings.SetDefault("Database", "bdcontrolasistenciasalas");
 
             // Connection timeout settings (for MySQL 8/MariaDB)
             m_settings.SetDefault("ConnectionTimeout", 30);
@@ -71,12 +73,15 @@ namespace pGina.Plugin.MySQLAuth
             // =============================================
             // User Table Configuration
             // =============================================
-            m_settings.SetDefault("Table", "users");
+            m_settings.SetDefault("Table", "estudiantes");
             m_settings.SetDefault("HashEncoding", (int)HashEncoding.HEX);
-            m_settings.SetDefault("UsernameColumn", "user_name");
-            m_settings.SetDefault("HashMethodColumn", "hash_method");
-            m_settings.SetDefault("PasswordColumn", "password");
-            m_settings.SetDefault("UserTablePrimaryKeyColumn", "user_id");
+            m_settings.SetDefault("UsernameColumn", "codigo");
+            m_settings.SetDefault("HashMethodColumn", "metodo_hash");
+            m_settings.SetDefault("PasswordColumn", "clave");
+            m_settings.SetDefault("UserTablePrimaryKeyColumn", "id");
+            m_settings.SetDefault("EnforceUserStatus", true);
+            m_settings.SetDefault("UserStatusColumn", "estado");
+            m_settings.SetDefault("UserActiveValue", "1");
 
             // =============================================
             // Group Table Configuration
@@ -101,72 +106,26 @@ namespace pGina.Plugin.MySQLAuth
             m_settings.SetDefault("PreventLogonOnServerError", false);
 
             // =============================================
-            // BCrypt Security Settings (Phase 1)
+            // BCrypt Security Settings
             // =============================================
-            
-            /// <summary>
-            /// Work factor (cost) for BCrypt hashing.
-            /// Range: 4-12. Higher values are more secure but slower.
-            /// Recommended: 10-12 for production environments.
-            /// Work factor 10 = ~100ms, 11 = ~200ms, 12 = ~400ms
-            /// </summary>
             m_settings.SetDefault("BCryptWorkFactor", 10);
-            
-            /// <summary>
-            /// Enable automatic migration of legacy hashes (MD5, SHA) to BCrypt.
-            /// When enabled, after successful authentication with a legacy hash,
-            /// the password will be rehashed using BCrypt and stored in the database.
-            /// Requires the PasswordColumn to be writable.
-            /// </summary>
             m_settings.SetDefault("MigrateToBCrypt", false);
-
-            // =============================================
-            // Account Lockout Settings (Phase 2 - Placeholder)
-            // =============================================
-            
-            /// <summary>
-            /// Enable account lockout after failed login attempts.
-            /// </summary>
-            m_settings.SetDefault("EnableAccountLockout", false);
-            
-            /// <summary>
-            /// Number of failed attempts before account lockout.
-            /// </summary>
-            m_settings.SetDefault("MaxFailedAttempts", 5);
-            
-            /// <summary>
-            /// Duration of account lockout in minutes.
-            /// </summary>
-            m_settings.SetDefault("LockoutDurationMinutes", 30);
-
-            // =============================================
-            // Audit Logging Settings (Phase 3 - Placeholder)
-            // =============================================
-            
-            /// <summary>
-            /// Enable authentication event logging to database.
-            /// </summary>
-            m_settings.SetDefault("EnableAuthLogging", false);
-            
-            /// <summary>
-            /// Table name for authentication logs.
-            /// </summary>
-            m_settings.SetDefault("AuthLogTable", "auth_logs");
         }
+
+        // =============================================
+        // Helper Methods - Use these to avoid RuntimeBinderException
+        // =============================================
 
         /// <summary>
         /// Gets the configured BCrypt work factor, ensuring it's within valid range (4-12).
         /// </summary>
         public static int GetBCryptWorkFactor()
         {
-            int workFactor = m_settings.BCryptWorkFactor;
-            
-            // Ensure work factor is within valid range
+            int workFactor = (int)m_settings.BCryptWorkFactor;
             if (workFactor < 4 || workFactor > 12)
             {
                 return 10; // Default safe value
             }
-            
             return workFactor;
         }
 
@@ -175,7 +134,106 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static bool IsMigrationEnabled()
         {
-            return m_settings.MigrateToBCrypt;
+            return (bool)m_settings.MigrateToBCrypt;
+        }
+        
+        /// <summary>
+        /// Gets the connection timeout setting.
+        /// </summary>
+        public static int GetConnectionTimeout()
+        {
+            return (int)m_settings.ConnectionTimeout;
+        }
+        
+        /// <summary>
+        /// Gets the command timeout setting.
+        /// </summary>
+        public static int GetCommandTimeout()
+        {
+            return (int)m_settings.CommandTimeout;
+        }
+        
+        /// <summary>
+        /// Gets the database port setting.
+        /// </summary>
+        public static int GetPort()
+        {
+            return (int)m_settings.Port;
+        }
+        
+        /// <summary>
+        /// Gets the hash encoding setting.
+        /// </summary>
+        public static HashEncoding GetHashEncoding()
+        {
+            return (HashEncoding)(int)m_settings.HashEncoding;
+        }
+        
+        /// <summary>
+        /// Checks if SSL is enabled for database connection.
+        /// </summary>
+        public static bool IsSslEnabled()
+        {
+            return (bool)m_settings.UseSsl;
+        }
+
+        /// <summary>
+        /// Gets the configured MySQL TLS mode, preserving compatibility with the legacy UseSsl flag.
+        /// </summary>
+        public static MySqlConnector.MySqlSslMode GetSslMode()
+        {
+            string configuredMode = Convert.ToString(m_settings.SslMode);
+            MySqlConnector.MySqlSslMode parsedMode;
+
+            if (!string.IsNullOrEmpty(configuredMode) &&
+                Enum.TryParse(configuredMode, true, out parsedMode))
+            {
+                return parsedMode;
+            }
+
+            return IsSslEnabled()
+                ? MySqlConnector.MySqlSslMode.Required
+                : MySqlConnector.MySqlSslMode.None;
+        }
+        
+        /// <summary>
+        /// Checks if authorization requires MySQL auth.
+        /// </summary>
+        public static bool IsAuthzRequireMySqlAuth()
+        {
+            return (bool)m_settings.AuthzRequireMySqlAuth;
+        }
+        
+        /// <summary>
+        /// Checks if logon should be prevented on server error.
+        /// </summary>
+        public static bool PreventLogonOnServerError()
+        {
+            return (bool)m_settings.PreventLogonOnServerError;
+        }
+
+        /// <summary>
+        /// Checks if user status validation is enabled.
+        /// </summary>
+        public static bool IsUserStatusValidationEnabled()
+        {
+            return (bool)m_settings.EnforceUserStatus;
+        }
+
+        /// <summary>
+        /// Gets the configured user status column.
+        /// </summary>
+        public static string GetUserStatusColumn()
+        {
+            return Convert.ToString(m_settings.UserStatusColumn) ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Gets the configured active value for the user status column.
+        /// </summary>
+        public static string GetUserActiveValue()
+        {
+            return Convert.ToString(m_settings.UserActiveValue) ?? string.Empty;
         }
     }
 }

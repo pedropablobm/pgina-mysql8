@@ -56,28 +56,25 @@ namespace pGina.Plugin.MySQLAuth
                 var builder = new MySqlConnectionStringBuilder();
                 builder.Server = Settings.Store.Host;
                 
-                // Correct conversion for dynamic settings
-                int port = Settings.Store.Port;
+                // FIX: Use helper method with proper casting
+                int port = Settings.GetPort();
                 builder.Port = Convert.ToUInt32(port > 0 ? port : 3306);
                 
                 builder.UserID = Settings.Store.User;
                 builder.Database = Settings.Store.Database;
                 builder.Password = Settings.Store.GetEncryptedSetting("Password");
 
-                // SSL/TLS Configuration
-                bool useSsl = Settings.Store.UseSsl;
-                builder.SslMode = useSsl ? MySqlSslMode.Required : MySqlSslMode.None;
+                // SSL/TLS Configuration - FIX: Use helper method
+                builder.SslMode = Settings.GetSslMode();
 
                 // MySQL 8.x and MariaDB compatibility settings
                 builder.AllowUserVariables = true;
                 builder.AllowZeroDateTime = true;
                 builder.ConvertZeroDateTime = true;
                 
-                // Timeout settings - proper conversion from dynamic settings
-                int connectionTimeout = Settings.Store.ConnectionTimeout;
-                int commandTimeout = Settings.Store.CommandTimeout;
-                builder.ConnectionTimeout = Convert.ToUInt32(connectionTimeout > 0 ? connectionTimeout : 30);
-                builder.DefaultCommandTimeout = Convert.ToUInt32(commandTimeout > 0 ? commandTimeout : 30);
+                // Timeout settings - FIX: Use helper methods
+                builder.ConnectionTimeout = (uint)Settings.GetConnectionTimeout();
+                builder.DefaultCommandTimeout = (uint)Settings.GetCommandTimeout();
                 
                 // Character set and pooling
                 builder.CharacterSet = "utf8mb4";
@@ -134,11 +131,19 @@ namespace pGina.Plugin.MySQLAuth
                 return null;
             }
 
-            string query = string.Format("SELECT `{1}`, `{2}`, `{3}` FROM `{0}` WHERE `{1}` = @user",
-                Settings.Store.Table,
-                Settings.Store.UsernameColumn,
-                Settings.Store.HashMethodColumn,
-                Settings.Store.PasswordColumn);
+            bool enforceUserStatus = Settings.IsUserStatusValidationEnabled();
+            string query = enforceUserStatus
+                ? string.Format("SELECT `{1}`, `{2}`, `{3}`, `{4}` FROM `{0}` WHERE `{1}` = @user",
+                    Settings.Store.Table,
+                    Settings.Store.UsernameColumn,
+                    Settings.Store.HashMethodColumn,
+                    Settings.Store.PasswordColumn,
+                    Settings.GetUserStatusColumn())
+                : string.Format("SELECT `{1}`, `{2}`, `{3}` FROM `{0}` WHERE `{1}` = @user",
+                    Settings.Store.Table,
+                    Settings.Store.UsernameColumn,
+                    Settings.Store.HashMethodColumn,
+                    Settings.Store.PasswordColumn);
 
             m_logger.DebugFormat("Executing query to find user: {0}", userName);
 
@@ -159,10 +164,24 @@ namespace pGina.Plugin.MySQLAuth
                         string hash = rdr[2] != null && rdr[2] != DBNull.Value
                             ? rdr[2].ToString()
                             : "";
+                        string statusValue = enforceUserStatus && rdr.FieldCount > 3 && rdr[3] != DBNull.Value
+                            ? rdr[3].ToString().Trim()
+                            : string.Empty;
 
                         PasswordHashAlgorithm hashAlg;
 
                         m_logger.DebugFormat("User {0} found, hash method from DB: {1}", uname, hashMethodStr);
+
+                        if (enforceUserStatus &&
+                            !string.Equals(statusValue, Settings.GetUserActiveValue(), StringComparison.OrdinalIgnoreCase))
+                        {
+                            m_logger.WarnFormat(
+                                "User {0} rejected because status '{1}' does not match active value '{2}'",
+                                uname,
+                                statusValue,
+                                Settings.GetUserActiveValue());
+                            return null;
+                        }
 
                         switch (hashMethodStr)
                         {
@@ -301,6 +320,48 @@ namespace pGina.Plugin.MySQLAuth
 
             m_logger.DebugFormat("User {0} is NOT member of group {1}", userName, groupName);
             return false;
+        }
+
+        /// <summary>
+        /// Updates a user's password hash in the database.
+        /// Used for BCrypt migration feature.
+        /// </summary>
+        /// <param name="userName">Username to update</param>
+        /// <param name="newHash">New password hash</param>
+        /// <param name="hashMethod">Hash method name (e.g., "BCRYPT")</param>
+        public void UpdateUserHash(string userName, string newHash, string hashMethod)
+        {
+            if (m_conn == null || m_conn.State != ConnectionState.Open)
+            {
+                m_logger.Error("Database connection is not open");
+                throw new InvalidOperationException("Database connection is not open");
+            }
+
+            string query = string.Format("UPDATE `{0}` SET `{2}` = @hashMethod, `{3}` = @hash WHERE `{1}` = @user",
+                Settings.Store.Table,
+                Settings.Store.UsernameColumn,
+                Settings.Store.HashMethodColumn,
+                Settings.Store.PasswordColumn);
+
+            m_logger.DebugFormat("Updating hash for user: {0} to {1}", userName, hashMethod);
+
+            using (var cmd = new MySqlCommand(query, m_conn))
+            {
+                cmd.Parameters.AddWithValue("@user", userName);
+                cmd.Parameters.AddWithValue("@hashMethod", hashMethod);
+                cmd.Parameters.AddWithValue("@hash", newHash);
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+                
+                if (rowsAffected > 0)
+                {
+                    m_logger.InfoFormat("Successfully updated hash for user {0}", userName);
+                }
+                else
+                {
+                    m_logger.WarnFormat("No rows affected when updating hash for user {0}", userName);
+                }
+            }
         }
     }
 }
