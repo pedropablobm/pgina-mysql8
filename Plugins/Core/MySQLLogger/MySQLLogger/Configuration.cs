@@ -50,39 +50,39 @@ namespace pGina.Plugin.MySqlLogger
             this.sessionModeCB.Checked = Settings.GetSessionMode();
             this.eventModeCB.Checked = Settings.GetEventMode();
 
-            string host = Settings.Store.Host;
+            string host = Convert.ToString(Settings.Store.Host);
             this.hostTB.Text = host;
-            string port = string.Format("{0}", Settings.Store.Port); //Might be stored as an int
+            string port = Convert.ToString(Settings.GetPort());
             this.portTB.Text = port;
-            string db = Settings.Store.Database;
+            string db = Convert.ToString(Settings.Store.Database);
             this.dbTB.Text = db;
 
-            string sessionTable = Settings.Store.SessionTable;
+            string sessionTable = Convert.ToString(Settings.Store.SessionTable);
             this.sessionTableTB.Text = sessionTable;
-            string eventTable = Settings.Store.EventTable;
+            string eventTable = Convert.ToString(Settings.Store.EventTable);
             this.eventTableTB.Text = eventTable;
-            string user = Settings.Store.User;
+            string user = Convert.ToString(Settings.Store.User);
             this.userTB.Text = user;
             string pass = Settings.Store.GetEncryptedSetting("Password");
             this.passwdTB.Text = pass;
 
             bool setting = Settings.GetEvtLogon();
             this.logonEvtCB.Checked = setting;
-            setting = Settings.Store.EvtLogoff;
+            setting = Settings.GetEvtLogoff();
             this.logoffEvtCB.Checked = setting;
-            setting = Settings.Store.EvtLock;
+            setting = Settings.GetEvtLock();
             this.lockEvtCB.Checked = setting;
-            setting = Settings.Store.EvtUnlock;
+            setting = Settings.GetEvtUnlock();
             this.unlockEvtCB.Checked = setting;
-            setting = Settings.Store.EvtConsoleConnect;
+            setting = Settings.GetEvtConsoleConnect();
             this.consoleConnectEvtCB.Checked = setting;
-            setting = Settings.Store.EvtConsoleDisconnect;
+            setting = Settings.GetEvtConsoleDisconnect();
             this.consoleDisconnectEvtCB.Checked = setting;
-            setting = Settings.Store.EvtRemoteControl;
+            setting = Settings.GetEvtRemoteControl();
             this.remoteControlEvtCB.Checked = setting;
-            setting = Settings.Store.EvtRemoteConnect;
+            setting = Settings.GetEvtRemoteConnect();
             this.remoteConnectEvtCB.Checked = setting;
-            setting = Settings.Store.EvtRemoteDisconnect;
+            setting = Settings.GetEvtRemoteDisconnect();
             this.remoteDisconnectEvtCB.Checked = setting;
 
             this.useModNameCB.Checked = Settings.GetUseModifiedName();

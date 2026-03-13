@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Reflection;
 
 namespace pGina.Plugin.MySQLAuth
 {
@@ -125,12 +126,71 @@ namespace pGina.Plugin.MySQLAuth
         // Helper Methods - Use these to avoid RuntimeBinderException
         // =============================================
 
+        private static object UnwrapSettingValue(object value)
+        {
+            if (value == null)
+                return null;
+
+            PropertyInfo rawValueProperty = value.GetType().GetProperty("RawValue");
+            return rawValueProperty != null
+                ? rawValueProperty.GetValue(value, null)
+                : value;
+        }
+
+        private static string GetStringSetting(string name, string defaultValue = "")
+        {
+            object value = UnwrapSettingValue(m_settings.GetSetting(name, defaultValue));
+            return value == null ? defaultValue : Convert.ToString(value);
+        }
+
+        private static int GetIntSetting(string name, int defaultValue = 0)
+        {
+            object value = UnwrapSettingValue(m_settings.GetSetting(name, defaultValue));
+            if (value == null)
+                return defaultValue;
+
+            if (value is int intValue)
+                return intValue;
+
+            if (value is long longValue)
+                return Convert.ToInt32(longValue);
+
+            if (value is string stringValue && int.TryParse(stringValue, out int parsed))
+                return parsed;
+
+            return Convert.ToInt32(value);
+        }
+
+        private static bool GetBoolSetting(string name, bool defaultValue = false)
+        {
+            object value = UnwrapSettingValue(m_settings.GetSetting(name, defaultValue));
+            if (value == null)
+                return defaultValue;
+
+            if (value is bool boolValue)
+                return boolValue;
+
+            if (value is int intValue)
+                return intValue != 0;
+
+            if (value is string stringValue)
+            {
+                if (bool.TryParse(stringValue, out bool parsedBool))
+                    return parsedBool;
+
+                if (int.TryParse(stringValue, out int parsedInt))
+                    return parsedInt != 0;
+            }
+
+            return Convert.ToBoolean(value);
+        }
+
         /// <summary>
         /// Gets the configured BCrypt work factor, ensuring it's within valid range (4-12).
         /// </summary>
         public static int GetBCryptWorkFactor()
         {
-            int workFactor = (int)m_settings.BCryptWorkFactor;
+            int workFactor = GetIntSetting("BCryptWorkFactor", 10);
             if (workFactor < 4 || workFactor > 12)
             {
                 return 10; // Default safe value
@@ -143,7 +203,7 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static bool IsMigrationEnabled()
         {
-            return (bool)m_settings.MigrateToBCrypt;
+            return GetBoolSetting("MigrateToBCrypt");
         }
         
         /// <summary>
@@ -151,7 +211,7 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static int GetConnectionTimeout()
         {
-            return (int)m_settings.ConnectionTimeout;
+            return GetIntSetting("ConnectionTimeout", 30);
         }
         
         /// <summary>
@@ -159,7 +219,7 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static int GetCommandTimeout()
         {
-            return (int)m_settings.CommandTimeout;
+            return GetIntSetting("CommandTimeout", 30);
         }
         
         /// <summary>
@@ -167,7 +227,7 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static int GetPort()
         {
-            return (int)m_settings.Port;
+            return GetIntSetting("Port", 3306);
         }
         
         /// <summary>
@@ -175,7 +235,7 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static HashEncoding GetHashEncoding()
         {
-            return (HashEncoding)(int)m_settings.HashEncoding;
+            return (HashEncoding)GetIntSetting("HashEncoding", (int)HashEncoding.HEX);
         }
         
         /// <summary>
@@ -183,7 +243,7 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static bool IsSslEnabled()
         {
-            return (bool)m_settings.UseSsl;
+            return GetBoolSetting("UseSsl");
         }
 
         /// <summary>
@@ -191,7 +251,7 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static MySqlConnector.MySqlSslMode GetSslMode()
         {
-            string configuredMode = Convert.ToString(m_settings.SslMode);
+            string configuredMode = GetStringSetting("SslMode");
             MySqlConnector.MySqlSslMode parsedMode;
 
             if (!string.IsNullOrEmpty(configuredMode) &&
@@ -210,7 +270,7 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static bool IsAuthzRequireMySqlAuth()
         {
-            return (bool)m_settings.AuthzRequireMySqlAuth;
+            return GetBoolSetting("AuthzRequireMySqlAuth");
         }
         
         /// <summary>
@@ -218,7 +278,7 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static bool PreventLogonOnServerError()
         {
-            return (bool)m_settings.PreventLogonOnServerError;
+            return GetBoolSetting("PreventLogonOnServerError");
         }
 
         /// <summary>
@@ -226,7 +286,7 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static bool IsUserStatusValidationEnabled()
         {
-            return (bool)m_settings.EnforceUserStatus;
+            return GetBoolSetting("EnforceUserStatus", true);
         }
 
         /// <summary>
@@ -234,7 +294,7 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static string GetUserStatusColumn()
         {
-            return Convert.ToString(m_settings.UserStatusColumn) ?? string.Empty;
+            return GetStringSetting("UserStatusColumn");
         }
 
         /// <summary>
@@ -242,37 +302,37 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public static string GetUserActiveValue()
         {
-            return Convert.ToString(m_settings.UserActiveValue) ?? string.Empty;
+            return GetStringSetting("UserActiveValue");
         }
 
         public static bool IsLocalCacheEnabled()
         {
-            return Convert.ToBoolean(m_settings.LocalCacheEnabled);
+            return GetBoolSetting("LocalCacheEnabled", true);
         }
 
         public static bool IsOfflineFallbackEnabled()
         {
-            return Convert.ToBoolean(m_settings.OfflineFallbackEnabled);
+            return GetBoolSetting("OfflineFallbackEnabled", true);
         }
 
         public static bool AllowOfflineBypassForAuthorization()
         {
-            return Convert.ToBoolean(m_settings.AllowOfflineBypassForAuthorization);
+            return GetBoolSetting("AllowOfflineBypassForAuthorization", true);
         }
 
         public static int GetSyncIntervalMinutes()
         {
-            return Math.Max(1, Convert.ToInt32(m_settings.SyncIntervalMinutes));
+            return Math.Max(1, GetIntSetting("SyncIntervalMinutes", 5));
         }
 
         public static int GetHealthCheckSeconds()
         {
-            return Math.Max(5, Convert.ToInt32(m_settings.HealthCheckSeconds));
+            return Math.Max(5, GetIntSetting("HealthCheckSeconds", 30));
         }
 
         public static string GetLocalCachePath()
         {
-            string configuredPath = Convert.ToString(m_settings.LocalCachePath);
+            string configuredPath = GetStringSetting("LocalCachePath");
             if (!string.IsNullOrWhiteSpace(configuredPath))
                 return configuredPath;
 
