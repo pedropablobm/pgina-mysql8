@@ -47,6 +47,7 @@ namespace pGina.Plugin.MySqlLogger
         public static readonly Guid PluginUuid = new Guid("B68CF064-9299-4765-AC08-ACB49F93F892");
         private static readonly object m_timerLock = new object();
         private static Timer m_flushTimer;
+        private static bool m_offlineQueueRuntimeAvailable = true;
         private ILog m_logger = LogManager.GetLogger("MySqlLoggerPlugin");
 
         public string Description
@@ -93,9 +94,19 @@ namespace pGina.Plugin.MySqlLogger
 
         public void Starting()
         {
-            if (Settings.IsOfflineQueueEnabled())
+            m_offlineQueueRuntimeAvailable = Settings.IsOfflineQueueEnabled();
+
+            if (m_offlineQueueRuntimeAvailable)
             {
-                OfflineLogQueue.Initialize();
+                try
+                {
+                    OfflineLogQueue.Initialize();
+                }
+                catch (Exception ex)
+                {
+                    m_offlineQueueRuntimeAvailable = false;
+                    m_logger.ErrorFormat("Disabling offline SQLite queue at runtime: {0}", ex);
+                }
             }
 
             StartBackgroundTasks();
@@ -120,9 +131,9 @@ namespace pGina.Plugin.MySqlLogger
             {
                 m_logger.WarnFormat("Failed to write {0} log to MySQL: {1}", loggerMode, ex.Message);
 
-                if (Settings.IsOfflineQueueEnabled())
+                if (Settings.IsOfflineQueueEnabled() && m_offlineQueueRuntimeAvailable)
                 {
-                    OfflineLogQueue.Enqueue(loggerMode, changeDescription, properties);
+                    TryEnqueueOffline(loggerMode, changeDescription, properties);
                 }
             }
         }
@@ -131,7 +142,7 @@ namespace pGina.Plugin.MySqlLogger
         {
             lock (m_timerLock)
             {
-                if (m_flushTimer != null)
+                if (m_flushTimer != null || !m_offlineQueueRuntimeAvailable)
                     return;
 
                 int periodMs = Settings.GetHealthCheckSeconds() * 1000;
@@ -158,7 +169,7 @@ namespace pGina.Plugin.MySqlLogger
 
         private void TryFlushOfflineQueue()
         {
-            if (!Settings.IsOfflineQueueEnabled())
+            if (!Settings.IsOfflineQueueEnabled() || !m_offlineQueueRuntimeAvailable)
                 return;
 
             try
@@ -172,6 +183,23 @@ namespace pGina.Plugin.MySqlLogger
             finally
             {
                 LoggerModeFactory.closeConnection();
+            }
+        }
+
+        private void TryEnqueueOffline(LoggerMode loggerMode, System.ServiceProcess.SessionChangeDescription changeDescription, SessionProperties properties)
+        {
+            if (!m_offlineQueueRuntimeAvailable)
+                return;
+
+            try
+            {
+                OfflineLogQueue.Enqueue(loggerMode, changeDescription, properties);
+            }
+            catch (Exception ex)
+            {
+                m_offlineQueueRuntimeAvailable = false;
+                m_logger.ErrorFormat("Disabling offline SQLite queue after runtime failure: {0}", ex);
+                StopBackgroundTasks();
             }
         }
 

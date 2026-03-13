@@ -52,6 +52,7 @@ namespace pGina.Plugin.MySQLAuth
         private static readonly object m_timerLock = new object();
         private static Timer m_healthTimer;
         private static bool m_mysqlAvailable = true;
+        private static bool m_localCacheRuntimeAvailable = true;
         
         private ILog m_logger = LogManager.GetLogger("MySQLAuth");
 
@@ -72,9 +73,9 @@ namespace pGina.Plugin.MySQLAuth
                     entry = dataSource.GetUserEntry(userInfo.Username);
                 }
 
-                if (entry != null && Settings.IsLocalCacheEnabled())
+                if (entry != null && Settings.IsLocalCacheEnabled() && m_localCacheRuntimeAvailable)
                 {
-                    LocalUserCache.UpsertUser(entry);
+                    TryCacheUserEntry(entry);
                 }
             }
             catch (MySqlException ex)
@@ -139,9 +140,19 @@ namespace pGina.Plugin.MySQLAuth
         /// </summary>
         public void Starting()
         {
-            if (Settings.IsLocalCacheEnabled())
+            m_localCacheRuntimeAvailable = Settings.IsLocalCacheEnabled();
+
+            if (m_localCacheRuntimeAvailable)
             {
-                LocalUserCache.Initialize();
+                try
+                {
+                    LocalUserCache.Initialize();
+                }
+                catch (Exception ex)
+                {
+                    m_localCacheRuntimeAvailable = false;
+                    m_logger.ErrorFormat("Disabling local SQLite cache at runtime: {0}", ex);
+                }
             }
 
             StartBackgroundTasks();
@@ -326,7 +337,7 @@ namespace pGina.Plugin.MySQLAuth
 
         private BooleanResult TryOfflineAuthentication(UserInformation userInfo, string reason)
         {
-            if (!Settings.IsLocalCacheEnabled() || !Settings.IsOfflineFallbackEnabled())
+            if (!Settings.IsLocalCacheEnabled() || !Settings.IsOfflineFallbackEnabled() || !m_localCacheRuntimeAvailable)
             {
                 return new BooleanResult { Success = false, Message = "MySQL unavailable and offline fallback is disabled." };
             }
@@ -370,7 +381,7 @@ namespace pGina.Plugin.MySQLAuth
 
         private void BackgroundHealthCheck(object state)
         {
-            if (!Settings.IsLocalCacheEnabled())
+            if (!Settings.IsLocalCacheEnabled() || !m_localCacheRuntimeAvailable)
                 return;
 
             try
@@ -398,6 +409,23 @@ namespace pGina.Plugin.MySQLAuth
                 }
 
                 m_mysqlAvailable = false;
+            }
+        }
+
+        private void TryCacheUserEntry(UserEntry entry)
+        {
+            if (!m_localCacheRuntimeAvailable || entry == null)
+                return;
+
+            try
+            {
+                LocalUserCache.UpsertUser(entry);
+            }
+            catch (Exception ex)
+            {
+                m_localCacheRuntimeAvailable = false;
+                m_logger.ErrorFormat("Disabling local SQLite cache after runtime failure: {0}", ex);
+                StopBackgroundTasks();
             }
         }
 
