@@ -207,6 +207,29 @@ namespace pGina.Plugin.MySQLAuth
                 }
             }
 
+            if (this.enforceStatusCB.Checked &&
+                (string.IsNullOrWhiteSpace(this.statusColTB.Text) || string.IsNullOrWhiteSpace(this.activeValueTB.Text)))
+            {
+                MessageBox.Show("User status validation requires both status column and active value.");
+                return false;
+            }
+
+            if (this.lockoutEnabledCB.Checked &&
+                (string.IsNullOrWhiteSpace(this.failedAttemptsColTB.Text) ||
+                 string.IsNullOrWhiteSpace(this.blockedUntilColTB.Text) ||
+                 string.IsNullOrWhiteSpace(this.lastAttemptColTB.Text)))
+            {
+                MessageBox.Show("Login lockout requires attempts, blocked-until and last-attempt columns.");
+                return false;
+            }
+
+            MySqlSslMode sslMode;
+            if (!Enum.TryParse(this.sslModeCB.Text, true, out sslMode))
+            {
+                MessageBox.Show("Please select a valid TLS mode.");
+                return false;
+            }
+
             Settings.Store.Host = this.hostTB.Text.Trim();
             Settings.Store.Port = port;
             Settings.Store.User = this.userTB.Text.Trim();
@@ -218,12 +241,6 @@ namespace pGina.Plugin.MySQLAuth
             Settings.Store.SyncIntervalMinutes = syncIntervalMinutes;
             Settings.Store.HealthCheckSeconds = healthCheckSeconds;
             Settings.Store.LocalCachePath = this.cachePathTB.Text.Trim();
-            MySqlSslMode sslMode;
-            if (!Enum.TryParse(this.sslModeCB.Text, true, out sslMode))
-            {
-                MessageBox.Show("Please select a valid TLS mode.");
-                return false;
-            }
             Settings.Store.SslMode = sslMode.ToString();
             Settings.Store.UseSsl = sslMode != MySqlSslMode.None;
 
@@ -242,22 +259,6 @@ namespace pGina.Plugin.MySQLAuth
             Settings.Store.LastAttemptColumn = this.lastAttemptColTB.Text.Trim();
             Settings.Store.MaxFailedAttempts = maxFailedAttempts;
             Settings.Store.LockoutMinutes = lockoutMinutes;
-
-            if (this.enforceStatusCB.Checked &&
-                (string.IsNullOrWhiteSpace(this.statusColTB.Text) || string.IsNullOrWhiteSpace(this.activeValueTB.Text)))
-            {
-                MessageBox.Show("User status validation requires both status column and active value.");
-                return false;
-            }
-
-            if (this.lockoutEnabledCB.Checked &&
-                (string.IsNullOrWhiteSpace(this.failedAttemptsColTB.Text) ||
-                 string.IsNullOrWhiteSpace(this.blockedUntilColTB.Text) ||
-                 string.IsNullOrWhiteSpace(this.lastAttemptColTB.Text)))
-            {
-                MessageBox.Show("Login lockout requires attempts, blocked-until and last-attempt columns.");
-                return false;
-            }
 
             if (encHexRB.Checked)
                 Settings.Store.HashEncoding = (int)Settings.HashEncoding.HEX;

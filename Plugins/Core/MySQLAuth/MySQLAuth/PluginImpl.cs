@@ -312,14 +312,8 @@ namespace pGina.Plugin.MySQLAuth
             }
             catch (Exception e)
             {
-                if (Settings.IsOfflineFallbackEnabled() && Settings.AllowOfflineBypassForAuthorization())
-                {
-                    m_logger.WarnFormat("Gateway offline bypass enabled after unexpected error: {0}", e.Message);
-                    return new BooleanResult { Success = true, Message = "Gateway bypassed while MySQL is unavailable." };
-                }
-
                 m_logger.ErrorFormat("Gateway error: {0}", e);
-                throw;
+                return new BooleanResult { Success = false, Message = string.Format("Gateway failed: {0}", e.Message) };
             }
 
             return new BooleanResult { Success = true };
@@ -342,6 +336,12 @@ namespace pGina.Plugin.MySQLAuth
             if (requireAuth)
             {
                 PluginActivityInformation actInfo = properties.GetTrackedSingle<PluginActivityInformation>();
+                if (actInfo == null)
+                {
+                    m_logger.Error("AuthorizeUser requires MySQL authentication, but PluginActivityInformation is missing.");
+                    return new BooleanResult { Success = false, Message = "MySQL auth context is missing." };
+                }
+
                 try
                 {
                     BooleanResult mySqlResult = actInfo.GetAuthenticationResult(this.Uuid);

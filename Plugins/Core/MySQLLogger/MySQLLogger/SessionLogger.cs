@@ -54,7 +54,7 @@ namespace pGina.Plugin.MySqlLogger
             {
                 UserInformation ui = properties.GetTrackedSingle<UserInformation>();
                 if (ui != null)
-                    username = Settings.GetUseModifiedName() ? ui.Username : ui.OriginalUsername;
+                    username = ResolveUsername(ui);
             }
 
             if (changeDescription.Reason == SessionChangeReason.SessionLogon)
@@ -172,6 +172,15 @@ namespace pGina.Plugin.MySqlLogger
         }
 
         public void SetConnection(MySqlConnection conn) { this.m_conn = conn; }
+
+        private string ResolveUsername(UserInformation userInfo)
+        {
+            if (userInfo == null)
+                return "--UNKNOWN--";
+
+            string username = Settings.GetUseModifiedName() ? userInfo.Username : userInfo.OriginalUsername;
+            return string.IsNullOrWhiteSpace(username) ? "--UNKNOWN--" : username;
+        }
 
         private string getIPAddress()
         {

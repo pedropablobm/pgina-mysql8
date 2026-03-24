@@ -303,7 +303,8 @@ namespace pGina.Plugin.MySqlLogger
             if (userInfo == null)
                 return "--UNKNOWN--";
 
-            return Settings.GetUseModifiedName() ? userInfo.Username : userInfo.OriginalUsername;
+            string username = Settings.GetUseModifiedName() ? userInfo.Username : userInfo.OriginalUsername;
+            return string.IsNullOrWhiteSpace(username) ? "--UNKNOWN--" : username;
         }
 
         private static string GetIpAddress()
