@@ -1,4 +1,4 @@
-# pGina - MySQL 8 / MariaDB Edition
+# pGina - MySQL / MariaDB / PostgreSQL Edition
 
 [![GitHub release](https://img.shields.io/github/release/pedropablobm/pgina-mysql8.svg)](https://github.com/pedropablobm/pgina-mysql8/releases)
 [![License](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](LICENSE)
@@ -6,188 +6,397 @@
 
 ## Overview
 
-pGina is a pluggable Open Source Credential Provider (and GINA) replacement for Windows. Plugins are written in managed code and allow for user authentication, session management and login time actions.
+pGina is a pluggable Open Source Credential Provider (and GINA) replacement for Windows. Plugins are written in managed code and allow user authentication, authorization, session management, and login-time actions.
 
-This is a fork of the original [pGina](https://github.com/pgina/pgina) project, updated to support modern MySQL 8.x and MariaDB 10.x/11.x databases, and compatible with Windows 10 and Windows 11.
+This repository is a fork of the original [pGina](https://github.com/pgina/pgina) project, updated for modern Windows and modern database backends.
+
+Current branch status:
+
+- MySQL 8.x and MariaDB 10.x/11.x authentication and logging validated in build and runtime tests
+- PostgreSQL authentication and logging implemented and compiling successfully
+- PostgreSQL functional validation is still pending
+- Plugin projects renamed to `DatabaseAuth` and `DatabaseLogger` to reflect multi-provider support
 
 ## Features
 
-- **MySQL 8.x and MariaDB 10.x/11.x Support** - Full compatibility with modern MySQL and MariaDB servers
-- **Windows 10/11 Compatible** - Tested on Windows 10 21H2+ and Windows 11 22H2+
-- **Multiple Authentication Plugins** - MySQL, LDAP, LocalMachine, RADIUS
-- **Session Management** - Drive mapping, session limits, logging
-- **Group-based Authorization** - Flexible authorization rules based on database groups
-- **Password Hash Support** - BCrypt, MD5, SHA-256, SHA-512
-- **Active User Validation** - Can require a status column such as `estado=1`
-- **TLS Options** - Supports `Required`, `VerifyCA`, and `VerifyFull`
+- MySQL 8.x support
+- MariaDB 10.x and 11.x support
+- PostgreSQL support for authentication and logger
+- Windows 10 and Windows 11 compatibility
+- Multiple authentication plugins: database, LDAP, LocalMachine, RADIUS
+- Group-based authorization and gateway rules
+- Password hash support: BCrypt, MD5, SHA1, SHA256, SHA384, SHA512, salted variants
+- Optional active-user validation through a configurable status column
+- Optional login lockout with configurable columns
+- SQLite-based offline cache for authentication
+- SQLite-based offline queue for logger replay
 
 ## Requirements
 
 ### Operating System
+
 - Windows 10 version 21H2 or later
 - Windows 11 version 22H2 or later
 
 ### Runtime Dependencies
-- .NET Framework 4.8 or later
-- Visual C++ 2013 Redistributable (x86 and x64)
 
-### Database Server
+- .NET Framework 4.8 or later
+- Latest supported Microsoft Visual C++ v14 Redistributable
+
+Install these runtimes on target machines:
+
+- x86: [vc_redist.x86.exe](https://aka.ms/vc14/vc_redist.x86.exe)
+- x64: [vc_redist.x64.exe](https://aka.ms/vc14/vc_redist.x64.exe)
+
+### Database Servers
+
 - MySQL 8.0 or later
 - MariaDB 10.x or 11.x
+- PostgreSQL 12 or later recommended
 
 ## Installation
 
-1. Download the latest release from [Releases](https://github.com/pedropablobm/pgina-mysql8/releases)
-2. Run `pGinaSetup-4.0.0-MySQL8.exe` as Administrator
-3. Follow the installation wizard
-4. Configure pGina using the Configuration application
+1. Download the latest release from [Releases](https://github.com/pedropablobm/pgina-mysql8/releases).
+2. Run the generated installer as Administrator.
+3. Complete the setup wizard.
+4. Let `pGina.InstallUtil.exe post-install` finish successfully.
+5. Open the pGina configuration tool and configure your authentication plugin.
 
-## Database Configuration
+Note:
 
-### MySQL 8.x / MariaDB Connection Settings
+- In current local builds, the installer filename is `pGinaSetup-4.0.0.0.exe`.
 
-```text
-Host: your-mysql-server (e.g., 192.168.1.100)
-Port: 3306
-Database: your_database_name
-User: your_db_user
-Password: your_db_password
-Table: estudiantes (or your custom table name)
-TLS Mode: None, Required, VerifyCA, or VerifyFull
+## Database Provider Configuration
+
+The database plugins are now presented in pGina as:
+
+- `Database Auth`
+- `Database Logger`
+
+For backward compatibility, legacy setting keys and existing offline cache paths are migrated automatically when possible.
+
+The authentication plugin now supports provider selection from the UI:
+
+- `MySql`
+- `PostgreSql`
+
+The logger plugin also supports provider selection from the UI:
+
+- `MySql`
+- `PostgreSql`
+
+## Recommended Schema
+
+For new deployments, the recommended schema is the English schema:
+
+- `users`
+- `groups`
+- `user_groups`
+- `careers`
+- `levels`
+- `login_events`
+- `login_sessions`
+
+This schema is clearer for future maintenance and matches the latest PostgreSQL work.
+
+### Recommended Authentication Schema
+
+```sql
+CREATE TABLE users (
+  id INTEGER NOT NULL,
+  username VARCHAR(50) NOT NULL,
+  first_name VARCHAR(100),
+  last_name VARCHAR(100),
+  document_id VARCHAR(15),
+  email VARCHAR(200),
+  status INTEGER NOT NULL DEFAULT 1,
+  career_id INTEGER,
+  level_id INTEGER,
+  hash_method TEXT NOT NULL,
+  password_hash TEXT,
+  failed_attempts INTEGER NOT NULL DEFAULT 0,
+  locked_until TIMESTAMP NULL,
+  last_attempt_at TIMESTAMP NULL,
+  PRIMARY KEY (username),
+  UNIQUE (id)
+);
+
+CREATE TABLE groups (
+  group_id BIGINT PRIMARY KEY,
+  group_name VARCHAR(128) NOT NULL UNIQUE
+);
+
+CREATE TABLE user_groups (
+  user_id INTEGER NOT NULL,
+  group_id BIGINT NOT NULL,
+  PRIMARY KEY (user_id, group_id)
+);
 ```
 
-### Required Table Structure
+### Legacy MySQL/MariaDB-Compatible Example
+
+If you are integrating with an existing schema, the plugin still supports custom names such as:
 
 ```sql
 CREATE TABLE `estudiantes` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
-  `codigo` varchar(20) NOT NULL COMMENT 'Username for login',
-  `nombre` varchar(100) NOT NULL COMMENT 'First name',
-  `apellido` varchar(100) NOT NULL COMMENT 'Last name',
-  `identificacion` varchar(15) NOT NULL COMMENT 'ID number',
-  `direccion` varchar(200) NOT NULL COMMENT 'Email address',
-  `estado` int(11) NOT NULL DEFAULT 1 COMMENT 'Status: 1=active, 0=inactive',
+  `codigo` varchar(20) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `apellido` varchar(100) NOT NULL,
+  `identificacion` varchar(15) NOT NULL,
+  `direccion` varchar(200) NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT 1,
   `id_carrera` int(11) NOT NULL,
   `id_nivel` int(11) NOT NULL,
-  `metodo_hash` text NOT NULL COMMENT 'Hash method: MD5, SHA256, SHA512',
-  `clave` text DEFAULT NULL COMMENT 'Password hash',
+  `metodo_hash` text NOT NULL,
+  `clave` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 ```
 
-The plugin can validate only active users by checking a configurable status column.
-Default settings expect `estado = 1`.
+### Lockout Columns
 
-Login lockout is available but disabled by default. If you enable it in the plugin configuration, your user table must also include these columns:
+Login lockout is available but disabled by default.
+
+If you enable it, your user table must include:
 
 ```sql
-ALTER TABLE `estudiantes`
-  ADD COLUMN `intentos_fallidos` int(11) NOT NULL DEFAULT 0,
-  ADD COLUMN `bloqueado_hasta` datetime NULL,
-  ADD COLUMN `ultimo_intento` datetime NULL;
+ALTER TABLE users
+  ADD COLUMN failed_attempts INTEGER NOT NULL DEFAULT 0,
+  ADD COLUMN locked_until TIMESTAMP NULL,
+  ADD COLUMN last_attempt_at TIMESTAMP NULL;
 ```
 
-### Password Hashing
+Equivalent legacy names also work if configured in the UI.
 
-The plugin supports multiple hash algorithms:
+## Password Hashing
 
-| Algorithm | `metodo_hash` value | Example Hash |
-|-----------|---------------------|--------------|
-| BCrypt | `BCRYPT` | `$2b$12$...` |
-| MD5 | `MD5` | `e10adc3949ba59abbe56e057f20f883e` |
-| SHA-256 | `SHA256` | `e3b0c44298fc1c149afbf4c8996fb924...` |
-| SHA-512 | `SHA512` | `cf83e1357eefb8bdf1542850d66d8007...` |
+Supported values in the hash-method column include:
 
-For legacy unsalted hashes, the plugin can compare values stored either as hexadecimal or Base64, depending on the `Hash Encoding` setting in the configuration UI.
+- `BCRYPT`
+- `MD5`
+- `SMD5`
+- `SHA1`
+- `SSHA1`
+- `SHA256`
+- `SSHA256`
+- `SHA384`
+- `SSHA384`
+- `SHA512`
+- `SSHA512`
 
-## Plugin Configuration
+For legacy unsalted hashes, the plugin can compare values stored as:
 
-### MySQL Authentication Plugin
+- hexadecimal
+- Base64
 
-In pGina Configuration:
+This behavior depends on the `Hash Encoding` setting in the configuration UI.
 
-1. Go to **Plugins** → **Authentication**
-2. Enable **MySQL Auth** plugin
-3. Configure connection settings:
-   - **Host**: MySQL server address
-   - **Port**: 3306 (default)
-   - **TLS**: `VerifyFull` for inter-campus deployments when certificates are available
-   - **Database**: Database name
-   - **User**: Database username
-   - **Password**: Database password
-   - **Table**: User table name (default: `estudiantes`)
-   - **Username Column**: `codigo`
-   - **Password Column**: `clave`
-   - **Hash Method Column**: `metodo_hash`
-   - **Require active user status filter**: enabled for academic environments
-   - **Status Column**: `estado`
-   - **Active Value**: `1`
+## MySQL / MariaDB Configuration
 
-4. Go to **Authorization** and configure rules
-5. Save configuration
+### Authentication Plugin
 
-## Building from Source
+Typical settings:
+
+```text
+Provider: MySql
+Host: 192.168.1.100
+Port: 3306
+Database: your_database
+User: your_db_user
+Password: your_db_password
+TLS Mode: None, Required, VerifyCA, or VerifyFull
+```
+
+Recommended field mapping for the English schema:
+
+```text
+Table: users
+Username Column: username
+Password Column: password_hash
+Hash Method Column: hash_method
+User Table Primary Key Column: id
+Status Column: status
+Active Value: 1
+Failed Attempts Column: failed_attempts
+Blocked Until Column: locked_until
+Last Attempt Column: last_attempt_at
+Group Table Name: groups
+Group Name Column: group_name
+Group Table Primary Key Column: group_id
+User-Group Table Name: user_groups
+User Foreign Key Column: user_id
+Group Foreign Key Column: group_id
+```
+
+### Logger Plugin
+
+Typical settings:
+
+```text
+Provider: MySql
+Host: 192.168.1.100
+Port: 3306
+Database: your_database
+User: your_db_user
+Password: your_db_password
+Event Table: login_events
+Session Table: login_sessions
+```
+
+## PostgreSQL Configuration
+
+### Authentication Plugin
+
+Typical settings:
+
+```text
+Provider: PostgreSql
+Host: 192.168.1.100
+Port: 5432
+Database: pgina_access_control
+User: pgina_client
+Password: your_db_password
+```
+
+Recommended field mapping:
+
+```text
+Table: users
+Username Column: username
+Password Column: password_hash
+Hash Method Column: hash_method
+User Table Primary Key Column: id
+Status Column: status
+Active Value: 1
+Failed Attempts Column: failed_attempts
+Blocked Until Column: locked_until
+Last Attempt Column: last_attempt_at
+Group Table Name: groups
+Group Name Column: group_name
+Group Table Primary Key Column: group_id
+User-Group Table Name: user_groups
+User Foreign Key Column: user_id
+Group Foreign Key Column: group_id
+```
+
+### Logger Plugin
+
+Typical settings:
+
+```text
+Provider: PostgreSql
+Host: 192.168.1.100
+Port: 5432
+Database: pgina_access_control
+User: pgina_client
+Password: your_db_password
+Event Table: login_events
+Session Table: login_sessions
+```
+
+### PostgreSQL TLS Note
+
+Current implementation supports PostgreSQL through `Npgsql 4.1.14`.
+
+Important note:
+
+- In the current implementation, MySQL-style UI values `VerifyCA` and `VerifyFull` are mapped internally to PostgreSQL `Require`.
+- If you need strict PostgreSQL certificate validation, that should be implemented and tested separately before documenting it as supported.
+
+## Build from Source
 
 ### Prerequisites
 
-- Visual Studio 2019 or 2022
+- Visual Studio 2022 or later
 - .NET Framework 4.8 SDK
-- Inno Setup 6.x (for installer)
+- NuGet package restore enabled
+- Inno Setup 6.x for installer generation
 
 ### Build Steps
 
 ```powershell
-# Clone the repository
 git clone https://github.com/pedropablobm/pgina-mysql8.git
 cd pgina-mysql8
 
-# Build with Visual Studio
-# Open pGina-3.x.sln and build in Release mode for both x64 and Win32
+# Open and build the main solution
+# pGina\src\pGina-4.0.0.0.sln
 
-# Or use MSBuild
-msbuild pGina-3.x.sln /p:Configuration=Release /p:Platform=x64
-msbuild pGina-3.x.sln /p:Configuration=Release /p:Platform=Win32
+# Example MSBuild commands
+msbuild pGina\src\pGina-4.0.0.0.sln /p:Configuration=Release /p:Platform=x64
+msbuild pGina\src\pGina-4.0.0.0.sln /p:Configuration=Release /p:Platform=Win32
 
-# Create installer
-# Open Installer/installer.iss with Inno Setup and compile
+# Plugin-only builds
+msbuild Plugins\Core\DatabaseAuth\DatabaseAuth.sln /p:Configuration=Release /p:Platform="Any CPU"
+msbuild Plugins\Core\DatabaseLogger\DatabaseLogger.sln /p:Configuration=Release /p:Platform="Any CPU"
 ```
+
+### Installer
+
+Open `Installer\installer.iss` with Inno Setup and compile the package.
+
+## Current Validation Status
+
+Validated in this fork:
+
+- Full solution build in Visual Studio
+- Installer generation and installation
+- MySQL/MariaDB connection tests
+- English schema validation for `users`, `groups`, `user_groups`
+- Simulated login chain for authentication, authorization, and gateway
+- `DatabaseAuth` compiles with MySQL, MariaDB, and PostgreSQL provider support
+- `DatabaseLogger` compiles with MySQL, MariaDB, and PostgreSQL provider support
+
+Still pending:
+
+- End-to-end PostgreSQL functional login test
+- End-to-end PostgreSQL logger runtime validation
+- Full PostgreSQL offline-cache and offline-queue runtime validation
 
 ## Troubleshooting
 
-### Common Issues
+### Login screen does not appear
 
-1. **Login screen doesn't appear**
-   - Ensure Visual C++ 2013 Redistributable (x86 and x64) is installed
-   - Run `pGina.InstallUtil.exe post-install` as Administrator
-   - Check Windows Event Viewer for errors
+- Ensure the required Visual C++ Redistributables are installed
+- Run `pGina.InstallUtil.exe post-install` as Administrator
+- Check Windows Event Viewer
 
-2. **Cannot connect to MySQL 8.x**
-   - Verify the user has proper permissions
-   - Check that MySQL is configured to accept connections from your IP
-   - Ensure the authentication plugin is `mysql_native_password` or `caching_sha2_password`
-   - If using TLS between campuses, verify certificates match the selected TLS mode
+### Database connection fails
 
-3. **Authentication fails**
-   - Verify the password hash matches the stored hash
-   - Check the `metodo_hash` column value matches your configuration
-   - Verify the user's `estado` field is set to 1 (active)
+- Verify host, port, database, user, and password
+- Verify the database server accepts remote connections from the client IP
+- Verify the database account has only the required privileges
+- For PostgreSQL, verify the `pg_hba.conf` rules allow the client
+
+### Authentication fails
+
+- Verify the username column and password column mapping
+- Verify the hash method value matches the stored hash
+- Verify the active-user filter matches your configured active value
+- If lockout is enabled, verify the lockout columns exist and are writable
+
+### Logger fails
+
+- Verify `login_events` and `login_sessions` exist
+- Verify the logger database user can `INSERT` and `UPDATE` as required
+- Check the offline SQLite queue status in the plugin test output
 
 ### Logs Location
 
-- Windows Event Viewer → Application → pGina
-- Log files: `C:\ProgramData\pGina\`
+- Windows Event Viewer -> Application -> pGina
+- Log files under `C:\ProgramData\pGina\`
 
 ## Changes from Original pGina
 
 | Feature | Original pGina | This Fork |
-|---------|---------------|-----------|
-| MySQL Connector | MySql.Data 6.5.4 | MySqlConnector 2.x |
-| MySQL 8.x Support | ❌ | ✅ |
-| MariaDB Support | Limited | Full |
-| Windows 10 | Partial | Full |
-| Windows 11 | ❌ | ✅ |
+|---------|----------------|-----------|
+| MySQL connector | MySql.Data 6.5.4 | MySqlConnector 2.x |
+| MySQL 8.x | No | Yes |
+| MariaDB 10.x/11.x | Limited | Yes |
+| PostgreSQL | No | Implemented in current branch |
+| Windows 10 | Partial | Yes |
+| Windows 11 | No | Yes |
 | .NET Framework | 4.0 | 4.8 |
-| VC++ Runtime | 2012 | 2013 |
 
 ## License
 
@@ -197,16 +406,7 @@ BSD 3-Clause License. See [LICENSE](LICENSE) for details.
 
 - Original pGina Team - https://github.com/pgina/pgina
 - MySqlConnector contributors - https://github.com/mysqlconnector/net
-
-## Contributing
-
-Contributions are welcome! Please read the contributing guidelines before submitting pull requests.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- Npgsql contributors - https://github.com/npgsql/npgsql
 
 ## Support
 

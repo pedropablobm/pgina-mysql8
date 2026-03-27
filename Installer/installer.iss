@@ -8,10 +8,10 @@
 
 
 ; Use some useful packaging stuff from: http://toneday.blogspot.com/2010/12/innosetup.html
-; dotnet_Passive enabled shows the .NET/VC2012 installation progress, as it can take quite some time
+; dotnet_Passive enabled shows the .NET/VC runtime installation progress, as it can take quite some time
 #define dotnet_Passive
 #define use_dotnetfx40
-#define use_vc2012
+#define use_vc14
 
 ; Enable the required define(s) below if a local event function (prepended with Local) is used
 ;#define haveLocalPrepareToInstall
@@ -115,8 +115,8 @@ Filename: "{app}\pGina.InstallUtil.exe"; Parameters: "post-uninstall"; StatusMsg
 #include "scripts\products\dotnetfx40client.iss"
 #include "scripts\products\dotnetfx40full.iss"
 #endif
-#ifdef use_vc2012
-#include "scripts\products\vc2012.iss"
+#ifdef use_vc14
+#include "scripts\products\vc14.iss"
 #endif
 
 #include "scripts\services.iss"
@@ -149,9 +149,9 @@ begin
     dotnetfx40full(false);
 #endif
 
-    // Visual C++ 2012 Redistributable
-#ifdef use_vc2012
-    vc2012();
+    // Latest supported Visual C++ v14 Redistributable
+#ifdef use_vc14
+    vc14();
 #endif
     
     Result := true;
