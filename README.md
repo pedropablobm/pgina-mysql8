@@ -13,8 +13,8 @@ This repository is a fork of the original [pGina](https://github.com/pgina/pgina
 Current branch status:
 
 - MySQL 8.x and MariaDB 10.x/11.x authentication and logging validated in build and runtime tests
-- PostgreSQL authentication and logging implemented and compiling successfully
-- PostgreSQL functional validation is still pending
+- PostgreSQL authentication and logging implemented, compiling successfully, and validated in simulation tests
+- Standard English schema creation validated for both MySQL/MariaDB and PostgreSQL
 - Plugin projects renamed to `DatabaseAuth` and `DatabaseLogger` to reflect multi-provider support
 
 ## Features
@@ -131,7 +131,27 @@ CREATE TABLE user_groups (
   group_id BIGINT NOT NULL,
   PRIMARY KEY (user_id, group_id)
 );
+
+CREATE TABLE careers (
+  id INTEGER PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  status INTEGER NOT NULL DEFAULT 1
+);
+
+CREATE TABLE levels (
+  id INTEGER PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  status INTEGER NOT NULL DEFAULT 1
+);
 ```
+
+When you use `Create Tables...` in `Database Auth` with the standard English schema (`users`, `groups`, `user_groups`), the plugin now also:
+
+- creates `careers`
+- creates `levels`
+- adds `first_name`, `last_name`, `document_id`, `email`, `career_id`, `level_id`
+- adds `failed_attempts`, `locked_until`, `last_attempt_at`
+- adds indexes and foreign keys from `users` to `careers` and `levels`
 
 ### Legacy MySQL/MariaDB-Compatible Example
 
@@ -158,7 +178,7 @@ CREATE TABLE `estudiantes` (
 
 Login lockout is available but disabled by default.
 
-If you enable it, your user table must include:
+For the standard English schema created from the plugin UI, these columns are now created automatically. If you are integrating with an existing schema, your user table must include:
 
 ```sql
 ALTER TABLE users
@@ -342,15 +362,16 @@ Validated in this fork:
 - Full solution build in Visual Studio
 - Installer generation and installation
 - MySQL/MariaDB connection tests
-- English schema validation for `users`, `groups`, `user_groups`
-- Simulated login chain for authentication, authorization, and gateway
+- PostgreSQL connection tests
+- Standard English schema creation for `users`, `groups`, `user_groups`, `careers`, `levels`
+- Simulated login chain for authentication, authorization, and gateway in MySQL/MariaDB and PostgreSQL
 - `DatabaseAuth` compiles with MySQL, MariaDB, and PostgreSQL provider support
 - `DatabaseLogger` compiles with MySQL, MariaDB, and PostgreSQL provider support
 
 Still pending:
 
-- End-to-end PostgreSQL functional login test
-- End-to-end PostgreSQL logger runtime validation
+- End-to-end real Windows login validation for PostgreSQL in all target environments
+- End-to-end PostgreSQL logger runtime validation outside simulation
 - Full PostgreSQL offline-cache and offline-queue runtime validation
 
 ## Troubleshooting
@@ -372,6 +393,7 @@ Still pending:
 
 - Verify the username column and password column mapping
 - Verify the hash method value matches the stored hash
+- For PostgreSQL, ensure `System.Text.Json.dll` and `System.Text.Encodings.Web.dll` are present after package restore and build
 - Verify the active-user filter matches your configured active value
 - If lockout is enabled, verify the lockout columns exist and are writable
 

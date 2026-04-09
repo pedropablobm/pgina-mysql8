@@ -82,41 +82,48 @@ namespace pGina.Plugin.DatabaseAuth
 
             bool enforceUserStatus = Settings.IsUserStatusValidationEnabled();
             bool includeLockout = Settings.IsLoginLockoutEnabled();
+            string table = Convert.ToString(Settings.Store.Table);
+            string usernameColumn = Convert.ToString(Settings.Store.UsernameColumn);
+            string hashMethodColumn = Convert.ToString(Settings.Store.HashMethodColumn);
+            string passwordColumn = Convert.ToString(Settings.Store.PasswordColumn);
+            string userStatusColumn = Settings.GetUserStatusColumn();
+            string failedAttemptsColumn = Settings.GetFailedAttemptsColumn();
+            string blockedUntilColumn = Settings.GetBlockedUntilColumn();
             string query = enforceUserStatus && includeLockout
                 ? string.Format(
                     "SELECT {1}, {2}, {3}, {4}, {5}, {6}, " +
                     "CASE WHEN {6} IS NOT NULL AND {6} > CURRENT_TIMESTAMP THEN 1 ELSE 0 END " +
                     "FROM {0} WHERE {1} = @user",
-                    Q(Settings.Store.Table),
-                    Q(Settings.Store.UsernameColumn),
-                    Q(Settings.Store.HashMethodColumn),
-                    Q(Settings.Store.PasswordColumn),
-                    Q(Settings.GetUserStatusColumn()),
-                    Q(Settings.GetFailedAttemptsColumn()),
-                    Q(Settings.GetBlockedUntilColumn()))
+                    Q(table),
+                    Q(usernameColumn),
+                    Q(hashMethodColumn),
+                    Q(passwordColumn),
+                    Q(userStatusColumn),
+                    Q(failedAttemptsColumn),
+                    Q(blockedUntilColumn))
                 : enforceUserStatus
                 ? string.Format("SELECT {1}, {2}, {3}, {4} FROM {0} WHERE {1} = @user",
-                    Q(Settings.Store.Table),
-                    Q(Settings.Store.UsernameColumn),
-                    Q(Settings.Store.HashMethodColumn),
-                    Q(Settings.Store.PasswordColumn),
-                    Q(Settings.GetUserStatusColumn()))
+                    Q(table),
+                    Q(usernameColumn),
+                    Q(hashMethodColumn),
+                    Q(passwordColumn),
+                    Q(userStatusColumn))
                 : includeLockout
                 ? string.Format(
                     "SELECT {1}, {2}, {3}, {4}, {5}, " +
                     "CASE WHEN {5} IS NOT NULL AND {5} > CURRENT_TIMESTAMP THEN 1 ELSE 0 END " +
                     "FROM {0} WHERE {1} = @user",
-                    Q(Settings.Store.Table),
-                    Q(Settings.Store.UsernameColumn),
-                    Q(Settings.Store.HashMethodColumn),
-                    Q(Settings.Store.PasswordColumn),
-                    Q(Settings.GetFailedAttemptsColumn()),
-                    Q(Settings.GetBlockedUntilColumn()))
+                    Q(table),
+                    Q(usernameColumn),
+                    Q(hashMethodColumn),
+                    Q(passwordColumn),
+                    Q(failedAttemptsColumn),
+                    Q(blockedUntilColumn))
                 : string.Format("SELECT {1}, {2}, {3} FROM {0} WHERE {1} = @user",
-                    Q(Settings.Store.Table),
-                    Q(Settings.Store.UsernameColumn),
-                    Q(Settings.Store.HashMethodColumn),
-                    Q(Settings.Store.PasswordColumn));
+                    Q(table),
+                    Q(usernameColumn),
+                    Q(hashMethodColumn),
+                    Q(passwordColumn));
 
             using (var cmd = new NpgsqlCommand(query, m_conn))
             {
@@ -175,35 +182,42 @@ namespace pGina.Plugin.DatabaseAuth
 
             bool includeStatus = Settings.IsUserStatusValidationEnabled();
             bool includeLockout = Settings.IsLoginLockoutEnabled();
+            string table = Convert.ToString(Settings.Store.Table);
+            string usernameColumn = Convert.ToString(Settings.Store.UsernameColumn);
+            string hashMethodColumn = Convert.ToString(Settings.Store.HashMethodColumn);
+            string passwordColumn = Convert.ToString(Settings.Store.PasswordColumn);
+            string userStatusColumn = Settings.GetUserStatusColumn();
+            string failedAttemptsColumn = Settings.GetFailedAttemptsColumn();
+            string blockedUntilColumn = Settings.GetBlockedUntilColumn();
             string query = includeStatus && includeLockout
                 ? string.Format("SELECT {1}, {2}, {3}, {4}, {5}, {6} FROM {0}",
-                    Q(Settings.Store.Table),
-                    Q(Settings.Store.UsernameColumn),
-                    Q(Settings.Store.HashMethodColumn),
-                    Q(Settings.Store.PasswordColumn),
-                    Q(Settings.GetUserStatusColumn()),
-                    Q(Settings.GetFailedAttemptsColumn()),
-                    Q(Settings.GetBlockedUntilColumn()))
+                    Q(table),
+                    Q(usernameColumn),
+                    Q(hashMethodColumn),
+                    Q(passwordColumn),
+                    Q(userStatusColumn),
+                    Q(failedAttemptsColumn),
+                    Q(blockedUntilColumn))
                 : includeStatus
                 ? string.Format("SELECT {1}, {2}, {3}, {4} FROM {0}",
-                    Q(Settings.Store.Table),
-                    Q(Settings.Store.UsernameColumn),
-                    Q(Settings.Store.HashMethodColumn),
-                    Q(Settings.Store.PasswordColumn),
-                    Q(Settings.GetUserStatusColumn()))
+                    Q(table),
+                    Q(usernameColumn),
+                    Q(hashMethodColumn),
+                    Q(passwordColumn),
+                    Q(userStatusColumn))
                 : includeLockout
                 ? string.Format("SELECT {1}, {2}, {3}, {4}, {5} FROM {0}",
-                    Q(Settings.Store.Table),
-                    Q(Settings.Store.UsernameColumn),
-                    Q(Settings.Store.HashMethodColumn),
-                    Q(Settings.Store.PasswordColumn),
-                    Q(Settings.GetFailedAttemptsColumn()),
-                    Q(Settings.GetBlockedUntilColumn()))
+                    Q(table),
+                    Q(usernameColumn),
+                    Q(hashMethodColumn),
+                    Q(passwordColumn),
+                    Q(failedAttemptsColumn),
+                    Q(blockedUntilColumn))
                 : string.Format("SELECT {1}, {2}, {3} FROM {0}",
-                    Q(Settings.Store.Table),
-                    Q(Settings.Store.UsernameColumn),
-                    Q(Settings.Store.HashMethodColumn),
-                    Q(Settings.Store.PasswordColumn));
+                    Q(table),
+                    Q(usernameColumn),
+                    Q(hashMethodColumn),
+                    Q(passwordColumn));
 
             var users = new List<UserEntry>();
 
@@ -240,11 +254,20 @@ namespace pGina.Plugin.DatabaseAuth
         public bool IsMemberOfGroup(string userName, string groupName)
         {
             EnsureConnection();
+            string table = Convert.ToString(Settings.Store.Table);
+            string usernameColumn = Convert.ToString(Settings.Store.UsernameColumn);
+            string userPrimaryKeyColumn = Convert.ToString(Settings.Store.UserTablePrimaryKeyColumn);
+            string groupTableName = Convert.ToString(Settings.Store.GroupTableName);
+            string userGroupTableName = Convert.ToString(Settings.Store.UserGroupTableName);
+            string userForeignKeyColumn = Convert.ToString(Settings.Store.UserForeignKeyColumn);
+            string groupForeignKeyColumn = Convert.ToString(Settings.Store.GroupForeignKeyColumn);
+            string groupTablePrimaryKeyColumn = Convert.ToString(Settings.Store.GroupTablePrimaryKeyColumn);
+            string groupNameColumn = Convert.ToString(Settings.Store.GroupNameColumn);
 
             string userIdQuery = string.Format("SELECT {2} FROM {0} WHERE {1} = @user",
-                Q(Settings.Store.Table),
-                Q(Settings.Store.UsernameColumn),
-                Q(Settings.Store.UserTablePrimaryKeyColumn));
+                Q(table),
+                Q(usernameColumn),
+                Q(userPrimaryKeyColumn));
 
             string userId = null;
 
@@ -269,12 +292,12 @@ namespace pGina.Plugin.DatabaseAuth
                 "FROM {0} g " +
                 "INNER JOIN {1} ug ON g.{4} = ug.{3} " +
                 "WHERE ug.{2} = @userId",
-                Q(Settings.Store.GroupTableName),
-                Q(Settings.Store.UserGroupTableName),
-                Q(Settings.Store.UserForeignKeyColumn),
-                Q(Settings.Store.GroupForeignKeyColumn),
-                Q(Settings.Store.GroupTablePrimaryKeyColumn),
-                Q(Settings.Store.GroupNameColumn));
+                Q(groupTableName),
+                Q(userGroupTableName),
+                Q(userForeignKeyColumn),
+                Q(groupForeignKeyColumn),
+                Q(groupTablePrimaryKeyColumn),
+                Q(groupNameColumn));
 
             using (var cmd = new NpgsqlCommand(query, m_conn))
             {
@@ -299,13 +322,17 @@ namespace pGina.Plugin.DatabaseAuth
         public void UpdateUserHash(string userName, string newHash, string hashMethod)
         {
             EnsureConnection();
+            string table = Convert.ToString(Settings.Store.Table);
+            string usernameColumn = Convert.ToString(Settings.Store.UsernameColumn);
+            string hashMethodColumn = Convert.ToString(Settings.Store.HashMethodColumn);
+            string passwordColumn = Convert.ToString(Settings.Store.PasswordColumn);
 
             string query = string.Format(
                 "UPDATE {0} SET {2} = @hashMethod, {3} = @hash WHERE {1} = @user",
-                Q(Settings.Store.Table),
-                Q(Settings.Store.UsernameColumn),
-                Q(Settings.Store.HashMethodColumn),
-                Q(Settings.Store.PasswordColumn));
+                Q(table),
+                Q(usernameColumn),
+                Q(hashMethodColumn),
+                Q(passwordColumn));
 
             using (var cmd = new NpgsqlCommand(query, m_conn))
             {
@@ -322,14 +349,19 @@ namespace pGina.Plugin.DatabaseAuth
                 return;
 
             EnsureConnection();
+            string table = Convert.ToString(Settings.Store.Table);
+            string usernameColumn = Convert.ToString(Settings.Store.UsernameColumn);
+            string failedAttemptsColumn = Settings.GetFailedAttemptsColumn();
+            string blockedUntilColumn = Settings.GetBlockedUntilColumn();
+            string lastAttemptColumn = Settings.GetLastAttemptColumn();
 
             string query = string.Format(
                 "UPDATE {0} SET {2} = 0, {3} = NULL, {4} = CURRENT_TIMESTAMP WHERE {1} = @user",
-                Q(Settings.Store.Table),
-                Q(Settings.Store.UsernameColumn),
-                Q(Settings.GetFailedAttemptsColumn()),
-                Q(Settings.GetBlockedUntilColumn()),
-                Q(Settings.GetLastAttemptColumn()));
+                Q(table),
+                Q(usernameColumn),
+                Q(failedAttemptsColumn),
+                Q(blockedUntilColumn),
+                Q(lastAttemptColumn));
 
             using (var cmd = new NpgsqlCommand(query, m_conn))
             {
@@ -346,6 +378,11 @@ namespace pGina.Plugin.DatabaseAuth
                 return result;
 
             EnsureConnection();
+            string table = Convert.ToString(Settings.Store.Table);
+            string usernameColumn = Convert.ToString(Settings.Store.UsernameColumn);
+            string failedAttemptsColumn = Settings.GetFailedAttemptsColumn();
+            string blockedUntilColumn = Settings.GetBlockedUntilColumn();
+            string lastAttemptColumn = Settings.GetLastAttemptColumn();
 
             string updateQuery = string.Format(
                 "UPDATE {0} " +
@@ -355,11 +392,11 @@ namespace pGina.Plugin.DatabaseAuth
                 "WHEN COALESCE({2}, 0) + 1 >= @maxAttempts THEN CURRENT_TIMESTAMP + (@lockoutMinutes * INTERVAL '1 minute') " +
                 "ELSE NULL END " +
                 "WHERE {1} = @user",
-                Q(Settings.Store.Table),
-                Q(Settings.Store.UsernameColumn),
-                Q(Settings.GetFailedAttemptsColumn()),
-                Q(Settings.GetBlockedUntilColumn()),
-                Q(Settings.GetLastAttemptColumn()));
+                Q(table),
+                Q(usernameColumn),
+                Q(failedAttemptsColumn),
+                Q(blockedUntilColumn),
+                Q(lastAttemptColumn));
 
             using (var cmd = new NpgsqlCommand(updateQuery, m_conn))
             {
@@ -372,10 +409,10 @@ namespace pGina.Plugin.DatabaseAuth
             string selectQuery = string.Format(
                 "SELECT {1}, {2}, CASE WHEN {2} IS NOT NULL AND {2} > CURRENT_TIMESTAMP THEN 1 ELSE 0 END " +
                 "FROM {0} WHERE {3} = @user",
-                Q(Settings.Store.Table),
-                Q(Settings.GetFailedAttemptsColumn()),
-                Q(Settings.GetBlockedUntilColumn()),
-                Q(Settings.Store.UsernameColumn));
+                Q(table),
+                Q(failedAttemptsColumn),
+                Q(blockedUntilColumn),
+                Q(usernameColumn));
 
             using (var cmd = new NpgsqlCommand(selectQuery, m_conn))
             {

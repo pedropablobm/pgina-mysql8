@@ -543,7 +543,8 @@ namespace pGina.Plugin.DatabaseAuth
                         sql.AppendFormat(" `{0}` TEXT NOT NULL, \r\n", hashMethodCol);
                         if (this.enforceStatusCB.Checked)
                             sql.AppendFormat(" `{0}` VARCHAR(32) NOT NULL DEFAULT '{1}', \r\n", statusCol, this.activeValueTB.Text.Trim().Replace("'", "''"));
-                        if (this.lockoutEnabledCB.Checked)
+                        bool includeLockoutColumns = this.lockoutEnabledCB.Checked || this.IsStandardEnglishFullSchemaRequested();
+                        if (includeLockoutColumns)
                         {
                             sql.AppendFormat(" `{0}` INT NOT NULL DEFAULT 0, \r\n", failedAttemptsCol);
                             sql.AppendFormat(" `{0}` DATETIME NULL, \r\n", blockedUntilCol);
@@ -719,16 +720,8 @@ namespace pGina.Plugin.DatabaseAuth
         {
             return
                 this.userTableTB.Text.Trim().Equals("users", StringComparison.OrdinalIgnoreCase) &&
-                this.unameColTB.Text.Trim().Equals("username", StringComparison.OrdinalIgnoreCase) &&
-                this.passwdColTB.Text.Trim().Equals("password_hash", StringComparison.OrdinalIgnoreCase) &&
-                this.hashMethodColTB.Text.Trim().Equals("hash_method", StringComparison.OrdinalIgnoreCase) &&
-                this.userPrimaryKeyColTB.Text.Trim().Equals("id", StringComparison.OrdinalIgnoreCase) &&
                 this.groupTableNameTB.Text.Trim().Equals("groups", StringComparison.OrdinalIgnoreCase) &&
-                this.groupNameColTB.Text.Trim().Equals("group_name", StringComparison.OrdinalIgnoreCase) &&
-                this.groupTablePrimaryKeyColTB.Text.Trim().Equals("group_id", StringComparison.OrdinalIgnoreCase) &&
-                this.userGroupTableNameTB.Text.Trim().Equals("user_groups", StringComparison.OrdinalIgnoreCase) &&
-                this.userGroupUserFKColTB.Text.Trim().Equals("user_id", StringComparison.OrdinalIgnoreCase) &&
-                this.userGroupGroupFKColTB.Text.Trim().Equals("group_id", StringComparison.OrdinalIgnoreCase);
+                this.userGroupTableNameTB.Text.Trim().Equals("user_groups", StringComparison.OrdinalIgnoreCase);
         }
 
         private void EnsureEnglishReferenceTables(TextBoxInfoDialog infoDlg, MySqlConnection conn)
@@ -774,6 +767,9 @@ namespace pGina.Plugin.DatabaseAuth
 
         private void EnsureEnglishUserColumns(TextBoxInfoDialog infoDlg, MySqlConnection conn)
         {
+            this.AddColumnIfMissing("users", "failed_attempts", "ALTER TABLE `users` ADD COLUMN `failed_attempts` INT NOT NULL DEFAULT 0", infoDlg, conn);
+            this.AddColumnIfMissing("users", "locked_until", "ALTER TABLE `users` ADD COLUMN `locked_until` DATETIME NULL", infoDlg, conn);
+            this.AddColumnIfMissing("users", "last_attempt_at", "ALTER TABLE `users` ADD COLUMN `last_attempt_at` DATETIME NULL", infoDlg, conn);
             this.AddColumnIfMissing("users", "first_name", "ALTER TABLE `users` ADD COLUMN `first_name` VARCHAR(100) NULL", infoDlg, conn);
             this.AddColumnIfMissing("users", "last_name", "ALTER TABLE `users` ADD COLUMN `last_name` VARCHAR(100) NULL", infoDlg, conn);
             this.AddColumnIfMissing("users", "document_id", "ALTER TABLE `users` ADD COLUMN `document_id` VARCHAR(15) NULL", infoDlg, conn);
@@ -1063,7 +1059,8 @@ namespace pGina.Plugin.DatabaseAuth
             sql.AppendFormat(" {0} TEXT NOT NULL, \r\n", QuotePg(hashMethodCol));
             if (this.enforceStatusCB.Checked)
                 sql.AppendFormat(" {0} VARCHAR(32) NOT NULL DEFAULT '{1}', \r\n", QuotePg(statusCol), this.activeValueTB.Text.Trim().Replace("'", "''"));
-            if (this.lockoutEnabledCB.Checked)
+            bool includeLockoutColumns = this.lockoutEnabledCB.Checked || this.IsStandardEnglishFullSchemaRequested();
+            if (includeLockoutColumns)
             {
                 sql.AppendFormat(" {0} INT NOT NULL DEFAULT 0, \r\n", QuotePg(failedAttemptsCol));
                 sql.AppendFormat(" {0} TIMESTAMP NULL, \r\n", QuotePg(blockedUntilCol));
@@ -1230,6 +1227,9 @@ namespace pGina.Plugin.DatabaseAuth
 
         private void EnsureEnglishUserColumns(TextBoxInfoDialog infoDlg, NpgsqlConnection conn)
         {
+            this.AddColumnIfMissing("users", "failed_attempts", "ALTER TABLE \"users\" ADD COLUMN \"failed_attempts\" INT NOT NULL DEFAULT 0", infoDlg, conn);
+            this.AddColumnIfMissing("users", "locked_until", "ALTER TABLE \"users\" ADD COLUMN \"locked_until\" TIMESTAMP NULL", infoDlg, conn);
+            this.AddColumnIfMissing("users", "last_attempt_at", "ALTER TABLE \"users\" ADD COLUMN \"last_attempt_at\" TIMESTAMP NULL", infoDlg, conn);
             this.AddColumnIfMissing("users", "first_name", "ALTER TABLE \"users\" ADD COLUMN \"first_name\" VARCHAR(100) NULL", infoDlg, conn);
             this.AddColumnIfMissing("users", "last_name", "ALTER TABLE \"users\" ADD COLUMN \"last_name\" VARCHAR(100) NULL", infoDlg, conn);
             this.AddColumnIfMissing("users", "document_id", "ALTER TABLE \"users\" ADD COLUMN \"document_id\" VARCHAR(15) NULL", infoDlg, conn);
