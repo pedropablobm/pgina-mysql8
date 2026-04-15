@@ -54,7 +54,7 @@ Install these runtimes on target machines:
 
 ## Installation
 
-1. Download the latest release from [Releases](https://github.com/pedropablobm/pgina-mysql8/releases).
+1. Download the latest release from [Releases](https://github.com/pedropablobm/OpenCredential/releases).
 2. Run the generated installer as Administrator.
 3. Complete the setup wizard.
 4. Let `pGina.InstallUtil.exe post-install` finish successfully.
@@ -334,15 +334,15 @@ Important note:
 ### Build Steps
 
 ```powershell
-git clone https://github.com/pedropablobm/pgina-mysql8.git
+git clone https://github.com/pedropablobm/OpenCredential.git
 cd pgina-mysql8
 
 # Open and build the main solution
-# pGina\src\pGina-4.0.0.0.sln
+# OpenCredential\src\OpenCredential-4.0.0.0.sln
 
 # Example MSBuild commands
-msbuild pGina\src\pGina-4.0.0.0.sln /p:Configuration=Release /p:Platform=x64
-msbuild pGina\src\pGina-4.0.0.0.sln /p:Configuration=Release /p:Platform=Win32
+msbuild pGina\src\OpenCredential-4.0.0.0.sln /p:Configuration=Release /p:Platform=x64
+msbuild pGina\src\OpenCredential-4.0.0.0.sln /p:Configuration=Release /p:Platform=Win32
 
 # Plugin-only builds
 msbuild Plugins\Core\DatabaseAuth\DatabaseAuth.sln /p:Configuration=Release /p:Platform="Any CPU"
@@ -377,7 +377,7 @@ Still pending:
 ### Login screen does not appear
 
 - Ensure the required Visual C++ Redistributables are installed
-- Run `pGina.InstallUtil.exe post-install` as Administrator
+- Run `OpenCredential.InstallUtil.exe post-install` as Administrator
 - Check Windows Event Viewer
 
 ### Database connection fails
@@ -404,7 +404,7 @@ Still pending:
 ### Logs Location
 
 - Windows Event Viewer -> Application -> pGina
-- Log files under `C:\ProgramData\pGina\`
+- Log files under `C:\ProgramData\OpenCredential\`
 
 ## Changes from Original pGina
 
