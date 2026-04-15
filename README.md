@@ -1,12 +1,10 @@
-# pGina - MySQL / MariaDB / PostgreSQL Edition
+# OpenCredential - MySQL / MariaDB / PostgreSQL Edition
 
 [![GitHub release](https://img.shields.io/github/release/pedropablobm/pgina-mysql8.svg)](https://github.com/pedropablobm/pgina-mysql8/releases)
 [![License](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-lightgrey.svg)](https://github.com/pedropablobm/pgina-mysql8)
 
 ## Overview
-
-pGina is a pluggable Open Source Credential Provider (and GINA) replacement for Windows. Plugins are written in managed code and allow user authentication, authorization, session management, and login-time actions.
 
 This repository is a fork of the original [pGina](https://github.com/pgina/pgina) project, updated for modern Windows and modern database backends.
 
@@ -429,8 +427,3 @@ BSD 3-Clause License. See [LICENSE](LICENSE) for details.
 - Original pGina Team - https://github.com/pgina/pgina
 - MySqlConnector contributors - https://github.com/mysqlconnector/net
 - Npgsql contributors - https://github.com/npgsql/npgsql
-
-## Support
-
-- **Issues**: [GitHub Issues](https://github.com/pedropablobm/pgina-mysql8/issues)
-- **Original Project**: https://pgina.org
