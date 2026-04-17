@@ -23,7 +23,7 @@ Current branch status:
 - MariaDB 10.x and 11.x support
 - PostgreSQL support for authentication and logger
 - Windows 10 and Windows 11 compatibility
-- Multiple authentication plugins: database, LDAP, LocalMachine, RADIUS
+- Multiple authentication plugins: database, LDAP, LocalMachine
 - Group-based authorization and gateway rules
 - Password hash support: BCrypt, MD5, SHA1, SHA256, SHA384, SHA512, salted variants
 - Optional active-user validation through a configurable status column
@@ -64,7 +64,7 @@ Install these runtimes on target machines:
 
 Note:
 
-- In current local builds, the installer filename is `OpenCredentialSetup-1.0.0.0.exe`.
+- In current local builds, the installer filename is `OpenCredentialInstaller-1.0.0.0.exe`.
 
 ## Database Provider Configuration
 
@@ -153,27 +153,6 @@ When you use `Create Tables...` in `Database Auth` with the standard English sch
 - adds `failed_attempts`, `locked_until`, `last_attempt_at`
 - adds indexes and foreign keys from `users` to `careers` and `levels`
 
-### Legacy MySQL/MariaDB-Compatible Example
-
-If you are integrating with an existing schema, the plugin still supports custom names such as:
-
-```sql
-CREATE TABLE `estudiantes` (
-  `id` int(20) NOT NULL AUTO_INCREMENT,
-  `codigo` varchar(20) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `apellido` varchar(100) NOT NULL,
-  `identificacion` varchar(15) NOT NULL,
-  `direccion` varchar(200) NOT NULL,
-  `estado` int(11) NOT NULL DEFAULT 1,
-  `id_carrera` int(11) NOT NULL,
-  `id_nivel` int(11) NOT NULL,
-  `metodo_hash` text NOT NULL,
-  `clave` text DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-```
-
 ### Lockout Columns
 
 Login lockout is available but disabled by default.
@@ -187,7 +166,7 @@ ALTER TABLE users
   ADD COLUMN last_attempt_at TIMESTAMP NULL;
 ```
 
-Equivalent legacy names also work if configured in the UI.
+If you are integrating with an existing schema, table and column names remain configurable from the UI, but the recommended default for new deployments is the English schema shown above.
 
 ## Password Hashing
 
@@ -274,7 +253,7 @@ Typical settings:
 Provider: PostgreSql
 Host: 192.168.1.100
 Port: 5432
-Database: opencredential_access_control
+Database: your_database
 User: opencredential_client
 Password: your_db_password
 ```
@@ -308,7 +287,7 @@ Typical settings:
 Provider: PostgreSql
 Host: 192.168.1.100
 Port: 5432
-Database: opencredential_access_control
+Database: your_database
 User: opencredential_client
 Password: your_db_password
 Event Table: login_events
@@ -446,5 +425,5 @@ This repository is an unofficial fork of pGina.
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/pedropablobm/pgina-mysql8/issues)
+- **Issues**: [GitHub Issues](https://github.com/pedropablobm/OpenCredential/issues)
 - **Original Project**: https://github.com/pgina/pgina
