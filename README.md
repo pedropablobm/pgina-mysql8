@@ -23,7 +23,7 @@ Current branch status:
 - MariaDB 10.x and 11.x support
 - PostgreSQL support for authentication and logger
 - Windows 10 and Windows 11 compatibility
-- Multiple authentication plugins: database, LDAP, LocalMachine, RADIUS
+- Multiple authentication plugins: database, LDAP, LocalMachine
 - Group-based authorization and gateway rules
 - Password hash support: BCrypt, MD5, SHA1, SHA256, SHA384, SHA512, salted variants
 - Optional active-user validation through a configurable status column
@@ -64,7 +64,7 @@ Install these runtimes on target machines:
 
 Note:
 
-- In current local builds, the installer filename is `OpenCredentialSetup-1.0.0.0.exe`.
+- In current local builds, the installer filename is `OpenCredentialInstaller-1.0.0.0.exe`.
 
 ## Database Provider Configuration
 
@@ -153,27 +153,6 @@ When you use `Create Tables...` in `Database Auth` with the standard English sch
 - adds `failed_attempts`, `locked_until`, `last_attempt_at`
 - adds indexes and foreign keys from `users` to `careers` and `levels`
 
-### Legacy MySQL/MariaDB-Compatible Example
-
-If you are integrating with an existing schema, the plugin still supports custom names such as:
-
-```sql
-CREATE TABLE `estudiantes` (
-  `id` int(20) NOT NULL AUTO_INCREMENT,
-  `codigo` varchar(20) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `apellido` varchar(100) NOT NULL,
-  `identificacion` varchar(15) NOT NULL,
-  `direccion` varchar(200) NOT NULL,
-  `estado` int(11) NOT NULL DEFAULT 1,
-  `id_carrera` int(11) NOT NULL,
-  `id_nivel` int(11) NOT NULL,
-  `metodo_hash` text NOT NULL,
-  `clave` text DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-```
-
 ### Lockout Columns
 
 Login lockout is available but disabled by default.
@@ -187,7 +166,7 @@ ALTER TABLE users
   ADD COLUMN last_attempt_at TIMESTAMP NULL;
 ```
 
-Equivalent legacy names also work if configured in the UI.
+If you are integrating with an existing schema, table and column names remain configurable from the UI, but the recommended default for new deployments is the English schema shown above.
 
 ## Password Hashing
 
@@ -274,7 +253,7 @@ Typical settings:
 Provider: PostgreSql
 Host: 192.168.1.100
 Port: 5432
-Database: opencredential_access_control
+Database: your_database
 User: opencredential_client
 Password: your_db_password
 ```
@@ -308,7 +287,7 @@ Typical settings:
 Provider: PostgreSql
 Host: 192.168.1.100
 Port: 5432
-Database: opencredential_access_control
+Database: your_database
 User: opencredential_client
 Password: your_db_password
 Event Table: login_events
@@ -339,24 +318,26 @@ Important note:
 git clone https://github.com/pedropablobm/OpenCredential.git
 cd OpenCredential
 
-# Open and build the main solution
-# OpenCredential\src\OpenCredential-1.0.0.0.sln
+# Recommended full build for installer generation
+powershell -ExecutionPolicy Bypass -File .\Build-OpenCredential.ps1 -Configuration Release
 
-# Example MSBuild commands
+# This wrapper builds:
+# - OpenCredential\src\OpenCredential-1.0.0.0.sln (x64 + Win32)
+# - supported core plugin solutions under Plugins\Core\**\*.sln
+
+# If you only want the main solution for development work:
 msbuild OpenCredential\src\OpenCredential-1.0.0.0.sln /p:Configuration=Release /p:Platform=x64
 msbuild OpenCredential\src\OpenCredential-1.0.0.0.sln /p:Configuration=Release /p:Platform=Win32
 
-# Recommended wrapper when the machine has duplicated Path/PATH variables
-powershell -ExecutionPolicy Bypass -File .\Build-OpenCredential.ps1 -Configuration Release -Platform "Mixed Platforms"
-
-# Plugin-only builds
-msbuild Plugins\Core\DatabaseAuth\DatabaseAuth.sln /p:Configuration=Release /p:Platform="Any CPU"
-msbuild Plugins\Core\DatabaseLogger\DatabaseLogger.sln /p:Configuration=Release /p:Platform="Any CPU"
+# Optional: build legacy contrib plugins separately
+msbuild OpenCredentialBuild.msbuild.xml /t:BuildContribPlugins /p:Configuration=Release
 ```
 
 ### Installer
 
 Open `Installer\installer.iss` with Inno Setup and compile the package.
+
+Before generating the installer, run `Build-OpenCredential.ps1` so the plugin DLLs under `Plugins\Core\bin` are refreshed. Building only the main solution can leave stale plugin binaries in the package.
 
 If command-line C++ builds fail with a `Path` / `PATH` duplication error from `CL.exe`, use `Build-OpenCredential.ps1`. It normalizes the process environment before invoking MSBuild.
 
@@ -386,6 +367,12 @@ Still pending:
 - Ensure the required Visual C++ Redistributables are installed
 - Run `OpenCredential.InstallUtil.exe post-install` as Administrator
 - Check Windows Event Viewer
+
+### Some plugins do not appear in OpenCredential Configuration
+
+- Rebuild with `Build-OpenCredential.ps1` before compiling the installer
+- Confirm the installed plugin folders contain fresh `OpenCredential.Plugin.*.dll` files
+- If only `Database Auth`, `Database Logger`, and `Local Machine` appear, the installer was likely built from stale plugin binaries
 
 ### Database connection fails
 
